@@ -17,17 +17,30 @@
  * Discogs rate limit: 60 req/min — the script waits 1s between requests.
  */
 
-import { readFileSync, writeFileSync } from 'node:fs';
+import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+
+// Load .env file if present (for local use)
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const envPath = resolve(__dirname, '../.env');
+if (existsSync(envPath)) {
+  for (const line of readFileSync(envPath, 'utf-8').split('\n')) {
+    const match = line.match(/^\s*([^#=]+?)\s*=\s*(.+?)\s*$/);
+    if (match && !process.env[match[1]]) process.env[match[1]] = match[2];
+  }
+}
 
 const PLAYLIST_ID = process.argv[2] || '15689112801';
 const DEEZER_API = 'https://api.deezer.com';
 const DISCOGS_API = 'https://api.discogs.com';
-const DISCOGS_TOKEN = process.env.DISCOGS_TOKEN || 'OXqSRtMwoprSCPxRbJaVSFWwUEEjMOqZCzEMMRGt';
+const DISCOGS_TOKEN = process.env.DISCOGS_TOKEN;
+if (!DISCOGS_TOKEN) {
+  console.error('Missing DISCOGS_TOKEN. Set it in .env or as an environment variable.');
+  process.exit(1);
+}
 const DISCOGS_UA = 'HitsTime/1.0';
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
 const OUTPUT = resolve(__dirname, '../src/providers/deezer/date-overrides.json');
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
