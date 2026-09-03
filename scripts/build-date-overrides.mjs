@@ -24,7 +24,7 @@ import { fileURLToPath } from 'node:url';
 const PLAYLIST_ID = process.argv[2] || '15689112801';
 const DEEZER_API = 'https://api.deezer.com';
 const DISCOGS_API = 'https://api.discogs.com';
-const DISCOGS_TOKEN = 'OXqSRtMwoprSCPxRbJaVSFWwUEEjMOqZCzEMMRGt';
+const DISCOGS_TOKEN = process.env.DISCOGS_TOKEN || 'OXqSRtMwoprSCPxRbJaVSFWwUEEjMOqZCzEMMRGt';
 const DISCOGS_UA = 'HitsTime/1.0';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));

@@ -1,0 +1,33 @@
+name: Update date overrides
+
+on:
+  schedule:
+    # Every Monday at 6:00 UTC
+    - cron: '0 6 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-dates:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - run: node scripts/build-date-overrides.mjs
+        env:
+          DISCOGS_TOKEN: ${{ secrets.DISCOGS_TOKEN }}
+
+      - name: Commit and push if changed
+        run: |
+          git diff --quiet src/providers/deezer/date-overrides.json && exit 0
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/providers/deezer/date-overrides.json
+          git commit -m "chore: update date overrides from Discogs"
+          git push
