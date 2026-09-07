@@ -31,14 +31,14 @@ function GapSlot({
   if (disabled) return <div className="w-2 shrink-0" />;
   return (
     <div
-      className={`group flex h-52 shrink-0 items-center justify-center transition-[width] duration-200 ${
-        focused ? 'w-32' : 'w-4 hover:w-32'
+      className={`group flex h-44 sm:h-52 shrink-0 items-center justify-center transition-[width] duration-200 ${
+        focused ? 'w-24 sm:w-32' : 'w-4 hover:w-24 sm:hover:w-32'
       }`}
     >
       <button
         onClick={onPick}
         aria-label="Place card here"
-        className={`h-52 w-28 shrink-0 items-center justify-center rounded-2xl border-2 border-dashed text-3xl font-bold transition-colors ${
+        className={`h-44 sm:h-52 w-22 sm:w-28 shrink-0 items-center justify-center rounded-2xl border-2 border-dashed text-3xl font-bold transition-colors ${
           focused
             ? 'flex border-accent text-accent'
             : 'hidden border-muted/50 text-muted group-hover:flex hover:border-accent hover:text-accent'
@@ -53,7 +53,7 @@ function GapSlot({
 /** Marker shown at the slot where a misplaced card actually belonged. */
 function BelongedHere({ label }: { label: string }) {
   return (
-    <div className="flex h-52 w-16 shrink-0 flex-col items-center justify-center gap-1 rounded-2xl border-2 border-accent bg-accent/10 px-1 text-center">
+    <div className="flex h-44 sm:h-52 w-14 sm:w-16 shrink-0 flex-col items-center justify-center gap-1 rounded-2xl border-2 border-accent bg-accent/10 px-1 text-center">
       <span className="text-2xl">↓</span>
       <span className="text-[10px] font-bold leading-tight text-accent">{label}</span>
     </div>
@@ -138,7 +138,7 @@ export function Timeline() {
           animate={{ scale: 1, opacity: 1 }}
           onClick={confirm}
           aria-label={t('validate')}
-          className={`shrink-0 cursor-pointer rounded-2xl ring-2 ring-accent transition-transform hover:scale-[1.03] ${
+          className={`shrink-0 cursor-pointer rounded-xl sm:rounded-2xl ring-2 ring-accent transition-transform hover:scale-[1.03] ${
             focusedGap === i ? 'scale-[1.05] brightness-110' : ''
           }`}
         >
@@ -187,16 +187,16 @@ export function Timeline() {
   }
 
   const arrowCls =
-    'grid size-11 shrink-0 place-items-center rounded-full bg-raised text-xl text-muted transition-colors hover:bg-accent hover:text-ground';
+    'hidden sm:grid size-11 shrink-0 place-items-center rounded-full bg-raised text-xl text-muted transition-colors hover:bg-accent hover:text-ground';
 
   return (
-    <div className="flex items-center gap-2 px-3">
+    <div className="flex items-center gap-1 sm:gap-2 px-1 sm:px-3">
       <button className={arrowCls} onClick={() => scrollBy(-320)} aria-label="Scroll left">
         ‹
       </button>
       <div
         ref={scroller}
-        className="timeline-scroll flex flex-1 items-center gap-1 overflow-x-auto py-4"
+        className="timeline-scroll flex flex-1 items-center gap-1 overflow-x-auto py-2 sm:py-4"
       >
         <div className="mx-auto flex items-center gap-1">{items}</div>
       </div>

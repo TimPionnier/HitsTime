@@ -41,15 +41,15 @@ export function ModeSelect() {
   ];
 
   return (
-    <div className="flex h-full flex-col items-center justify-center gap-8 px-6">
+    <div className="flex h-full flex-col items-center justify-center gap-6 sm:gap-8 px-4 sm:px-6">
       <div className="text-center">
-        <h1 className="text-4xl font-extrabold tracking-tight">
+        <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight">
           Hits<span className="text-accent">Time</span>
         </h1>
-        <p className="mt-3 max-w-md text-muted">{t('tagline')}</p>
+        <p className="mt-2 sm:mt-3 max-w-md text-sm sm:text-base text-muted">{t('tagline')}</p>
       </div>
 
-      <h2 className="text-xl font-bold">{t('chooseMode')}</h2>
+      <h2 className="text-lg sm:text-xl font-bold">{t('chooseMode')}</h2>
 
       {prefetching && (
         <div className="flex items-center gap-2">
@@ -60,21 +60,23 @@ export function ModeSelect() {
 
       {error && <p className="max-w-md text-sm font-semibold text-danger">{error}</p>}
 
-      <div className="flex flex-wrap items-stretch justify-center gap-4">
+      <div className="flex w-full flex-col sm:flex-row items-stretch justify-center gap-3 sm:gap-4">
         {cards.map((c, i) => (
           <button
             key={c.mode}
             onClick={() => pick(c.mode)}
             onMouseEnter={() => setSelected(i)}
-            className={`flex w-64 flex-col items-center gap-3 rounded-2xl p-6 text-center transition-all hover:scale-[1.03] ${
+            className={`flex w-full sm:w-64 flex-row sm:flex-col items-center gap-3 sm:gap-3 rounded-2xl p-4 sm:p-6 text-left sm:text-center transition-all hover:scale-[1.03] ${
               selected === i
                 ? 'bg-raised ring-2 ring-accent'
                 : 'bg-surface hover:bg-raised'
             }`}
           >
-            <span className="text-4xl">{c.icon}</span>
-            <span className="text-lg font-bold">{c.label}</span>
-            <span className="text-xs text-muted">{c.hint}</span>
+            <span className="text-3xl sm:text-4xl">{c.icon}</span>
+            <div className="flex flex-col sm:items-center">
+              <span className="text-base sm:text-lg font-bold">{c.label}</span>
+              <span className="text-xs text-muted">{c.hint}</span>
+            </div>
           </button>
         ))}
       </div>

@@ -24,14 +24,14 @@ export function PlaybackBar() {
   const pct = Math.min(100, (clip.progress / CLIP) * 100);
 
   return (
-    <div className="flex w-72 flex-col items-center gap-2">
+    <div className="flex w-full max-w-72 flex-col items-center gap-2 px-4 sm:px-0">
       {clip.status === 'idle' && (
         <>
           <button
             onClick={playClip}
-            className="flex items-center gap-2 rounded-full bg-accent px-6 py-3 font-bold text-ground transition-transform hover:scale-105"
+            className="flex items-center gap-2 rounded-full bg-accent px-5 sm:px-6 py-2.5 sm:py-3 font-bold text-ground transition-transform hover:scale-105"
           >
-            <span className="text-lg leading-none">{"▶"}</span> {t('playClip')}
+            <span className="text-base sm:text-lg leading-none">{"▶"}</span> {t('playClip')}
           </button>
           <p className="text-xs text-muted">{t('clipOnce')}</p>
         </>

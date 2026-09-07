@@ -71,7 +71,7 @@ export function OlderYoungerGame() {
       )}
 
       {/* Score */}
-      <div className="flex flex-col items-center px-6 pb-2">
+      <div className="flex flex-col items-center px-4 sm:px-6 pb-1 sm:pb-2">
         <div className="flex items-center gap-2">
           <span
             className="font-extrabold text-accent transition-all duration-300"
@@ -97,7 +97,7 @@ export function OlderYoungerGame() {
       )}
 
       {/* Main area — single large card */}
-      <div className="flex flex-1 flex-col items-center justify-center gap-6 px-6">
+      <div className="flex flex-1 flex-col items-center justify-center gap-4 sm:gap-6 px-4 sm:px-6">
         <TimelineCard track={displayTrack} tone={cardTone} large />
 
         {/* Playback bar */}
@@ -105,16 +105,16 @@ export function OlderYoungerGame() {
 
         {/* Guess buttons */}
         {canGuess && (
-          <div className="flex gap-4">
+          <div className="flex gap-3 sm:gap-4">
             <button
               onClick={() => guessOY('older')}
-              className="rounded-full bg-surface px-8 py-3 text-lg font-bold transition-all hover:scale-105 hover:bg-raised"
+              className="rounded-full bg-surface px-6 sm:px-8 py-2.5 sm:py-3 text-base sm:text-lg font-bold transition-all hover:scale-105 hover:bg-raised"
             >
               {"⬆ "}{t('older')}
             </button>
             <button
               onClick={() => guessOY('younger')}
-              className="rounded-full bg-surface px-8 py-3 text-lg font-bold transition-all hover:scale-105 hover:bg-raised"
+              className="rounded-full bg-surface px-6 sm:px-8 py-2.5 sm:py-3 text-base sm:text-lg font-bold transition-all hover:scale-105 hover:bg-raised"
             >
               {"⬇ "}{t('younger')}
             </button>
@@ -124,7 +124,7 @@ export function OlderYoungerGame() {
         {/* Reveal result */}
         {phase === 'revealing' && reveal && (
           <p
-            className={`text-3xl font-extrabold ${reveal.correct ? 'text-accent' : 'text-danger'}`}
+            className={`text-2xl sm:text-3xl font-extrabold ${reveal.correct ? 'text-accent' : 'text-danger'}`}
           >
             {reveal.correct
               ? `${t('correct').replace('+1', `+${reveal.pointsAwarded}`)}`

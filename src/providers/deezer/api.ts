@@ -97,6 +97,25 @@ const normalize = (s: string) =>
     .replace(/[^a-z0-9]+/g, ' ')
     .trim();
 
+/** Strip remaster/edition suffixes from track titles for cleaner display. */
+function cleanTitle(title: string): string {
+  return title
+    .replace(/\((?:\d{4}\s+)?Remasteris[ée][^)]*\)/gi, '')
+    .replace(/\((?:\d{4}\s+)?Remaster(?:ed)?[^)]*\)/gi, '')
+    .replace(/\(Radio\s*Edit\)/gi, '')
+    .replace(/\(Album\s*Version\)/gi, '')
+    .replace(/\(Original\s*Version[^)]*\)/gi, '')
+    .replace(/\(Deluxe[^)]*\)/gi, '')
+    .replace(/\(Expanded[^)]*\)/gi, '')
+    .replace(/\(\d+th\s+Anniversary[^)]*\)/gi, '')
+    .replace(/\s+-\s+(?:\d{4}\s+)?Remasteris[ée].*$/gi, '')
+    .replace(/\s+-\s+(?:\d{4}\s+)?Remaster(?:ed)?.*$/gi, '')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .replace(/^[""\u201C\u201D]+|[""\u201C\u201D]+$/g, '')
+    .trim();
+}
+
 /**
  * Fetch release dates by calling /track/{id} for each track.
  * The full track endpoint returns album.release_date with the original date,
@@ -152,7 +171,7 @@ function toGameTracks(
 
     out.push({
       id,
-      title: t.title,
+      title: cleanTitle(t.title),
       artist,
       year,
       cover: t.album?.cover_medium,

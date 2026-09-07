@@ -44,7 +44,7 @@ export function GameScreen() {
       )}
 
       {/* Score — centered, grows with streak */}
-      <div className="flex flex-col items-center px-6 pb-2">
+      <div className="flex flex-col items-center px-4 sm:px-6 pb-1 sm:pb-2">
         <div className="flex items-center gap-2">
           <span
             className="font-extrabold text-accent transition-all duration-300"
@@ -69,7 +69,7 @@ export function GameScreen() {
       )}
 
       {/* Center stage */}
-      <div className="flex flex-1 flex-col items-center justify-center gap-4 px-6">
+      <div className="flex flex-1 flex-col items-center justify-center gap-3 sm:gap-4 px-4 sm:px-6">
         {phase === 'listening' && (
           <>
             <MysteryCardFace />
@@ -77,10 +77,10 @@ export function GameScreen() {
           </>
         )}
         {phase === 'pendingValidation' && (
-          <div className="flex flex-col items-center gap-3">
+          <div className="flex flex-col items-center gap-2 sm:gap-3">
             <button
               onClick={confirm}
-              className="rounded-full bg-accent px-8 py-3 text-lg font-bold text-ground transition-transform hover:scale-105"
+              className="rounded-full bg-accent px-6 sm:px-8 py-2.5 sm:py-3 text-base sm:text-lg font-bold text-ground transition-transform hover:scale-105"
             >
               {t('validate')}
             </button>
@@ -92,7 +92,7 @@ export function GameScreen() {
         )}
         {phase === 'revealing' && reveal && (
           <p
-            className={`text-3xl font-extrabold ${reveal.correct ? 'text-accent' : 'text-danger'}`}
+            className={`text-2xl sm:text-3xl font-extrabold ${reveal.correct ? 'text-accent' : 'text-danger'}`}
           >
             {reveal.correct ? `${t('correct').replace('+1', `+${reveal.pointsAwarded}`)}` : t('wrong')}
           </p>
@@ -100,7 +100,7 @@ export function GameScreen() {
       </div>
 
       {/* Timeline */}
-      <div className="pb-6">
+      <div className="pb-2 sm:pb-6">
         <Timeline />
       </div>
     </div>

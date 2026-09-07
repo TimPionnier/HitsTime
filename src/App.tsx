@@ -5,12 +5,14 @@ import { GameScreen } from './screens/Game';
 import { OlderYoungerGame } from './screens/OlderYoungerGame';
 import { EndScreen } from './screens/End';
 import { LangToggle } from './components/LangToggle';
+import { translate } from './services/i18n';
 
 export default function App() {
   const screen = useApp((s) => s.screen);
   const goHome = useApp((s) => s.goHome);
   const init = useApp((s) => s.init);
   const gameMode = useApp((s) => s.gameMode);
+  const lang = useApp((s) => s.lang);
 
   useEffect(() => {
     init();
@@ -19,13 +21,13 @@ export default function App() {
 
   return (
     <div className="flex h-full flex-col">
-      <header className="flex items-center justify-between px-6 py-4">
+      <header className="flex items-center justify-between px-3 sm:px-6 py-2 sm:py-4">
         <button
           onClick={goHome}
-          className="flex items-center gap-2 text-lg font-extrabold tracking-tight"
+          className="flex items-center gap-2 text-base sm:text-lg font-extrabold tracking-tight"
           aria-label="HitsTime"
         >
-          <span className="grid size-8 place-items-center rounded-full bg-accent text-ground">
+          <span className="grid size-7 sm:size-8 place-items-center rounded-full bg-accent text-ground text-sm sm:text-base">
             {"\u266A"}
           </span>
           HitsTime
@@ -38,6 +40,17 @@ export default function App() {
         {screen === 'game' && gameMode === 'olderYounger' && <OlderYoungerGame />}
         {screen === 'end' && <EndScreen />}
       </main>
+      <footer className="px-3 sm:px-6 py-2 sm:py-3 text-center text-[10px] sm:text-xs text-muted">
+        {translate(lang, 'disclaimer')}{' '}
+        <a
+          href="https://www.deezer.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="underline hover:text-white"
+        >
+          Deezer
+        </a>
+      </footer>
     </div>
   );
 }

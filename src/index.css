@@ -25,6 +25,11 @@ body {
 }
 
 /* subtle scrollbar for the timeline */
+.timeline-scroll {
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: #333 transparent;
+}
 .timeline-scroll::-webkit-scrollbar {
   height: 6px;
 }

@@ -68,21 +68,66 @@ async function fetchPlaylistTracks(playlistId) {
 // Discogs: search by artist + title to get earliest release year
 // ---------------------------------------------------------------------------
 
-async function discogsSearch(artist, title, retries = 3) {
-  // Clean up title: remove "(Remastered ...)", "(Remasterisé ...)", "(Radio Edit)", etc.
-  const cleanTitle = title
-    .replace(/\(Remasteris[ée][^)]*\)/gi, '')
-    .replace(/\(Remaster(ed)?[^)]*\)/gi, '')
-    .replace(/\(Radio Edit\)/gi, '')
-    .replace(/\(Album Version\)/gi, '')
-    .replace(/\(Original Version\)/gi, '')
+/**
+ * Strip remaster/edition/version suffixes from a track title.
+ * Handles both parenthesized and dash-separated patterns, e.g.:
+ *   "Heroes (2017 Remaster)" → "Heroes"
+ *   "Heroes - 2017 Remaster" → "Heroes"
+ *   'Sweet Dreams (Are Made of This) (2005 Remaster)' → 'Sweet Dreams (Are Made of This)'
+ */
+function cleanTrackTitle(title) {
+  return title
+    // Parenthesized suffixes
+    .replace(/\((?:\d{4}\s+)?Remasteris[ée][^)]*\)/gi, '')
+    .replace(/\((?:\d{4}\s+)?Remaster(?:ed)?[^)]*\)/gi, '')
+    .replace(/\(Radio\s*Edit\)/gi, '')
+    .replace(/\(Album\s*Version\)/gi, '')
+    .replace(/\(Original\s*Version[^)]*\)/gi, '')
     .replace(/\(Live[^)]*\)/gi, '')
+    .replace(/\(Deluxe[^)]*\)/gi, '')
+    .replace(/\(Expanded[^)]*\)/gi, '')
+    .replace(/\(\d+th\s+Anniversary[^)]*\)/gi, '')
+    .replace(/\(Bonus\s*Track[^)]*\)/gi, '')
+    .replace(/\(feat\.[^)]*\)/gi, '')
+    .replace(/\(ft\.[^)]*\)/gi, '')
+    // Dash-separated suffixes: " - 2017 Remaster", " - Remastered", etc.
+    .replace(/\s+-\s+(?:\d{4}\s+)?Remasteris[ée].*$/gi, '')
+    .replace(/\s+-\s+(?:\d{4}\s+)?Remaster(?:ed)?.*$/gi, '')
+    .replace(/\s+-\s+Deluxe.*$/gi, '')
+    .replace(/\s+-\s+Expanded.*$/gi, '')
+    .replace(/\s+-\s+\d+th\s+Anniversary.*$/gi, '')
+    // Collapse whitespace first, then strip surrounding quotes
     .replace(/\s+/g, ' ')
+    .trim()
+    .replace(/^[""\u201C\u201D]+|[""\u201C\u201D]+$/g, '')
     .trim();
+}
 
-  const query = encodeURIComponent(cleanTitle);
-  const artistEnc = encodeURIComponent(artist);
-  const url = `${DISCOGS_API}/database/search?q=${query}&artist=${artistEnc}&type=release&per_page=10&sort=year&sort_order=asc`;
+/**
+ * Clean an artist name for search: strip "feat." suffixes, "& ..." collaborators, etc.
+ * We keep only the primary artist for more precise Discogs matching.
+ */
+function cleanArtist(artist) {
+  return artist
+    .replace(/\s+feat\.?\s+.*/i, '')
+    .replace(/\s+ft\.?\s+.*/i, '')
+    .replace(/\s+featuring\s+.*/i, '')
+    .replace(/\s+&\s+.*/i, '')
+    .trim();
+}
+
+/** Returns true if a Discogs result title looks like a remaster/compilation. */
+function isReissue(resultTitle) {
+  return /remaster|deluxe|expanded|anniversary|bonus|compil|greatest\s+hits/i.test(resultTitle ?? '');
+}
+
+async function discogsSearch(artist, title, retries = 3) {
+  const cleanedTitle = cleanTrackTitle(title);
+  const cleanedArtist = cleanArtist(artist);
+
+  const query = encodeURIComponent(cleanedTitle);
+  const artistEnc = encodeURIComponent(cleanedArtist);
+  const url = `${DISCOGS_API}/database/search?q=${query}&artist=${artistEnc}&type=release&per_page=20&sort=year&sort_order=asc`;
 
   for (let attempt = 0; attempt < retries; attempt++) {
     try {
@@ -100,15 +145,20 @@ async function discogsSearch(artist, title, retries = 3) {
       const data = await res.json();
       const results = data.results ?? [];
 
-      // Find the earliest year from results
+      // Prefer original releases: skip reissues/remasters when possible
       let earliest = null;
+      let earliestReissue = null;
       for (const r of results) {
         const y = parseInt(r.year, 10);
-        if (y && y >= 1900 && y <= 2100) {
+        if (!y || y < 1900 || y > 2100) continue;
+        if (isReissue(r.title)) {
+          if (!earliestReissue || y < earliestReissue) earliestReissue = y;
+        } else {
           if (!earliest || y < earliest) earliest = y;
         }
       }
-      return earliest;
+      // Use earliest non-reissue, fall back to earliest reissue if nothing else
+      return earliest ?? earliestReissue;
     } catch {
       if (attempt < retries - 1) await sleep(2000);
     }
@@ -155,6 +205,8 @@ async function main() {
     }
 
     const artist = t.artist?.name ?? '';
+    const cleaned = cleanTrackTitle(t.title);
+    const searchInfo = cleaned !== t.title ? `${t.title} → ${cleaned}` : t.title;
 
     // Rate-limit: ~1 req/sec for Discogs (60/min)
     await sleep(1050);
@@ -165,10 +217,10 @@ async function main() {
       overrides[trackId] = `${discogsYear}-01-01`;
       fixed++;
       process.stdout.write(
-        `\r[${checked}/${playlistTracks.length}] ${t.title} — ${discogsYear}\n`,
+        `\r[${checked}/${playlistTracks.length}] ${searchInfo} — ${discogsYear}\n`,
       );
     } else {
-      process.stdout.write(`\r[${checked}/${playlistTracks.length}] ${t.title} — no Discogs data`);
+      process.stdout.write(`\r[${checked}/${playlistTracks.length}] ${searchInfo} — no Discogs data\n`);
     }
 
     // Save progress every 20 tracks

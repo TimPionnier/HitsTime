@@ -40,6 +40,8 @@ const dict = {
     older: 'Older',
     younger: 'Younger',
     streak: 'Streak',
+    yourTimeline: 'Your timeline',
+    disclaimer: 'Non-commercial personal project. Music previews provided by',
   },
   fr: {
     tagline: 'Place la chanson myst\u00e8re sur ta frise. Une erreur et c\u2019est fini.',
@@ -80,6 +82,8 @@ const dict = {
     older: 'Plus vieux',
     younger: 'Plus r\u00e9cent',
     streak: 'S\u00e9rie',
+    yourTimeline: 'Ta frise',
+    disclaimer: 'Projet personnel non commercial. Extraits musicaux fournis par',
   },
 } as const;
 

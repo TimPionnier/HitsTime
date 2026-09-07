@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import type { GameState, GameTrack, PlaylistMeta } from '../engine/types';
+import type { GameState, GameTrack, PlaylistMeta, RevealResult } from '../engine/types';
 import { nextRound, placeAt, skipMystery, startGame, unplace, validate } from '../engine/game';
 import {
   startOYGame,
@@ -43,6 +43,9 @@ interface AppState {
   clip: { status: ClipStatus; progress: number };
   loading: boolean;
   error: string | null;
+
+  // End-of-game timeline snapshot (includes the wrong card for review)
+  endTimeline: { tracks: GameTrack[]; wrongTrack: RevealResult | null } | null;
 
   // Batch management
   rawTrackData: RawTrackData | null;
@@ -112,7 +115,7 @@ export const useApp = create<AppState>((set, get) => {
 
   /** Record the score and land on the end screen. */
   const finishGame = (score: number, cleared: boolean) => {
-    const { playlist, provider, gameMode } = get();
+    const { playlist, provider, gameMode, game } = get();
     addScore({
       providerId: provider.id,
       playlistId: playlist.id,
@@ -122,7 +125,20 @@ export const useApp = create<AppState>((set, get) => {
       cleared,
       date: new Date().toISOString(),
     });
-    set({ screen: 'end' });
+
+    // Build end-of-game timeline snapshot for the review screen
+    let endTimeline: AppState['endTimeline'] = null;
+    if (gameMode === 'timeline' && game) {
+      const timeline = [...game.timeline];
+      const wrongTrack = game.reveal && !game.reveal.correct ? game.reveal : null;
+      // Insert the wrong card at the position the player chose, so they can see the full picture
+      if (wrongTrack) {
+        timeline.splice(wrongTrack.chosenIndex, 0, wrongTrack.track);
+      }
+      endTimeline = { tracks: timeline, wrongTrack };
+    }
+
+    set({ screen: 'end', endTimeline });
   };
 
   /** Trigger background pre-fetch when approaching batch end. */
@@ -204,6 +220,7 @@ export const useApp = create<AppState>((set, get) => {
     gameMode: 'timeline',
     game: null,
     oyGame: null,
+    endTimeline: null,
     clip: { status: 'idle', progress: 0 },
     loading: false,
     error: null,
@@ -420,6 +437,7 @@ export const useApp = create<AppState>((set, get) => {
         screen: 'modeSelect',
         game: null,
         oyGame: null,
+        endTimeline: null,
         error: null,
         rawTrackData: null,
         prefetchedTracks: null,
@@ -441,6 +459,7 @@ export const useApp = create<AppState>((set, get) => {
         screen: 'modeSelect',
         game: null,
         oyGame: null,
+        endTimeline: null,
         error: null,
         prefetchedTracks: null,
         prefetching: false,
