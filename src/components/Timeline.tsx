@@ -30,23 +30,17 @@ function GapSlot({
 }) {
   if (disabled) return <div className="w-2 shrink-0" />;
   return (
-    <div
-      className={`group flex h-44 sm:h-52 shrink-0 items-center justify-center transition-[width] duration-200 ${
-        focused ? 'w-24 sm:w-32' : 'w-4 hover:w-24 sm:hover:w-32'
+    <button
+      onClick={onPick}
+      aria-label="Place card here"
+      className={`flex h-44 sm:h-52 shrink-0 items-center justify-center rounded-xl border-2 border-dashed text-2xl font-bold transition-all ${
+        focused
+          ? 'w-20 sm:w-28 border-accent text-accent bg-accent/10'
+          : 'w-8 sm:w-10 border-muted/30 text-muted/50 active:w-20 active:border-accent active:text-accent'
       }`}
     >
-      <button
-        onClick={onPick}
-        aria-label="Place card here"
-        className={`h-44 sm:h-52 w-22 sm:w-28 shrink-0 items-center justify-center rounded-2xl border-2 border-dashed text-3xl font-bold transition-colors ${
-          focused
-            ? 'flex border-accent text-accent'
-            : 'hidden border-muted/50 text-muted group-hover:flex hover:border-accent hover:text-accent'
-        }`}
-      >
-        +
-      </button>
-    </div>
+      +
+    </button>
   );
 }
 
