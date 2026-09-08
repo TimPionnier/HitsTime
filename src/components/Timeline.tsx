@@ -36,7 +36,7 @@ function GapSlot({
       className={`flex h-44 sm:h-52 shrink-0 items-center justify-center rounded-xl border-2 border-dashed text-2xl font-bold transition-all ${
         focused
           ? 'w-20 sm:w-28 border-accent text-accent bg-accent/10'
-          : 'w-8 sm:w-10 border-muted/30 text-muted/50 active:w-20 active:border-accent active:text-accent'
+          : 'w-8 sm:w-10 border-muted/30 text-muted/50 hover:w-20 sm:hover:w-28 hover:border-accent hover:text-accent hover:bg-accent/10 active:w-20 active:border-accent active:text-accent'
       }`}
     >
       +
