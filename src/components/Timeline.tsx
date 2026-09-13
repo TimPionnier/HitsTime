@@ -56,6 +56,7 @@ function BelongedHere({ label }: { label: string }) {
 
 export function Timeline() {
   const game = useApp((s) => s.game);
+  const gameMode = useApp((s) => s.gameMode);
   const place = useApp((s) => s.place);
   const confirm = useApp((s) => s.confirm);
   const t = useApp((s) => s.t);
@@ -112,12 +113,23 @@ export function Timeline() {
 
   if (!game) return null;
   const { timeline, reveal } = game;
-  const wrongReveal = phase === 'revealing' && reveal && !reveal.correct ? reveal : null;
+  // Sudden-death modes drop the misplaced card where the player put it and
+  // point at where it belonged. Daily has already inserted it at the correct
+  // index, so rendering that marker too would show the card twice.
+  const wrongReveal =
+    gameMode !== 'daily' && phase === 'revealing' && reveal && !reveal.correct ? reveal : null;
 
   const scrollBy = (dx: number) => scroller.current?.scrollBy({ left: dx, behavior: 'smooth' });
 
-  const toneFor = (track: GameTrack): 'normal' | 'correct' =>
-    phase === 'revealing' && reveal?.correct && reveal.track.id === track.id ? 'correct' : 'normal';
+  const wrongIds = new Set(game.wrongIds);
+
+  const toneFor = (track: GameTrack): 'normal' | 'correct' | 'wrong' => {
+    // A card misplaced in daily mode stays red for the rest of the run — it is
+    // both the feedback and the end-of-run review.
+    if (wrongIds.has(track.id)) return 'wrong';
+    if (phase === 'revealing' && reveal?.correct && reveal.track.id === track.id) return 'correct';
+    return 'normal';
+  };
 
   const items: React.ReactNode[] = [];
   for (let i = 0; i <= timeline.length; i++) {
@@ -165,11 +177,11 @@ export function Timeline() {
     // card i
     if (i < timeline.length) {
       const track = timeline[i];
-      const isNew = phase === 'revealing' && reveal?.correct && reveal.track.id === track.id;
+      const isNew = phase === 'revealing' && reveal?.track.id === track.id;
       items.push(
         isNew ? (
           <FlipIn key={track.id}>
-            <TimelineCard track={track} tone="correct" />
+            <TimelineCard track={track} tone={toneFor(track)} />
           </FlipIn>
         ) : (
           <motion.div key={track.id} layout>

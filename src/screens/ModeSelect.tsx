@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useApp, type GameMode } from '../store';
 
-const MODES: GameMode[] = ['timeline', 'olderYounger'];
+const MODES: GameMode[] = ['daily', 'timeline', 'olderYounger'];
 
 export function ModeSelect() {
   const t = useApp((s) => s.t);
@@ -11,11 +11,16 @@ export function ModeSelect() {
 
   const [selected, setSelected] = useState(0);
 
+  const startDaily = useApp((s) => s.startDaily);
+
   const pick = useCallback(
     (mode: GameMode) => {
-      void startGame(mode);
+      // Daily doesn't go through the playlist batch pipeline at all — its songs
+      // come from the frozen pool, in a fixed order.
+      if (mode === 'daily') void startDaily();
+      else void startGame(mode);
     },
-    [startGame],
+    [startGame, startDaily],
   );
 
   useEffect(() => {
@@ -36,6 +41,7 @@ export function ModeSelect() {
   }, [selected, pick]);
 
   const cards: { mode: GameMode; icon: string; label: string; hint: string }[] = [
+    { mode: 'daily', icon: '📅', label: t('dailyMode'), hint: t('dailyModeHint') },
     { mode: 'timeline', icon: '📐', label: t('timelineMode'), hint: t('timelineModeHint') },
     { mode: 'olderYounger', icon: '⚖️', label: t('olderYounger'), hint: t('olderYoungerHint') },
   ];

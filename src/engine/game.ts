@@ -51,6 +51,8 @@ export function startGame(tracks: GameTrack[], rng: () => number = Math.random):
     pendingIndex: null,
     score: 0,
     streak: 0,
+    errors: 0,
+    wrongIds: [],
     deck,
     reveal: null,
   };
@@ -70,23 +72,47 @@ export function unplace(state: GameState): GameState {
   return { ...state, pendingIndex: null, phase: 'listening' };
 }
 
+/**
+ * What a wrong placement does.
+ * - 'end'      sudden death: the run is over (timeline & olderYounger modes).
+ * - 'continue' daily mode: the card is inserted at its CORRECT index and marked
+ *              red, so the timeline stays genuinely sorted and one mistake
+ *              cannot cascade into the rounds that follow.
+ */
+export type OnError = 'end' | 'continue';
+
 /** Second click: validate the provisional placement and reveal the result. */
-export function validate(state: GameState): GameState {
+export function validate(state: GameState, onError: OnError = 'end'): GameState {
   if (state.phase !== 'pendingValidation' || state.pendingIndex === null || !state.mystery) {
     return state;
   }
   const { timeline, mystery, pendingIndex } = state;
   const correct = isCorrectPlacement(timeline, mystery.year, pendingIndex);
+  const correctIndex = correctIndexFor(timeline, mystery.year);
   const pointsAwarded = correct ? 1 : 0;
   const reveal = {
     correct,
-    correctIndex: correctIndexFor(timeline, mystery.year),
+    correctIndex,
     chosenIndex: pendingIndex,
     track: mystery,
     pointsAwarded,
   };
   if (!correct) {
-    return { ...state, phase: 'revealing', reveal };
+    if (onError === 'end') {
+      return { ...state, phase: 'revealing', reveal };
+    }
+    const withWrong = [...timeline];
+    withWrong.splice(correctIndex, 0, mystery);
+    return {
+      ...state,
+      phase: 'revealing',
+      timeline: withWrong,
+      // streak freezes at the first error — it is "correct before the first
+      // mistake", not a counter that resets and climbs again.
+      errors: state.errors + 1,
+      wrongIds: [...state.wrongIds, mystery.id],
+      reveal,
+    };
   }
   const newTimeline = [...timeline];
   newTimeline.splice(pendingIndex, 0, mystery);
@@ -95,7 +121,7 @@ export function validate(state: GameState): GameState {
     phase: 'revealing',
     timeline: newTimeline,
     score: state.score + 1,
-    streak: state.streak + 1,
+    streak: state.errors === 0 ? state.streak + 1 : state.streak,
     reveal,
   };
 }
@@ -118,9 +144,9 @@ export function skipMystery(state: GameState): GameState {
 }
 
 /** After the reveal animation: advance to next round, game over, or cleared. */
-export function nextRound(state: GameState): GameState {
+export function nextRound(state: GameState, onError: OnError = 'end'): GameState {
   if (state.phase !== 'revealing' || !state.reveal) return state;
-  if (!state.reveal.correct) {
+  if (!state.reveal.correct && onError === 'end') {
     return { ...state, phase: 'gameOver', mystery: null, pendingIndex: null };
   }
   if (state.deck.length === 0) {

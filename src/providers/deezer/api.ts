@@ -2,6 +2,7 @@ import type { GameTrack, PlaylistMeta } from '../../engine/types';
 import type { RawTrackData } from '../types';
 import { shuffle } from '../../engine/game';
 import dateOverrides from './date-overrides.json';
+import { RateLimiter, isTransientDeezerError } from './rateLimit';
 
 const API = 'https://api.deezer.com';
 
@@ -13,6 +14,56 @@ const overrides = dateOverrides as Record<string, string>;
 // ---------------------------------------------------------------------------
 
 let jsonpCounter = 0;
+
+/**
+ * Deezer's public API allows 50 requests per rolling 5 seconds, then answers
+ * {"error":{"code":4,"message":"Quota limit exceeded"}} for ~5s.
+ *
+ * Two things made that bite:
+ *   - JSONP RESOLVES with that error body instead of rejecting, so a quota hit
+ *     was indistinguishable from a real answer and surfaced to the player as
+ *     "this song has no preview" — a permanent-sounding message for a
+ *     condition that clears itself in five seconds;
+ *   - booting the app costs ~44 requests (playlist pagination + the 40 track
+ *     lookups behind the regular-mode prefetch), so anything else asked for in
+ *     the same window went over the line.
+ *
+ * The limiter below keeps us under the ceiling, and dzRequest retries the
+ * errors that mean "ask again shortly".
+ */
+const RATE_WINDOW_MS = 5000;
+const limiter = new RateLimiter({ windowMs: RATE_WINDOW_MS, max: 45 });
+
+const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+
+interface DzError {
+  error?: { code?: number; message?: string };
+}
+
+/**
+ * The only entry point that should be used for Deezer calls: rate-limited, and
+ * it turns a transient quota error into a retry instead of a fake answer.
+ */
+async function dzRequest<T>(url: string, attempts = 4): Promise<T> {
+  for (let attempt = 0; ; attempt++) {
+    await limiter.acquire();
+    let data: T;
+    try {
+      data = await jsonp<T>(url);
+    } catch (err) {
+      if (attempt >= attempts - 1) throw err;
+      await sleep(400 * (attempt + 1));
+      continue;
+    }
+    const code = (data as DzError)?.error?.code;
+    if (code === undefined) return data;
+    if (!isTransientDeezerError(code) || attempt >= attempts - 1) {
+      throw new Error(`Deezer error ${code}: ${(data as DzError).error?.message ?? url}`);
+    }
+    // The window is 5s wide, so waiting it out is the fastest way through.
+    await sleep(RATE_WINDOW_MS + 250 * attempt);
+  }
+}
 
 function jsonp<T>(url: string): Promise<T> {
   return new Promise((resolve, reject) => {
@@ -129,7 +180,7 @@ async function fetchTrackDates(trackIds: number[]): Promise<Map<number, string>>
   for (let i = 0; i < trackIds.length; i += BATCH) {
     const batch = trackIds.slice(i, i + BATCH);
     const results = await Promise.allSettled(
-      batch.map((id) => jsonp<DzTrackFull>(`${API}/track/${id}`)),
+      batch.map((id) => dzRequest<DzTrackFull>(`${API}/track/${id}`)),
     );
     for (const result of results) {
       if (result.status === 'fulfilled') {
@@ -191,7 +242,7 @@ async function fetchAllDzTracks(playlistId: string): Promise<DzTrack[]> {
   const limit = 100;
 
   while (allTracks.length < 500) {
-    const data = await jsonp<{ data?: DzTrack[]; next?: string }>(
+    const data = await dzRequest<{ data?: DzTrack[]; next?: string }>(
       `${API}/playlist/${playlistId}/tracks?limit=${limit}&index=${index}`,
     );
     const batch = data.data ?? [];
@@ -212,7 +263,7 @@ async function fetchAllDzTracks(playlistId: string): Promise<DzTrack[]> {
 export async function searchPlaylists(query: string): Promise<PlaylistMeta[]> {
   const q = query.trim();
   if (!q) return [];
-  const data = await jsonp<{ data?: DzPlaylist[] }>(
+  const data = await dzRequest<{ data?: DzPlaylist[] }>(
     `${API}/search/playlist?q=${encodeURIComponent(q)}&limit=25`,
   );
   return (data.data ?? []).map(toPlaylistMeta);
@@ -264,4 +315,77 @@ export async function resolveTrackBatch(
   const resolved = toGameTracks(candidates, trackDates);
 
   return resolved.slice(0, count);
+}
+
+/**
+ * Resolve playback data for a FIXED, ordered list of track ids.
+ *
+ * Daily mode cannot use resolveTrackBatch: that one shuffles its candidates, so
+ * every player would receive the same songs in a different order — generation
+ * would still be perfectly deterministic while comparability quietly died,
+ * since a card is far easier to place against a 3-card timeline than a 9-card
+ * one. Here the ids are already decided; Deezer is only asked for the preview.
+ *
+ * `raw` is the playlist listing the app already paginated at boot. Its entries
+ * carry `preview` and the cover, so passing it resolves the whole day for FREE
+ * instead of spending 11 more calls against a 50-per-5s budget that boot has
+ * already largely spent.
+ *
+ * A track whose preview has since expired returns no previewUrl rather than
+ * being dropped: the challenge IS those ids, and substituting one would change
+ * an archived day's answer.
+ */
+export async function getPlaybackData(
+  ids: string[],
+  raw?: RawTrackData,
+): Promise<Map<string, { previewUrl?: string; cover?: string }>> {
+  const out = new Map<string, { previewUrl?: string; cover?: string }>();
+
+  const cached = (raw?.unresolvedTracks as DzTrack[] | undefined) ?? [];
+  const byId = new Map(cached.map((t) => [String(t.id), t]));
+  const missing: string[] = [];
+
+  for (const id of ids) {
+    const hit = byId.get(id);
+    if (hit?.preview && hit.readable !== false) {
+      out.set(id, { previewUrl: hit.preview, cover: hit.album?.cover_medium });
+    } else {
+      missing.push(id);
+    }
+  }
+
+  const BATCH = 10;
+  for (let i = 0; i < missing.length; i += BATCH) {
+    const batch = missing.slice(i, i + BATCH);
+    const results = await Promise.allSettled(
+      batch.map((id) => dzRequest<DzTrack>(`${API}/track/${id}`)),
+    );
+    results.forEach((result, j) => {
+      const id = batch[j];
+      if (result.status === 'fulfilled' && result.value?.id) {
+        const t = result.value;
+        out.set(id, {
+          previewUrl: t.readable === false ? undefined : t.preview || undefined,
+          cover: t.album?.cover_medium,
+        });
+      } else {
+        // Resolution failed rather than "this track has no preview". Left empty
+        // so the caller can retry it lazily at play time.
+        out.set(id, {});
+      }
+    });
+  }
+
+  return out;
+}
+
+/** Re-resolve one track — used when a preview turns out to be missing at play time. */
+export async function getOnePlayback(
+  id: string,
+): Promise<{ previewUrl?: string; cover?: string }> {
+  const t = await dzRequest<DzTrack>(`${API}/track/${id}`);
+  return {
+    previewUrl: t?.readable === false ? undefined : t?.preview || undefined,
+    cover: t?.album?.cover_medium,
+  };
 }

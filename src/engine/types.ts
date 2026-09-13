@@ -49,6 +49,10 @@ export interface GameState {
   score: number;
   /** Consecutive correct answers (resets on game start). */
   streak: number;
+  /** Daily mode: misplacements so far. Always 0 in sudden-death modes. */
+  errors: number;
+  /** Daily mode: ids of cards that were misplaced — rendered red on the timeline. */
+  wrongIds: string[];
   /** Remaining tracks to draw. */
   deck: GameTrack[];
   reveal: RevealResult | null;

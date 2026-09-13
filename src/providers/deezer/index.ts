@@ -5,6 +5,8 @@ import {
   getPlayableTracks,
   getRawTrackList,
   resolveTrackBatch,
+  getPlaybackData,
+  getOnePlayback,
 } from './api';
 
 const CLIP_SECONDS = 30;
@@ -41,6 +43,8 @@ export function createDeezerProvider(): MusicProvider {
     getPlayableTracks,
     getRawTrackList,
     resolveTrackBatch,
+    getPlaybackData,
+    getOnePlayback,
 
     play30s: async (track: GameTrack, onProgress: (s: number) => void) => {
       const previewUrl = (track.providerData as { previewUrl?: string } | undefined)?.previewUrl;

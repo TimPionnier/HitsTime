@@ -14,9 +14,28 @@ import type { MusicProvider, RawTrackData } from '../providers/types';
 import { createDeezerProvider } from '../providers/deezer';
 import { addScore } from '../services/leaderboard';
 import { translate, type Lang, type TKey } from '../services/i18n';
+import {
+  challengeFor,
+  localDateISO,
+  startDailyGame,
+  toGameTrack,
+  isPlayableDate,
+  type DailyChallenge,
+} from '../engine/daily';
+import { loadPoolForDate } from '../daily/pools/registry';
+import {
+  adjustedMsFor,
+  getAttempt,
+  isSuspect,
+  newAttempt,
+  saveAttempt,
+  type DailyAttempt,
+  type DailyRound,
+} from '../services/dailyStore';
+import { DailyTimer } from '../services/dailyTimer';
 
-export type Screen = 'modeSelect' | 'game' | 'end';
-export type GameMode = 'timeline' | 'olderYounger';
+export type Screen = 'modeSelect' | 'game' | 'end' | 'dailyArchive';
+export type GameMode = 'timeline' | 'olderYounger' | 'daily';
 
 type ClipStatus = 'idle' | 'playing' | 'done';
 
@@ -47,6 +66,11 @@ interface AppState {
   // End-of-game timeline snapshot (includes the wrong card for review)
   endTimeline: { tracks: GameTrack[]; wrongTrack: RevealResult | null } | null;
 
+  // Daily challenge
+  daily: DailyChallenge | null;
+  dailyAttempt: DailyAttempt | null;
+  dailyDate: string;
+
   // Batch management
   rawTrackData: RawTrackData | null;
   roundNumber: number;
@@ -66,6 +90,10 @@ interface AppState {
   goHome: () => void;
   replaySame: () => Promise<void>;
   changeMode: () => void;
+
+  startDaily: (date?: string) => Promise<void>;
+  openArchive: () => void;
+  dailyElapsedMs: () => number;
 }
 
 function initialLang(): Lang {
@@ -81,6 +109,35 @@ function initialLang(): Lang {
 const deezerProvider = createDeezerProvider();
 
 export const useApp = create<AppState>((set, get) => {
+  /** The daily clock. Recreated per run; null outside daily mode. */
+  let timer: DailyTimer | null = null;
+  /** performance.now() at the moment the current round became answerable. */
+  let roundStartMs = 0;
+
+  // Pause the clock whenever the tab goes away, so an abandoned tab can't
+  // inflate a run and a backgrounded one can't be farmed.
+  if (typeof document !== 'undefined') {
+    document.addEventListener('visibilitychange', () => {
+      if (!timer) return;
+      if (document.hidden) {
+        timer.pause();
+      } else if (get().gameMode === 'daily') {
+        const phase = get().game?.phase;
+        if (phase === 'listening' || phase === 'pendingValidation') timer.resume();
+      }
+    });
+  }
+
+  /** Persist the in-progress run so a reload resumes rather than restarts. */
+  const persistDaily = (patch: Partial<DailyAttempt>) => {
+    const { dailyAttempt } = get();
+    if (!dailyAttempt) return;
+    const next: DailyAttempt = { ...dailyAttempt, ...patch };
+    next.adjustedMs = adjustedMsFor(next.rawActiveMs, next.errors);
+    saveAttempt(next);
+    set({ dailyAttempt: next });
+  };
+
   /** Fetch a batch of tracks using the batch interface or fallback. */
   async function fetchBatch(
     provider: MusicProvider,
@@ -139,6 +196,76 @@ export const useApp = create<AppState>((set, get) => {
     }
 
     set({ screen: 'end', endTimeline });
+  };
+
+  /** Tracks already retried this run, so a genuinely dead preview asks once. */
+  const previewRetried = new Set<string>();
+
+  /**
+   * A clip failed. Re-resolve the track and try once more; only if that also
+   * comes back empty do we tell the player to place it blind.
+   */
+  const retryPreview = (trackId: string) => {
+    const { provider, t } = get();
+    const give_up = () => {
+      set({ clip: { status: 'done', progress: 30 }, error: t('dailyNoPreview') });
+      window.setTimeout(() => {
+        if (get().error === t('dailyNoPreview')) set({ error: null });
+      }, 4000);
+    };
+
+    if (!provider.getOnePlayback || previewRetried.has(trackId)) {
+      give_up();
+      return;
+    }
+    previewRetried.add(trackId);
+    set({ clip: { status: 'idle', progress: 0 }, error: t('dailyRetrying') });
+
+    provider
+      .getOnePlayback(trackId)
+      .then((live) => {
+        const cur = get();
+        if (cur.game?.mystery?.id !== trackId) return;
+        if (!live.previewUrl) {
+          give_up();
+          return;
+        }
+        // Patch the resolved URL into the card and play it.
+        const mystery = { ...cur.game.mystery, providerData: { previewUrl: live.previewUrl } };
+        set({ game: { ...cur.game, mystery }, error: null, clip: { status: 'idle', progress: 0 } });
+        get().playClip();
+      })
+      .catch(() => {
+        if (get().game?.mystery?.id === trackId) give_up();
+      });
+  };
+
+  /** Seal the daily run: stop the clock, score it, land on the end screen. */
+  const finishDaily = (state: GameState) => {
+    timer?.pause();
+    const rawActiveMs = timer?.elapsedMs() ?? 0;
+    const attempt = get().dailyAttempt;
+    if (attempt) {
+      const finished: DailyAttempt = {
+        ...attempt,
+        status: 'finished',
+        rounds: attempt.rounds,
+        errors: state.errors,
+        streak: state.streak,
+        rawActiveMs,
+        adjustedMs: adjustedMsFor(rawActiveMs, state.errors),
+        finishedAtEpochMs: Date.now(),
+        suspect: isSuspect(attempt.rounds, rawActiveMs),
+      };
+      saveAttempt(finished);
+      set({ dailyAttempt: finished });
+    }
+    timer = null;
+    set({
+      game: state,
+      screen: 'end',
+      endTimeline: { tracks: state.timeline, wrongTrack: null },
+    });
   };
 
   /** Trigger background pre-fetch when approaching batch end. */
@@ -224,6 +351,9 @@ export const useApp = create<AppState>((set, get) => {
     clip: { status: 'idle', progress: 0 },
     loading: false,
     error: null,
+    daily: null,
+    dailyAttempt: null,
+    dailyDate: localDateISO(),
     rawTrackData: null,
     roundNumber: 0,
     prefetchedTracks: null,
@@ -321,7 +451,7 @@ export const useApp = create<AppState>((set, get) => {
 
     playClip: () => {
       const { provider, game, oyGame, gameMode, clip } = get();
-      const mystery = gameMode === 'timeline' ? game?.mystery : oyGame?.mystery;
+      const mystery = gameMode === 'olderYounger' ? oyGame?.mystery : game?.mystery;
       if (!provider || !mystery || clip.status !== 'idle') return;
       const trackId = mystery.id;
       set({ clip: { status: 'playing', progress: 0 } });
@@ -342,6 +472,18 @@ export const useApp = create<AppState>((set, get) => {
         })
         .catch(() => {
           const cur = get();
+
+          if (cur.gameMode === 'daily') {
+            // Never substitute: the challenge IS these ids, and swapping one in
+            // would change an archived day's answer. But before telling the
+            // player the song has no preview, re-resolve it once — the usual
+            // cause is a transient Deezer quota error, which clears in seconds,
+            // and "no preview" is a permanent-sounding message for it.
+            if (cur.game?.mystery?.id !== trackId) return;
+            retryPreview(trackId);
+            return;
+          }
+
           const curMystery = cur.gameMode === 'timeline' ? cur.game?.mystery : cur.oyGame?.mystery;
           if (!curMystery || curMystery.id !== trackId) return;
 
@@ -379,9 +521,50 @@ export const useApp = create<AppState>((set, get) => {
     },
 
     confirm: () => {
-      const { game, provider } = get();
+      const { game, provider, gameMode } = get();
       if (!game || game.phase !== 'pendingValidation') return;
       provider?.stop();
+
+      if (gameMode === 'daily') {
+        // The clock stops for the reveal: the player cannot influence that
+        // animation, and charging for it would punish an error twice.
+        const thinkMs = timer ? Math.max(0, timer.elapsedMs() - roundStartMs) : 0;
+        timer?.pause();
+
+        const revealed = validate(game, 'continue');
+        const round: DailyRound = {
+          trackId: game.mystery!.id,
+          chosenIndex: game.pendingIndex!,
+          correctIndex: revealed.reveal!.correctIndex,
+          correct: revealed.reveal!.correct,
+          thinkMs,
+        };
+        const attempt = get().dailyAttempt;
+        const rounds = [...(attempt?.rounds ?? []), round];
+        const rawActiveMs = timer?.elapsedMs() ?? 0;
+        persistDaily({
+          rounds,
+          errors: revealed.errors,
+          streak: revealed.streak,
+          rawActiveMs,
+        });
+        set({ game: revealed, clip: { status: 'idle', progress: 0 } });
+
+        window.setTimeout(() => {
+          const cur = get().game;
+          if (!cur || cur.phase !== 'revealing') return;
+          const advanced = nextRound(cur, 'continue');
+          if (advanced.phase === 'cleared') {
+            finishDaily(advanced);
+          } else {
+            set({ game: advanced, clip: { status: 'idle', progress: 0 } });
+            roundStartMs = timer?.elapsedMs() ?? 0;
+            timer?.resume();
+          }
+        }, REVEAL_MS);
+        return;
+      }
+
       const revealed = validate(game);
       const round = get().roundNumber + 1;
       set({ game: revealed, clip: { status: 'idle', progress: 0 }, roundNumber: round });
@@ -433,6 +616,7 @@ export const useApp = create<AppState>((set, get) => {
 
     goHome: () => {
       get().provider?.stop();
+      timer = null;
       set({
         screen: 'modeSelect',
         game: null,
@@ -453,8 +637,126 @@ export const useApp = create<AppState>((set, get) => {
       await get().startGame();
     },
 
+    /**
+     * Load and deal the challenge for `date` (defaults to the player's local
+     * today). Everything about which songs, and in which order, comes from
+     * engine/daily — Deezer is asked only for preview URLs.
+     */
+    startDaily: async (date?: string) => {
+      const target = date ?? localDateISO();
+      const { t } = get();
+
+      if (!isPlayableDate(target)) {
+        set({ error: t('dailyNotYet'), screen: 'modeSelect' });
+        return;
+      }
+
+      set({
+        gameMode: 'daily',
+        screen: 'game',
+        loading: true,
+        error: null,
+        dailyDate: target,
+        game: null,
+        oyGame: null,
+        endTimeline: null,
+      });
+
+      try {
+        const pool = await loadPoolForDate(target);
+        const challenge = await challengeFor(target, pool);
+        const cards = [challenge.anchor, ...challenge.draw];
+
+        // The challenge IS these ids. A track whose preview has expired keeps
+        // its place with audio disabled — substituting one would change an
+        // archived day's answer.
+        let playback = new Map<string, { previewUrl?: string; cover?: string }>();
+        const provider = get().provider;
+        if (provider.getPlaybackData) {
+          // Hand over the playlist listing boot already paginated: its entries
+          // carry preview URLs, so a day usually costs zero extra requests
+          // against Deezer's 50-per-5s budget.
+          playback = await provider.getPlaybackData(
+            cards.map((c) => c.id),
+            get().rawTrackData ?? undefined,
+          );
+        }
+
+        const tracks: GameTrack[] = cards.map((c) => {
+          const live = playback.get(c.id);
+          return {
+            ...toGameTrack(c),
+            cover: live?.cover ?? c.cover,
+            providerData: { previewUrl: live?.previewUrl },
+          };
+        });
+
+        const existing = getAttempt(target);
+        // An attempt is write-once per date. Reopening a finished day shows the
+        // recorded result instead of handing out a second try.
+        if (existing?.status === 'finished') {
+          // Rebuild the review board. Every card ends up on the timeline
+          // whatever the player did — misplaced ones are inserted at their
+          // correct index — so the final board is simply the cards by year.
+          const review = [...tracks].sort((a, b) => a.year - b.year);
+          set({
+            daily: challenge,
+            dailyAttempt: existing,
+            loading: false,
+            screen: 'end',
+            game: null,
+            endTimeline: { tracks: review, wrongTrack: null },
+          });
+          return;
+        }
+
+        const attempt =
+          existing && existing.seedHex === challenge.seedHex
+            ? existing
+            : newAttempt(target, challenge.poolVersion, challenge.seedHex);
+
+        previewRetried.clear();
+        timer = new DailyTimer(attempt.rawActiveMs);
+        roundStartMs = attempt.rawActiveMs;
+
+        let state = startDailyGame(tracks);
+        // Replay any rounds already answered before a reload, so the clock and
+        // the board both resume where they were.
+        for (const r of attempt.rounds) {
+          state = nextRound(validate(placeAt(state, r.chosenIndex), 'continue'), 'continue');
+        }
+
+        if (state.phase === 'cleared') {
+          set({ daily: challenge, dailyAttempt: attempt, loading: false });
+          finishDaily(state);
+          return;
+        }
+
+        set({
+          daily: challenge,
+          dailyAttempt: attempt,
+          game: state,
+          loading: false,
+          clip: { status: 'idle', progress: 0 },
+        });
+        timer.resume();
+      } catch {
+        timer = null;
+        set({ loading: false, error: get().t('loadError'), screen: 'modeSelect' });
+      }
+    },
+
+    openArchive: () => {
+      get().provider?.stop();
+      timer = null;
+      set({ screen: 'dailyArchive', game: null, oyGame: null, endTimeline: null, error: null });
+    },
+
+    dailyElapsedMs: () => timer?.elapsedMs() ?? get().dailyAttempt?.rawActiveMs ?? 0,
+
     changeMode: () => {
       get().provider?.stop();
+      timer = null;
       set({
         screen: 'modeSelect',
         game: null,

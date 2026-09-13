@@ -21,6 +21,13 @@ export interface MusicProvider {
   getPlayableTracks(playlistId: string): Promise<GameTrack[]>;
   getRawTrackList?(playlistId: string): Promise<RawTrackData>;
   resolveTrackBatch?(raw: RawTrackData, count: number, excludeIds?: Set<string>): Promise<GameTrack[]>;
+  /** Playback data for a fixed, ordered id list — used by daily mode. */
+  getPlaybackData?(
+    ids: string[],
+    raw?: RawTrackData,
+  ): Promise<Map<string, { previewUrl?: string; cover?: string }>>;
+  /** Re-resolve a single track, for retrying a preview that failed to load. */
+  getOnePlayback?(id: string): Promise<{ previewUrl?: string; cover?: string }>;
   play30s(track: GameTrack, onProgress: (seconds: number) => void): Promise<void>;
   stop(): void;
 }
