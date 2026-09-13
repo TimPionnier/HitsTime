@@ -39,6 +39,16 @@ export function DailyEnd() {
     `HitsTime ${t('dailyPuzzle')} #${daily.dayIndex}`,
     attempt.rounds.map((r) => (r.correct ? '🟩' : '🟥')).join(''),
     `${ROUNDS - attempt.errors}/${ROUNDS} · ${formatMs(attempt.adjustedMs)}`,
+    // Resolved against the live document, NOT hardcoded: `base` is './', the
+    // site lives under a repository subpath on GitHub Pages, and a pasted
+    // origin would rot silently the day it moves. A share from a dev machine
+    // therefore carries a localhost link, which only the developer ever sees.
+    //
+    // Relies on the document URL ending in '/': resolving './' against
+    // '…/HitsTime' (no slash) would yield the domain root, since the client
+    // cannot tell a directory from a file. Safe here because GitHub Pages
+    // 301s '/HitsTime' to '/HitsTime/' before any script runs.
+    new URL(import.meta.env.BASE_URL, window.location.href).href,
   ].join('\n');
 
   const copy = () => {
