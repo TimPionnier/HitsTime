@@ -13,7 +13,7 @@ import {
 import type { MusicProvider, RawTrackData } from '../providers/types';
 import { createDeezerProvider } from '../providers/deezer';
 import { addScore } from '../services/leaderboard';
-import { translate, type Lang, type TKey } from '../services/i18n';
+import { translate, type Lang, type TKey, type TVars } from '../services/i18n';
 import {
   localDateISO,
   startDailyGame,
@@ -33,6 +33,14 @@ import {
   type DailyRound,
 } from '../services/dailyStore';
 import { DailyTimer } from '../services/dailyTimer';
+import {
+  abandonRun,
+  beginRun,
+  dailyScope,
+  playlistScope,
+  reportRun,
+  reportShardMissing,
+} from '../services/analytics';
 import { watchDevtools } from '../services/devtools';
 
 export type Screen = 'modeSelect' | 'game' | 'end' | 'dailyArchive';
@@ -84,7 +92,7 @@ interface AppState {
   prefetching: boolean;
   usedTrackIds: Set<string>;
 
-  t: (key: TKey) => string;
+  t: (key: TKey, vars?: TVars) => string;
   setLang: (lang: Lang) => void;
   init: () => void;
   startGame: (mode?: GameMode) => Promise<void>;
@@ -214,6 +222,7 @@ export const useApp = create<AppState>((set, get) => {
   /** Record the score and land on the end screen. */
   const finishGame = (score: number, cleared: boolean) => {
     const { playlist, provider, gameMode, game } = get();
+    reportRun({ score, cleared });
     addScore({
       providerId: provider.id,
       playlistId: playlist.id,
@@ -303,6 +312,17 @@ export const useApp = create<AppState>((set, get) => {
       };
       saveAttempt(finished);
       set({ dailyAttempt: finished });
+      // `peeks` and `suspect` ride along so the server can keep these runs in
+      // the play counts while excluding them from averages — a 5-minute
+      // heuristic penalty would otherwise swamp a distribution measured in
+      // seconds. See docs/analytics-architecture.md §1.6.
+      reportRun({
+        score: finished.adjustedMs,
+        cleared: true,
+        errors: finished.errors,
+        peeks: finished.peeks ?? 0,
+        suspect: finished.suspect ?? false,
+      });
     }
     timer = null;
     set({
@@ -405,7 +425,7 @@ export const useApp = create<AppState>((set, get) => {
     prefetching: false,
     usedTrackIds: new Set<string>(),
 
-    t: (key) => translate(get().lang, key),
+    t: (key, vars) => translate(get().lang, key, vars),
 
     setLang: (lang) => {
       try {
@@ -438,6 +458,11 @@ export const useApp = create<AppState>((set, get) => {
         loading: true,
         error: null,
       });
+
+      // Deliberately NOT awaited: the deal below must not wait on a telemetry
+      // round-trip, and a ticket that never arrives just means this run goes
+      // uncounted.
+      void beginRun(get().gameMode, playlistScope(provider.id, playlist.id));
 
       let tracks: GameTrack[];
       let raw: RawTrackData | null;
@@ -661,6 +686,7 @@ export const useApp = create<AppState>((set, get) => {
 
     goHome: () => {
       get().provider?.stop();
+      abandonRun();
       timer = null;
       set({
         screen: 'modeSelect',
@@ -761,6 +787,14 @@ export const useApp = create<AppState>((set, get) => {
             ? existing
             : newAttempt(target, challenge.poolVersion, challenge.seedHex);
 
+        // Reported here rather than on entry: the early return above serves a
+        // finished day as a review screen, and counting that as a play would
+        // make the archive inflate today's numbers.
+        void beginRun('daily', dailyScope(target), {
+          algoVersion: challenge.algoVersion,
+          poolVersion: challenge.poolVersion,
+        });
+
         previewRetried.clear();
         timer = new DailyTimer(attempt.rawActiveMs);
         roundStartMs = attempt.rawActiveMs;
@@ -791,6 +825,10 @@ export const useApp = create<AppState>((set, get) => {
         // Not a failure: the player's local day has started but the build that
         // publishes it has not run yet. Saying "something went wrong" would
         // send them to reload forever.
+        abandonRun();
+        // A missing shard is the signature of a frozen scheduled deploy, which
+        // is otherwise invisible: the site keeps serving its last built day.
+        if (err instanceof NotPublishedYet) reportShardMissing(target);
         const key = err instanceof NotPublishedYet ? 'dailyNotYet' : 'loadError';
         set({ loading: false, error: get().t(key), screen: 'modeSelect' });
       }
@@ -798,6 +836,7 @@ export const useApp = create<AppState>((set, get) => {
 
     openArchive: () => {
       get().provider?.stop();
+      abandonRun();
       timer = null;
       set({
         screen: 'dailyArchive',
@@ -815,6 +854,7 @@ export const useApp = create<AppState>((set, get) => {
 
     changeMode: () => {
       get().provider?.stop();
+      abandonRun();
       timer = null;
       set({
         screen: 'modeSelect',

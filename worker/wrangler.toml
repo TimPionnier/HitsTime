@@ -1,0 +1,31 @@
+name = "hitstime-analytics"
+main = "src/index.ts"
+compatibility_date = "2025-01-01"
+
+# Observability on: the rejection and shard-missing counters are only useful if
+# somebody can see the request log they sit next to.
+[observability]
+enabled = true
+
+[vars]
+# Exact origins, comma-separated. An Origin header is scheme://host[:port] and
+# NEVER carries a path — "https://timpionnier.github.io/HitsTime/" would match
+# nothing, and the failure is silent: the game works and no numbers appear.
+ALLOWED_ORIGINS = "https://timpionnier.github.io,http://127.0.0.1:5173"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "hitstime-analytics"
+# npx wrangler d1 create hitstime-analytics  -> paste the id here
+database_id = "1f685cc3-5e60-44ed-8fb3-9518614f7960"
+
+# Nightly: purge visitor rows past 30 days and expired ticket nonces.
+[triggers]
+crons = ["17 3 * * *"]
+
+# Secrets are NOT set here. Set them once, out of band:
+#   npx wrangler secret put TICKET_KEY
+#   npx wrangler secret put SALT_KEY
+# Both should be long random strings. TICKET_KEY signs run tickets; SALT_KEY is
+# the root the per-day visitor salt is derived from. Rotating SALT_KEY resets
+# cross-day linkability, which is a feature — quarterly is reasonable.

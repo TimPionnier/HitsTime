@@ -44,6 +44,12 @@ jobs:
       - run: npm ci
       - run: npm test
       - run: npm run build
+        env:
+          # A repository VARIABLE, not a secret: it is baked into the bundle by
+          # Vite either way, and labelling a public URL "secret" is how a real
+          # secret eventually ends up in one. Unset, the analytics client is a
+          # no-op and the stats UI renders nothing — see worker/README.md.
+          VITE_ANALYTICS_URL: ${{ vars.VITE_ANALYTICS_URL }}
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist

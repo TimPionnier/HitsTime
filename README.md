@@ -81,6 +81,24 @@ change it**; every puzzle number is measured from there.
 
 Design notes and the adversarial review: [docs/daily-challenge-architecture.md](docs/daily-challenge-architecture.md).
 
+## Analytics (optional, off by default)
+
+Per-mode play counts, a distinct-visitor estimate, and an average score, with a percentile shown
+to the player instead of a high score — no cookies, no identifier stored on the device, no
+consent banner. Deliberately **no global best score**: nothing verifies a submitted score yet,
+so a best would belong to whoever forged it. See
+[docs/analytics-architecture.md](docs/analytics-architecture.md) §1.3.
+
+The counting runs in a small Cloudflare Worker ([worker/](worker/)); GitHub Pages is unchanged.
+Everything is inert unless the site is built with an endpoint:
+
+```bash
+VITE_ANALYTICS_URL=https://hitstime-analytics.<subdomain>.workers.dev npm run build
+```
+
+Without it the client sends nothing and the stats UI renders nothing. Deploy steps:
+[worker/README.md](worker/README.md).
+
 ## How to play
 
 1. One card is dealt face-up on your timeline.

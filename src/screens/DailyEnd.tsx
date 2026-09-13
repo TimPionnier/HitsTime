@@ -9,6 +9,8 @@ import {
   statsFrom,
 } from '../services/dailyStore';
 import { ROUNDS } from '../engine/daily';
+import { GlobalStats } from '../components/GlobalStats';
+import { dailyScope } from '../services/analytics';
 
 export function DailyEnd() {
   const attempt = useApp((s) => s.dailyAttempt);
@@ -141,6 +143,17 @@ export function DailyEnd() {
           value={stats.bestAdjustedMs === null ? '—' : formatMs(stats.bestAdjustedMs)}
         />
       </div>
+
+      {/* Everyone who played THIS puzzle — scoped to the date, which is the
+          only comparison in the game that is actually like-for-like. A peeked
+          run is not ranked: its score carries five minutes the distribution
+          excludes. */}
+      <GlobalStats
+        mode="daily"
+        scope={dailyScope(attempt.date)}
+        score={attempt.adjustedMs}
+        comparable={peeks === 0}
+      />
 
       <div className="flex flex-wrap items-center justify-center gap-2 pb-4">
         <button

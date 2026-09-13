@@ -18,6 +18,7 @@
   },
   "include": [
     "vite.config.ts",
-    "build"
+    "build",
+    "worker"
   ]
 }

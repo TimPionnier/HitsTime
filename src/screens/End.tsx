@@ -2,6 +2,8 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import { useApp } from '../store';
 import { bestScores } from '../services/leaderboard';
 import { Leaderboard } from '../components/Leaderboard';
+import { GlobalStats } from '../components/GlobalStats';
+import { playlistScope } from '../services/analytics';
 import { TimelineCard } from '../components/TimelineCard';
 
 const ACTIONS = ['replay', 'changeMode'] as const;
@@ -121,6 +123,16 @@ export function EndScreen() {
         </h2>
         <Leaderboard entries={entries} />
       </div>
+
+      {/* Scoped to the playlist, never to the mode alone: a score here is
+          bounded by the playlist it was scored on, so a 300-track list would
+          otherwise always beat a 20-track one and the number would mean
+          nothing. Uncurated playlists all share one bucket server-side. */}
+      <GlobalStats
+        mode={gameMode}
+        scope={playlistScope(provider.id, playlist.id)}
+        score={activeGame.score}
+      />
       <div className="flex gap-3 pb-4">
         <button
           onClick={() => exec('replay')}

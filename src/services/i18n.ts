@@ -55,6 +55,15 @@ const dict = {
     dailyNoPreview: 'No preview for this one \u2014 place it blind.',
     dailyRetrying: 'Loading the clip\u2026',
     dailyResult: 'Your result',
+    everyone: 'Everyone',
+    statsPlayedToday: '{n} played today',
+    statsPlayedPuzzle: '{n} played this puzzle',
+    statsPlayingToday: '{n} playing today',
+    statsAvgTime: 'Average {v}',
+    statsAvgPoints: 'Average {v} pts',
+    statsFasterThan: 'Faster than {p}% of players',
+    statsBetterThan: 'Better than {p}% of players',
+    statsPrivacy: 'Anonymous counts only \u2014 no cookies, no accounts.',
     dailyPlayed: 'Played',
     dailyPerfectCount: 'Perfect',
     dailyStreakLabel: 'Day streak',
@@ -123,6 +132,15 @@ const dict = {
     dailyNoPreview: 'Pas d\u2019extrait pour celle-ci \u2014 place-la \u00e0 l\u2019aveugle.',
     dailyRetrying: 'Chargement de l\u2019extrait\u2026',
     dailyResult: 'Ton r\u00e9sultat',
+    everyone: 'Tout le monde',
+    statsPlayedToday: '{n} parties aujourd\u2019hui',
+    statsPlayedPuzzle: '{n} parties sur cette grille',
+    statsPlayingToday: '{n} joueurs aujourd\u2019hui',
+    statsAvgTime: 'Moyenne {v}',
+    statsAvgPoints: 'Moyenne {v} pts',
+    statsFasterThan: 'Plus rapide que {p}% des joueurs',
+    statsBetterThan: 'Meilleur que {p}% des joueurs',
+    statsPrivacy: 'Comptage anonyme \u2014 sans cookies ni compte.',
     dailyPlayed: 'Jou\u00e9s',
     dailyPerfectCount: 'Sans faute',
     dailyStreakLabel: 'S\u00e9rie de jours',
@@ -141,6 +159,21 @@ const dict = {
 
 export type TKey = keyof (typeof dict)['en'];
 
-export function translate(lang: Lang, key: TKey): string {
-  return dict[lang][key] ?? dict.en[key];
+/**
+ * Values substituted into a string's `{name}` placeholders.
+ *
+ * Added for the global-stats lines, which are a sentence with a number in the
+ * middle — and in French the number does not sit where it does in English, so
+ * concatenating around the translation was not an option.
+ */
+export type TVars = Record<string, string | number>;
+
+export function translate(lang: Lang, key: TKey, vars?: TVars): string {
+  const template = dict[lang][key] ?? dict.en[key];
+  if (!vars) return template;
+  // An unmatched placeholder is left as-is rather than blanked: a visible
+  // "{n}" in the UI is a bug report, an empty space is a mystery.
+  return template.replace(/\{(\w+)\}/g, (whole, name: string) =>
+    name in vars ? String(vars[name]) : whole,
+  );
 }
