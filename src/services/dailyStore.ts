@@ -12,6 +12,18 @@ const KEY = 'hitstime.daily.v1';
 /** What one misplacement costs. See docs/daily-challenge-architecture.md §7. */
 export const ERROR_PENALTY_MS = 30_000;
 
+/**
+ * What getting caught with DevTools open costs — ten misplacements' worth.
+ *
+ * Charged at most PEEK_CAP times per run: the detector is edge-triggered, so
+ * open/close/open would otherwise stack into a run nobody can recover from, and
+ * the point is to make peeking not worth it, not to make it unsurvivable.
+ */
+export const PEEK_PENALTY_MS = 300_000;
+
+/** Peeks charged per run. Raise it if you want repeat offences to stack. */
+export const PEEK_CAP = 1;
+
 export interface DailyRound {
   trackId: string;
   chosenIndex: number;
@@ -30,10 +42,12 @@ export interface DailyAttempt {
   status: 'in_progress' | 'finished';
   rounds: DailyRound[];
   errors: number;
+  /** Times a docked DevTools panel was detected mid-run. 0..PEEK_CAP. */
+  peeks?: number;
   /** Correct placements before the first error. Freezes; never resets. */
   streak: number;
   rawActiveMs: number;
-  /** rawActiveMs + errors * ERROR_PENALTY_MS — the score. */
+  /** rawActiveMs + both penalties — the score. */
   adjustedMs: number;
   startedAtEpochMs: number;
   finishedAtEpochMs?: number;
@@ -99,8 +113,24 @@ export function saveAttempt(attempt: DailyAttempt): void {
   write(data);
 }
 
-export function adjustedMsFor(rawActiveMs: number, errors: number): number {
-  return rawActiveMs + errors * ERROR_PENALTY_MS;
+/**
+ * Charge one peek against an in-progress attempt.
+ *
+ * Returns null when nothing should change — a finished run, or a run that has
+ * already paid. Pure so the rule is testable without a store, a DOM, or a
+ * simulated DevTools panel, none of which are things a unit test can conjure.
+ */
+export function withPeek(attempt: DailyAttempt): DailyAttempt | null {
+  if (attempt.status !== 'in_progress') return null;
+  const peeks = attempt.peeks ?? 0;
+  if (peeks >= PEEK_CAP) return null;
+  const next = { ...attempt, peeks: peeks + 1 };
+  return { ...next, adjustedMs: adjustedMsFor(next.rawActiveMs, next.errors, next.peeks) };
+}
+
+export function adjustedMsFor(rawActiveMs: number, errors: number, peeks = 0): number {
+  const charged = Math.min(Math.max(0, peeks), PEEK_CAP);
+  return rawActiveMs + errors * ERROR_PENALTY_MS + charged * PEEK_PENALTY_MS;
 }
 
 /**
@@ -169,6 +199,7 @@ export function newAttempt(
     rounds: [],
     errors: 0,
     streak: 0,
+    peeks: 0,
     rawActiveMs: 0,
     adjustedMs: 0,
     startedAtEpochMs: Date.now(),

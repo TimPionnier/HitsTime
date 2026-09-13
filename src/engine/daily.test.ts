@@ -17,7 +17,20 @@ import {
 import { placeAt, validate, nextRound, correctIndexFor } from './game';
 import poolV1 from '../daily/pools/pool-v1.json';
 import golden from './daily.golden.json';
-import { POOL_REGISTRY, loadPool, poolVersionFor } from '../daily/pools/registry';
+import { POOL_REGISTRY, poolVersionFor } from '../daily/pools/registry';
+
+/**
+ * Imported statically rather than through a loader. The browser-side pool
+ * loader was deleted with Phase 1 of the anti-cheat work (the pool must not be
+ * reachable from the client bundle); tests are not bundled, so a direct import
+ * is both safe and simpler.
+ */
+const POOLS: Record<number, unknown> = { 1: poolV1 };
+const loadPool = async (version: number) => {
+  const p = POOLS[version];
+  if (!p) throw new Error(`Test pool v${version} not imported in daily.test.ts`);
+  return p;
+};
 
 const pool = poolV1 as DailyPool;
 
@@ -67,6 +80,23 @@ describe('dayIndexFor', () => {
   it('round-trips with dateForDayIndex', () => {
     for (const i of [1, 2, 14, 15, 365, 366, 1000, 3650]) {
       expect(dayIndexFor(dateForDayIndex(i))).toBe(i);
+    }
+  });
+
+  /**
+   * dateForDayIndex used to read its result back with localDateISO, which gave
+   * the LOCAL date of a UTC-midnight instant — the day before, everywhere west
+   * of Greenwich. Day 1 then scored as index 0 and fell outside the archive.
+   * This suite runs in whatever zone CI happens to use, so the regression is
+   * pinned explicitly rather than left to the runner's TZ.
+   */
+  it('is timezone-independent', () => {
+    expect(dateForDayIndex(1)).toBe(EPOCH);
+    for (const i of [1, 2, 14, 400]) {
+      const iso = dateForDayIndex(i);
+      expect(iso, `day ${i}`).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+      // Same wall-clock day whichever side of UTC the runner sits on.
+      expect(new Date(`${iso}T00:00:00Z`).getUTCDate()).toBe(Number(iso.slice(8, 10)));
     }
   });
 

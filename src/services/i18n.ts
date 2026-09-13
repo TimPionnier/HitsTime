@@ -64,6 +64,9 @@ const dict = {
     dailyBackToday: 'Back to today',
     dailyStats: 'Your daily stats',
     dailyRounds: 'Round by round',
+    peekCaught:
+      '\u{1F440} Caught you peeking! +5:00 \u2014 the songs are more fun when you guess them.',
+    dailyPeek: 'peeking',
     disclaimer: 'Non-commercial personal project. Music previews provided by',
   },
   fr: {
@@ -129,6 +132,9 @@ const dict = {
     dailyBackToday: 'Revenir \u00e0 aujourd\u2019hui',
     dailyStats: 'Tes stats quotidiennes',
     dailyRounds: 'Manche par manche',
+    peekCaught:
+      '\u{1F440} Pris la main dans le sac ! +5:00 \u2014 c\u2019est plus dr\u00f4le en devinant.',
+    dailyPeek: 'fouinage',
     disclaimer: 'Projet personnel non commercial. Extraits musicaux fournis par',
   },
 } as const;

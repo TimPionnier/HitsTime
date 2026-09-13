@@ -15,24 +15,25 @@ import { createDeezerProvider } from '../providers/deezer';
 import { addScore } from '../services/leaderboard';
 import { translate, type Lang, type TKey } from '../services/i18n';
 import {
-  challengeFor,
   localDateISO,
   startDailyGame,
   toGameTrack,
   isPlayableDate,
   type DailyChallenge,
 } from '../engine/daily';
-import { loadPoolForDate } from '../daily/pools/registry';
+import { NotPublishedYet, loadChallenge } from '../daily/shards';
 import {
   adjustedMsFor,
   getAttempt,
   isSuspect,
   newAttempt,
   saveAttempt,
+  withPeek,
   type DailyAttempt,
   type DailyRound,
 } from '../services/dailyStore';
 import { DailyTimer } from '../services/dailyTimer';
+import { watchDevtools } from '../services/devtools';
 
 export type Screen = 'modeSelect' | 'game' | 'end' | 'dailyArchive';
 export type GameMode = 'timeline' | 'olderYounger' | 'daily';
@@ -42,6 +43,9 @@ type ClipStatus = 'idle' | 'playing' | 'done';
 const BATCH_SIZE = 10;
 const PREFETCH_AT = 5;
 const REVEAL_MS = 1600;
+
+/** How long the peek snackbar stays up. */
+const SNACK_MS = 7000;
 
 const DEFAULT_PLAYLIST: PlaylistMeta = {
   id: '15689112801',
@@ -62,6 +66,8 @@ interface AppState {
   clip: { status: ClipStatus; progress: number };
   loading: boolean;
   error: string | null;
+  /** Transient message shown over the game. Currently only the peek warning. */
+  snack: string | null;
 
   // End-of-game timeline snapshot (includes the wrong card for review)
   endTimeline: { tracks: GameTrack[]; wrongTrack: RevealResult | null } | null;
@@ -94,6 +100,7 @@ interface AppState {
   startDaily: (date?: string) => Promise<void>;
   openArchive: () => void;
   dailyElapsedMs: () => number;
+  dismissSnack: () => void;
 }
 
 function initialLang(): Lang {
@@ -114,6 +121,40 @@ export const useApp = create<AppState>((set, get) => {
   /** performance.now() at the moment the current round became answerable. */
   let roundStartMs = 0;
 
+  /**
+   * Charge the peek penalty.
+   *
+   * Note what this deliberately does NOT do: pause the clock. Stopping time
+   * while the panel is open would hand the peeker a free, untimed look at the
+   * store once they had paid — the opposite of the intent.
+   *
+   * Guarded on an answerable daily round, so the panel can be opened freely on
+   * the menus, the archive, the end screen, and in the free-play modes. Nothing
+   * there is worth hiding.
+   *
+   * Returns whether the charge landed. The detector uses that to decide whether
+   * to latch: a refusal here must leave it armed, or opening the panel before
+   * starting a run would disarm it for the whole session.
+   */
+  const chargePeek = (): boolean => {
+    const { gameMode, game, dailyAttempt, t } = get();
+    if (gameMode !== 'daily' || !dailyAttempt) return false;
+    const phase = game?.phase;
+    if (phase !== 'listening' && phase !== 'pendingValidation') return false;
+
+    const charged = withPeek(dailyAttempt);
+    if (!charged) return false;
+
+    persistDaily({ peeks: charged.peeks });
+    set({ snack: t('peekCaught') });
+    window.setTimeout(() => {
+      if (get().snack === t('peekCaught')) set({ snack: null });
+    }, SNACK_MS);
+    return true;
+  };
+
+  if (typeof window !== 'undefined') watchDevtools(chargePeek);
+
   // Pause the clock whenever the tab goes away, so an abandoned tab can't
   // inflate a run and a backgrounded one can't be farmed.
   if (typeof document !== 'undefined') {
@@ -133,7 +174,7 @@ export const useApp = create<AppState>((set, get) => {
     const { dailyAttempt } = get();
     if (!dailyAttempt) return;
     const next: DailyAttempt = { ...dailyAttempt, ...patch };
-    next.adjustedMs = adjustedMsFor(next.rawActiveMs, next.errors);
+    next.adjustedMs = adjustedMsFor(next.rawActiveMs, next.errors, next.peeks ?? 0);
     saveAttempt(next);
     set({ dailyAttempt: next });
   };
@@ -253,9 +294,12 @@ export const useApp = create<AppState>((set, get) => {
         errors: state.errors,
         streak: state.streak,
         rawActiveMs,
-        adjustedMs: adjustedMsFor(rawActiveMs, state.errors),
+        adjustedMs: adjustedMsFor(rawActiveMs, state.errors, attempt.peeks ?? 0),
         finishedAtEpochMs: Date.now(),
-        suspect: isSuspect(attempt.rounds, rawActiveMs),
+        // A peek is a suspicion, not a proof — but it belongs in the same flag
+        // the implausible-timing check uses, so a future leaderboard has one
+        // field to filter on.
+        suspect: isSuspect(attempt.rounds, rawActiveMs) || (attempt.peeks ?? 0) > 0,
       };
       saveAttempt(finished);
       set({ dailyAttempt: finished });
@@ -351,6 +395,7 @@ export const useApp = create<AppState>((set, get) => {
     clip: { status: 'idle', progress: 0 },
     loading: false,
     error: null,
+    snack: null,
     daily: null,
     dailyAttempt: null,
     dailyDate: localDateISO(),
@@ -623,6 +668,7 @@ export const useApp = create<AppState>((set, get) => {
         oyGame: null,
         endTimeline: null,
         error: null,
+        snack: null,
         rawTrackData: null,
         prefetchedTracks: null,
         prefetching: false,
@@ -656,6 +702,7 @@ export const useApp = create<AppState>((set, get) => {
         screen: 'game',
         loading: true,
         error: null,
+        snack: null,
         dailyDate: target,
         game: null,
         oyGame: null,
@@ -663,8 +710,7 @@ export const useApp = create<AppState>((set, get) => {
       });
 
       try {
-        const pool = await loadPoolForDate(target);
-        const challenge = await challengeFor(target, pool);
+        const challenge = await loadChallenge(target);
         const cards = [challenge.anchor, ...challenge.draw];
 
         // The challenge IS these ids. A track whose preview has expired keeps
@@ -740,19 +786,32 @@ export const useApp = create<AppState>((set, get) => {
           clip: { status: 'idle', progress: 0 },
         });
         timer.resume();
-      } catch {
+      } catch (err) {
         timer = null;
-        set({ loading: false, error: get().t('loadError'), screen: 'modeSelect' });
+        // Not a failure: the player's local day has started but the build that
+        // publishes it has not run yet. Saying "something went wrong" would
+        // send them to reload forever.
+        const key = err instanceof NotPublishedYet ? 'dailyNotYet' : 'loadError';
+        set({ loading: false, error: get().t(key), screen: 'modeSelect' });
       }
     },
 
     openArchive: () => {
       get().provider?.stop();
       timer = null;
-      set({ screen: 'dailyArchive', game: null, oyGame: null, endTimeline: null, error: null });
+      set({
+        screen: 'dailyArchive',
+        game: null,
+        oyGame: null,
+        endTimeline: null,
+        error: null,
+        snack: null,
+      });
     },
 
     dailyElapsedMs: () => timer?.elapsedMs() ?? get().dailyAttempt?.rawActiveMs ?? 0,
+
+    dismissSnack: () => set({ snack: null }),
 
     changeMode: () => {
       get().provider?.stop();
@@ -763,6 +822,7 @@ export const useApp = create<AppState>((set, get) => {
         oyGame: null,
         endTimeline: null,
         error: null,
+        snack: null,
         prefetchedTracks: null,
         prefetching: false,
         usedTrackIds: new Set<string>(),

@@ -1,4 +1,3 @@
-import type { DailyPool } from '../../engine/daily';
 
 /**
  * Which frozen pool snapshot governs which dates.
@@ -34,21 +33,15 @@ export function poolVersionFor(dateISO: string): number {
   return chosen.version;
 }
 
-const cache = new Map<number, Promise<DailyPool>>();
-
 /**
- * Loaded on demand so a decade of snapshots never lands in the main bundle —
- * only the versions a player actually opens are fetched.
+ * NOTE: there is deliberately no pool loader here any more.
+ *
+ * `loadPool`/`loadPoolForDate` used to dynamic-import these JSON files into the
+ * browser, which shipped all 388 tracks and their years as a 79 KB chunk — the
+ * single largest answer leak in the app. Generation now happens at build time
+ * (src/build/dailyShards.ts) and the client fetches one day's shard.
+ *
+ * Do not reintroduce a loader that any module under src/ reachable from
+ * main.tsx can import: that is all it would take to put the pool back in the
+ * bundle.
  */
-export function loadPool(version: number): Promise<DailyPool> {
-  let p = cache.get(version);
-  if (!p) {
-    p = import(`./pool-v${version}.json`).then((m) => (m.default ?? m) as DailyPool);
-    cache.set(version, p);
-  }
-  return p;
-}
-
-export function loadPoolForDate(dateISO: string): Promise<DailyPool> {
-  return loadPool(poolVersionFor(dateISO));
-}

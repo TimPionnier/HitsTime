@@ -1,7 +1,13 @@
 import { useMemo, useRef, useState } from 'react';
 import { useApp } from '../store';
 import { TimelineCard } from '../components/TimelineCard';
-import { ERROR_PENALTY_MS, allAttempts, formatMs, statsFrom } from '../services/dailyStore';
+import {
+  ERROR_PENALTY_MS,
+  PEEK_PENALTY_MS,
+  allAttempts,
+  formatMs,
+  statsFrom,
+} from '../services/dailyStore';
 import { ROUNDS } from '../engine/daily';
 
 export function DailyEnd() {
@@ -20,6 +26,7 @@ export function DailyEnd() {
   if (!attempt || !daily) return null;
 
   const wrongIds = new Set(attempt.rounds.filter((r) => !r.correct).map((r) => r.trackId));
+  const peeks = attempt.peeks ?? 0;
 
   /**
    * Correct/incorrect per round and nothing else. A grid that encoded years, or
@@ -56,12 +63,22 @@ export function DailyEnd() {
           {formatMs(attempt.adjustedMs)}
         </p>
         <p className="mt-1 text-sm font-bold">
-          {attempt.errors === 0 ? (
+          {attempt.errors === 0 && peeks === 0 ? (
             <span className="text-accent">{t('dailyPerfect')}</span>
           ) : (
             <span className="text-danger">
-              {attempt.errors} {t('dailyErrors')} · +{formatMs(attempt.errors * ERROR_PENALTY_MS)}{' '}
-              {t('dailyPenalty')}
+              {attempt.errors > 0 && (
+                <>
+                  {attempt.errors} {t('dailyErrors')} · +
+                  {formatMs(attempt.errors * ERROR_PENALTY_MS)} {t('dailyPenalty')}
+                </>
+              )}
+              {attempt.errors > 0 && peeks > 0 && ' · '}
+              {peeks > 0 && (
+                <>
+                  {t('dailyPeek')} · +{formatMs(peeks * PEEK_PENALTY_MS)}
+                </>
+              )}
             </span>
           )}
         </p>

@@ -104,9 +104,21 @@ export function dayIndexFor(dateISO: string): number {
   return Math.round((at(dateISO) - at(EPOCH)) / 86_400_000) + 1;
 }
 
+/**
+ * Inverse of dayIndexFor.
+ *
+ * Reads the date back out in UTC, NOT via localDateISO. Day arithmetic is
+ * anchored at UTC midnight (see dayIndexFor), and asking for the LOCAL date of
+ * that instant lands on the previous day for every player west of Greenwich:
+ * in New York, day 1 came back as the day before EPOCH, which dayIndexFor then
+ * scored as 0 — outside the archive. The whole calendar was off by one for half
+ * the planet, and the round-trip test only passed because CI runs in UTC+.
+ */
 export function dateForDayIndex(dayIndex: number): string {
   const [y, m, d] = EPOCH.split('-').map(Number);
-  return localDateISO(new Date(Date.UTC(y, m - 1, d + dayIndex - 1)));
+  const at = new Date(Date.UTC(y, m - 1, d + dayIndex - 1));
+  const p = (n: number) => String(n).padStart(2, '0');
+  return `${at.getUTCFullYear()}-${p(at.getUTCMonth() + 1)}-${p(at.getUTCDate())}`;
 }
 
 /** Is this date inside the playable archive (day 1 .. today)? */

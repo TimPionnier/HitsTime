@@ -4,7 +4,7 @@ import { Timeline } from '../components/Timeline';
 import { PlaybackBar } from '../components/PlaybackBar';
 import { MysteryCardFace } from '../components/TimelineCard';
 import { YearInfoTooltip } from '../components/YearInfoTooltip';
-import { ERROR_PENALTY_MS, formatMs } from '../services/dailyStore';
+import { ERROR_PENALTY_MS, PEEK_PENALTY_MS, formatMs } from '../services/dailyStore';
 import { ROUNDS } from '../engine/daily';
 
 /**
@@ -31,6 +31,7 @@ function useLiveElapsed(active: boolean): number {
 export function DailyScreen() {
   const game = useApp((s) => s.game);
   const daily = useApp((s) => s.daily);
+  const dailyAttempt = useApp((s) => s.dailyAttempt);
   const confirm = useApp((s) => s.confirm);
   const withdraw = useApp((s) => s.withdraw);
   const openArchive = useApp((s) => s.openArchive);
@@ -63,7 +64,8 @@ export function DailyScreen() {
 
   const { reveal } = game;
   const round = game.timeline.length - 1 + (phase === 'revealing' ? 0 : 1);
-  const adjusted = raw + errors * ERROR_PENALTY_MS;
+  const peeks = daily ? (dailyAttempt?.peeks ?? 0) : 0;
+  const adjusted = raw + errors * ERROR_PENALTY_MS + peeks * PEEK_PENALTY_MS;
 
   return (
     <div className="flex h-full flex-col">
@@ -90,9 +92,20 @@ export function DailyScreen() {
           <YearInfoTooltip />
         </div>
         <span className="text-xs font-bold text-muted">
-          {errors > 0 ? (
+          {errors > 0 || peeks > 0 ? (
             <span className="text-danger">
-              {errors} {t('dailyErrors')} · +{formatMs(errors * ERROR_PENALTY_MS)} {t('dailyPenalty')}
+              {errors > 0 && (
+                <>
+                  {errors} {t('dailyErrors')} · +{formatMs(errors * ERROR_PENALTY_MS)}{' '}
+                  {t('dailyPenalty')}
+                </>
+              )}
+              {errors > 0 && peeks > 0 && ' · '}
+              {peeks > 0 && (
+                <>
+                  {t('dailyPeek')} · +{formatMs(peeks * PEEK_PENALTY_MS)}
+                </>
+              )}
             </span>
           ) : (
             t('dailyPerfect')

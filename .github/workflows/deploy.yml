@@ -4,6 +4,24 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+  schedule:
+    # THIS IS WHAT PUBLISHES EACH NEW DAY. The build emits shards only for dates
+    # that are already reachable somewhere on Earth (src/build/publishWindow.ts),
+    # so without a scheduled run the site would keep serving the day it was last
+    # deployed on, and every player would be stuck on an old puzzle.
+    #
+    # The window opens at 10:00 UTC, the moment UTC+14 begins its next day. The
+    # 10:02 run publishes it; the 12:02 run is the catch-up for a failed or
+    # GitHub-delayed first attempt. A player in UTC+14 who opens the app inside
+    # those first couple of minutes sees "not open yet" — the price of never
+    # publishing a day before someone can legitimately play it.
+    #
+    # OPERATIONAL CAVEAT: GitHub disables scheduled workflows on a repository
+    # with no commits for 60 days, and sends one email about it. If that happens
+    # the site silently freezes on its last-built day — re-enable the workflow,
+    # or push anything, to restart it.
+    - cron: '2 10 * * *'
+    - cron: '2 12 * * *'
 
 permissions:
   contents: read
