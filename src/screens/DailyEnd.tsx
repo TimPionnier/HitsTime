@@ -19,7 +19,6 @@ export function DailyEnd() {
   const daily = useApp((s) => s.daily);
   const endTimeline = useApp((s) => s.endTimeline);
   const openArchive = useApp((s) => s.openArchive);
-  const startDaily = useApp((s) => s.startDaily);
   const changeMode = useApp((s) => s.changeMode);
   const t = useApp((s) => s.t);
 
@@ -191,12 +190,6 @@ export function DailyEnd() {
           className="rounded-full border border-muted/40 px-5 py-2.5 text-sm text-muted hover:border-accent hover:text-accent"
         >
           {t('dailyArchive')}
-        </button>
-        <button
-          onClick={() => void startDaily()}
-          className="rounded-full border border-muted/40 px-5 py-2.5 text-sm text-muted hover:border-accent hover:text-accent"
-        >
-          {t('dailyBackToday')}
         </button>
         <button
           onClick={changeMode}

@@ -71,7 +71,6 @@ const dict = {
     dailyShare: 'Copy result',
     dailyPlaylist: 'Playlist on Spotify',
     dailyCopied: 'Copied!',
-    dailyBackToday: 'Back to today',
     dailyStats: 'Your daily stats',
     dailyRounds: 'Round by round',
     peekCaught:
@@ -149,7 +148,6 @@ const dict = {
     dailyShare: 'Copier le r\u00e9sultat',
     dailyPlaylist: 'Playlist sur Spotify',
     dailyCopied: 'Copi\u00e9 !',
-    dailyBackToday: 'Revenir \u00e0 aujourd\u2019hui',
     dailyStats: 'Tes stats quotidiennes',
     dailyRounds: 'Manche par manche',
     peekCaught:
