@@ -16,7 +16,12 @@ import { writeFileSync } from 'node:fs';
 import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { challengeFor, dateForDayIndex } from '../src/engine/daily.ts';
-import pool from '../src/daily/pools/pool-v1.json' with { type: 'json' };
+import { poolVersionFor } from '../src/daily/pools/registry.ts';
+import poolV1 from '../src/daily/pools/pool-v1.json' with { type: 'json' };
+import poolV2 from '../src/daily/pools/pool-v2.json' with { type: 'json' };
+
+// Every date is drawn from the pool the registry routes it to, as in production.
+const POOLS = { 1: poolV1, 2: poolV2 };
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -27,7 +32,7 @@ const days = [1, 2, 3, 7, 13, 14, 15, 16, 27, 28, 29, 30, 100, 200, 365, 366, 50
 const out = {};
 for (const d of days) {
   const date = dateForDayIndex(d);
-  const c = await challengeFor(date, pool);
+  const c = await challengeFor(date, POOLS[poolVersionFor(date)]);
   out[date] = [c.anchor, ...c.draw].map((t) => t.id).join(',');
 }
 

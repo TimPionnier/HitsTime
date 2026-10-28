@@ -72,8 +72,10 @@ export const POOL_REGISTRY: PoolEpoch[] = [
 ];
 ```
 
-`npm test` then proves the archive did not move: the golden fixture must still pass unchanged,
-and `leaves already-played days on their original pool` asserts every pre-v2 date still routes
+`npm test` then proves the archive did not move: regenerate the golden fixture
+(`npx vite-node scripts/build-daily-golden.mjs`, which draws every date from the pool the registry routes
+it to) and check that only dates on or after the new `activeFrom` changed in its diff.
+`leaves already-played days on their original pool` asserts every pre-v2 date still routes
 to v1. Nothing else is needed — the registry is append-only and past epochs are never touched.
 
 `EPOCH` in `src/engine/daily.ts` is day 1 of the archive — **set it before launch and never

@@ -22,7 +22,7 @@ npm run format # Prettier (write); `npm run format:check` to verify
 | Path | Purpose |
 |------|---------|
 | `src/engine/daily.ts` | Pure daily-challenge logic (EPOCH, ALGO_VERSION, CYCLE_DAYS, draw algorithm) |
-| `src/daily/pools/pool-v1.json` | **Immutable** frozen track snapshot (388 tracks). Has a `contentHash` guard. |
+| `src/daily/pools/pool-v1.json`, `pool-v2.json` | **Immutable** frozen track snapshots (v1: 388 tracks, v2: 424). Each has a `contentHash` guard. |
 | `src/daily/pools/registry.ts` | Maps pool versions to `activeFrom` dates. Append-only. |
 | `src/engine/daily.test.ts` | contentHash guard + golden-fixture test + pool variety checks |
 | `src/engine/daily.golden.json` | Exact track IDs for 20 known dates — must not change unless ALGO_VERSION bumps |
@@ -49,7 +49,7 @@ Deezer playlist (15689112801)
 ```
 
 **EPOCH** (`src/engine/daily.ts`): `'2026-09-13'` — day 1, never change.
-**Pool v1** active from `2026-09-13` (the only version so far).
+**Pool v1** active from `2026-09-13`, **pool v2** from `2026-11-01` (see `src/daily/pools/registry.ts`). Each new pool also needs an import in `build/dailyShards.ts` and in `src/engine/daily.test.ts`.
 
 Date resolution priority: `date-overrides.json` → Deezer track date → Deezer album date.
 
@@ -121,7 +121,9 @@ node scripts/build-daily-pool.mjs 2
 # In src/daily/pools/registry.ts:
 #   { version: 2, activeFrom: '2026-XX-XX' }
 
-# 4. Run tests — golden fixture must still pass unchanged
+# 4. Regenerate the golden fixture (npx vite-node scripts/build-daily-golden.mjs): it draws each
+#    date from the pool the registry routes it to, so ONLY dates on or after the new activeFrom
+#    may change in its diff. Then run the tests.
 npm test
 ```
 

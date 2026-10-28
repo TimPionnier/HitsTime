@@ -22,6 +22,7 @@ import { challengeFor, type DailyChallenge, type DailyPool } from '../src/engine
 import { poolVersionFor } from '../src/daily/pools/registry';
 import { publishableDates } from '../src/build/publishWindow';
 import poolV1 from '../src/daily/pools/pool-v1.json';
+import poolV2 from '../src/daily/pools/pool-v2.json';
 
 /**
  * Every frozen pool, imported statically.
@@ -31,7 +32,7 @@ import poolV1 from '../src/daily/pools/pool-v1.json';
  * register an activeFrom), and a third explicit line is cheaper than a glob
  * that silently picks up a half-finished file.
  */
-const POOLS: Record<number, DailyPool> = { 1: poolV1 as DailyPool };
+const POOLS: Record<number, DailyPool> = { 1: poolV1 as DailyPool, 2: poolV2 as DailyPool };
 
 function poolFor(dateISO: string): DailyPool {
   const version = poolVersionFor(dateISO);
