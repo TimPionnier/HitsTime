@@ -1,0 +1,31 @@
+name: Publish daily playlist
+
+on:
+  schedule:
+    # A few minutes after deploy.yml (10:02 / 12:02 UTC), so the new day's shard
+    # exists. The second run is a catch-up: the script skips a day that was
+    # already published, so running twice never creates a duplicate playlist.
+    - cron: '5 10 * * *'
+    - cron: '5 12 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  playlist:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      # vite build only: the shards are what is needed, not a type-check.
+      - run: npx vite build
+      - run: node scripts/export-daily-playlist.mjs
+        env:
+          # Token of the dedicated ListenBrainz account, which is linked to the
+          # Spotify account that owns the playlists (see CLAUDE.md).
+          LISTENBRAINZ_TOKEN: ${{ secrets.LISTENBRAINZ_TOKEN }}
