@@ -1,0 +1,7 @@
+dist
+node_modules
+package-lock.json
+src/daily/pools
+src/daily/*.json
+src/providers/deezer/date-overrides.json
+src/engine/daily.golden.json
