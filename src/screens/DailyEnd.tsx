@@ -11,19 +11,21 @@ import {
 import { ROUNDS } from '../engine/daily';
 import { GlobalStats } from '../components/GlobalStats';
 import { dailyScope } from '../services/analytics';
+import { usePlaylistUrl } from '../hooks/usePlaylistUrl';
+import { ListMusic } from 'lucide-react';
 
 export function DailyEnd() {
   const attempt = useApp((s) => s.dailyAttempt);
   const daily = useApp((s) => s.daily);
   const endTimeline = useApp((s) => s.endTimeline);
   const openArchive = useApp((s) => s.openArchive);
-  const startDaily = useApp((s) => s.startDaily);
   const changeMode = useApp((s) => s.changeMode);
   const t = useApp((s) => s.t);
 
   const scroller = useRef<HTMLDivElement>(null);
   const [copied, setCopied] = useState(false);
   const stats = useMemo(() => statsFrom(allAttempts()), [attempt]);
+  const playlistUrl = usePlaylistUrl(daily?.dayIndex ?? 0);
 
   if (!attempt || !daily) return null;
 
@@ -172,17 +174,22 @@ export function DailyEnd() {
         >
           {copied ? t('dailyCopied') : t('dailyShare')}
         </button>
+        {playlistUrl && (
+          <a
+            href={playlistUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 rounded-full border border-muted/40 px-5 py-2.5 text-sm text-muted hover:border-accent hover:text-accent"
+          >
+            <ListMusic size={16} strokeWidth={2} className="shrink-0" aria-hidden="true" />
+            {t('dailyPlaylist')}
+          </a>
+        )}
         <button
           onClick={openArchive}
           className="rounded-full border border-muted/40 px-5 py-2.5 text-sm text-muted hover:border-accent hover:text-accent"
         >
           {t('dailyArchive')}
-        </button>
-        <button
-          onClick={() => void startDaily()}
-          className="rounded-full border border-muted/40 px-5 py-2.5 text-sm text-muted hover:border-accent hover:text-accent"
-        >
-          {t('dailyBackToday')}
         </button>
         <button
           onClick={changeMode}

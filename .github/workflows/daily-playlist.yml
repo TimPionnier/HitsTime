@@ -10,13 +10,20 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  # Writes playlists.json on the `data` branch (never on main, so no redeploy).
+  contents: write
 
 jobs:
   playlist:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      # The `data` branch holds playlists.json, which the site reads to link the
+      # day's Spotify playlist at the end of the challenge.
+      - uses: actions/checkout@v4
+        with:
+          ref: data
+          path: data
       - uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -24,8 +31,17 @@ jobs:
       - run: npm ci
       # vite build only: the shards are what is needed, not a type-check.
       - run: npx vite build
-      - run: node scripts/export-daily-playlist.mjs
+      - run: node scripts/export-daily-playlist.mjs --data-file data/playlists.json
         env:
           # Token of the dedicated ListenBrainz account, which is linked to the
           # Spotify account that owns the playlists (see CLAUDE.md).
           LISTENBRAINZ_TOKEN: ${{ secrets.LISTENBRAINZ_TOKEN }}
+      - name: Publish the playlist link
+        working-directory: data
+        run: |
+          git diff --quiet playlists.json && exit 0
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add playlists.json
+          git commit -m "chore: link the daily playlist"
+          git push

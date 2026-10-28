@@ -21,9 +21,10 @@
  * Reads dist/daily/YYYY-MM-DD.json, so run "npx vite build" first.
  *
  *   LISTENBRAINZ_TOKEN=... node scripts/export-daily-playlist.mjs [YYYY-MM-DD] [--dry-run]
+ *       [--data-file path/to/playlists.json]   records the Spotify address for the site
  */
 
-import { readdirSync, readFileSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { resolve, dirname } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
@@ -64,6 +65,21 @@ export function latestShardName(fileNames) {
 
 export function playlistTitle(dayIndex) {
   return `HitsTime Daily Challenge #${dayIndex}`;
+}
+
+export function parseArgs(argv) {
+  const parsed = { dateArg: null, dryRun: false, dataFile: null };
+  for (let i = 0; i < argv.length; i += 1) {
+    if (argv[i] === "--dry-run") parsed.dryRun = true;
+    else if (argv[i] === "--data-file") parsed.dataFile = argv[(i += 1)] ?? null;
+    else if (!argv[i].startsWith("--")) parsed.dateArg = argv[i];
+  }
+  return parsed;
+}
+
+/** The entry the site looks up by challenge number; older days are kept. */
+export function recordPlaylist(existing, challenge, url) {
+  return { ...existing, [String(challenge.dayIndex)]: { date: challenge.date, url } };
 }
 
 /** Anchor first, then the ten scored rounds in play order (the playlist reorders them by year). */
@@ -321,13 +337,12 @@ async function main() {
   const token = process.env.LISTENBRAINZ_TOKEN;
   if (!token) throw new Error("LISTENBRAINZ_TOKEN is not set.");
 
-  const dateArg = process.argv.slice(2).find((arg) => !arg.startsWith("--"));
+  const { dateArg, dryRun, dataFile } = parseArgs(process.argv.slice(2));
   const shardName = dateArg ? `${dateArg}.json` : latestShardName(readdirSync(SHARD_DIR));
   if (!shardName) throw new Error(`No shard found in ${SHARD_DIR}. Run "npx vite build" first.`);
   const challenge = JSON.parse(readFileSync(resolve(SHARD_DIR, shardName), "utf-8"));
   const title = playlistTitle(challenge.dayIndex);
 
-  const dryRun = process.argv.includes("--dry-run");
   const lb = listenbrainz(token);
   const userName = await lb.userName();
   if (!dryRun && (await lb.playlistTitles(userName)).includes(title)) {
@@ -346,10 +361,22 @@ async function main() {
   try {
     const url = await lb.exportToSpotify(mbid);
     console.log(`"${title}": ${resolved.length}/${tracksOf(challenge).length} tracks -> ${url}`);
+    if (dataFile) recordInDataFile(dataFile, challenge, url);
   } catch (error) {
     await lb.remove(mbid);
     throw error;
   }
+}
+
+/**
+ * Where the site reads the address of each day's playlist. Written AFTER the
+ * export succeeded; a failure here also removes the ListenBrainz copy (see
+ * main), so the next run exports the day again and retries the write.
+ */
+function recordInDataFile(path, challenge, url) {
+  const existing = existsSync(path) ? JSON.parse(readFileSync(path, "utf-8")) : {};
+  writeFileSync(path, JSON.stringify(recordPlaylist(existing, challenge, url), null, 2) + "\n");
+  console.log(`Recorded the link in ${path}`);
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
