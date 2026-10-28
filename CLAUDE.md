@@ -488,6 +488,14 @@ runs from `daily-playlist.yml`.
 - **Order:** tracks are sorted oldest first by the `year` of the daily shard (the validated
   year used by the game, from the frozen pool), never by MusicBrainz or Deezer dates. Ties
   keep play order. This makes the playlist the answer key of the day's puzzle.
+- **Link on the end screen:** the playlist address only exists after the site is deployed,
+  so it cannot be baked into the build. The workflow writes `playlists.json`
+  (`{ "<challenge number>": { date, url } }`) on the `data` branch (not `main`: no redeploy);
+  `src/services/playlistLink.ts` fetches it from raw.githubusercontent.com and
+  `DailyEnd` shows a "Playlist sur Spotify" button when the day has an entry. Only
+  `https://open.spotify.com/playlist/` addresses are accepted. `VITE_PLAYLISTS_URL`
+  points a local run at another file. If a day's link is missing, the playlist was created
+  but its entry was not written: add it to `playlists.json` by hand.
 - **Idempotency:** the script first creates a ListenBrainz playlist titled "#N" and exports
   that copy; if one already exists the day is skipped, so the 12:05 catch-up run never
   duplicates. A failed export deletes the copy so the next run retries.

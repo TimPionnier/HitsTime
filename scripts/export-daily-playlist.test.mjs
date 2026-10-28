@@ -3,7 +3,9 @@ import {
   buildJspf,
   latestShardName,
   oldestFirst,
+  parseArgs,
   playlistTitle,
+  recordPlaylist,
   rankAnyVersion,
   rankFaithful,
   tracksOf,
@@ -122,6 +124,40 @@ describe("rankAnyVersion", () => {
       dylan("artist", { "artist-credit": [{ name: "Guns N' Roses" }] }),
     ];
     expect(rankAnyVersion(track, 150, recordings)).toEqual([]);
+  });
+});
+
+describe("parseArgs", () => {
+  it("separates the date, the dry-run flag and the data file", () => {
+    expect(parseArgs(["2026-10-29", "--dry-run", "--data-file", "data/playlists.json"])).toEqual({
+      dateArg: "2026-10-29",
+      dryRun: true,
+      dataFile: "data/playlists.json",
+    });
+  });
+
+  it("does not take the data file path for a date", () => {
+    expect(parseArgs(["--data-file", "data/playlists.json"]).dateArg).toBeNull();
+  });
+});
+
+describe("recordPlaylist", () => {
+  const challenge = { dayIndex: 47, date: "2026-10-29" };
+
+  it("adds the day and keeps the earlier ones", () => {
+    const earlier = { 46: { date: "2026-10-28", url: "https://open.spotify.com/playlist/a" } };
+    const result = recordPlaylist(earlier, challenge, "https://open.spotify.com/playlist/b");
+    expect(Object.keys(result)).toEqual(["46", "47"]);
+    expect(result["47"]).toEqual({
+      date: "2026-10-29",
+      url: "https://open.spotify.com/playlist/b",
+    });
+  });
+
+  it("does not modify the object it is given", () => {
+    const earlier = {};
+    recordPlaylist(earlier, challenge, "https://open.spotify.com/playlist/b");
+    expect(earlier).toEqual({});
   });
 });
 
