@@ -82,8 +82,15 @@ console.log(crypto.createHash('sha256').update(JSON.stringify(pool.tracks)).dige
 Then update `"contentHash"` at the top of the pool file.
 
 **The pool is "immutable by convention", not technically.** Intentional bug
-fixes (wrong year metadata) are fine to apply in place — track *selection* is
-ID-based and doesn't depend on year, so the golden fixture won't change.
+fixes (wrong year metadata) can be applied in place, but they are NOT free:
+the draw's difficulty guard (`MIN_INTERIOR`, per-decade cap) reads the years, so a
+corrected year can change which songs a day gets. Fixing 7 years on 2026-10-28
+changed the draw of 5 of the first 60 days, 3 of them already played
+(2026-09-28, 2026-10-19, 2026-10-23). Before committing a year fix, compare the
+draws of the old and corrected pool (`challengeFor` over the days already
+published) and decide whether changing those past days is acceptable. The golden
+fixture follows (`npx vite-node scripts/build-daily-golden.mjs`), and only the
+dates whose draw actually changed should differ in its diff.
 
 ### Watch out: smart quotes in pool-v1.json
 
