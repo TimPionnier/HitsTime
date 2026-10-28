@@ -16,6 +16,7 @@ import {
 } from './daily';
 import { placeAt, validate, nextRound, correctIndexFor } from './game';
 import poolV1 from '../daily/pools/pool-v1.json';
+import poolV2 from '../daily/pools/pool-v2.json';
 import golden from './daily.golden.json';
 import { POOL_REGISTRY, poolVersionFor } from '../daily/pools/registry';
 
@@ -25,7 +26,7 @@ import { POOL_REGISTRY, poolVersionFor } from '../daily/pools/registry';
  * reachable from the client bundle); tests are not bundled, so a direct import
  * is both safe and simpler.
  */
-const POOLS: Record<number, unknown> = { 1: poolV1 };
+const POOLS: Record<number, unknown> = { 1: poolV1, 2: poolV2 };
 const loadPool = async (version: number) => {
   const p = POOLS[version];
   if (!p) throw new Error(`Test pool v${version} not imported in daily.test.ts`);
@@ -181,7 +182,7 @@ describe('pool registry', () => {
 // Generation
 // ---------------------------------------------------------------------------
 
-describe('challengeFor', () => {
+describe.each([poolV1, poolV2] as DailyPool[])('challengeFor on pool v$version', (pool) => {
   it('deals an anchor plus exactly 10 scored rounds', async () => {
     const c = await challengeFor(EPOCH, pool);
     expect(c.draw).toHaveLength(ROUNDS);
@@ -284,7 +285,8 @@ describe('challengeFor', () => {
 describe('golden fixture', () => {
   it('matches the recorded ordered draw for known dates', async () => {
     for (const [date, expected] of Object.entries(golden)) {
-      const c = await challengeFor(date, pool);
+      // Each date is drawn from the pool the registry routes it to, as in production.
+      const c = await challengeFor(date, (await loadPool(poolVersionFor(date))) as DailyPool);
       expect([c.anchor, ...c.draw].map((t) => t.id).join(','), date).toBe(expected);
     }
   });

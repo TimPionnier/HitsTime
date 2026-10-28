@@ -23,6 +23,7 @@ export interface PoolEpoch {
 
 export const POOL_REGISTRY: PoolEpoch[] = [
   { version: 1, activeFrom: '2026-09-13' },
+  { version: 2, activeFrom: '2026-11-01' },
 ];
 
 export function poolVersionFor(dateISO: string): number {

@@ -1,0 +1,3398 @@
+{
+  "version": 2,
+  "contentHash": "86d529b33e5808b93e3b3ef9d77a73d65280d3d1dc51466954d27402883c0f3b",
+  "tracks": [
+    {
+      "id": "100052800",
+      "title": "Sugar",
+      "artist": "Maroon 5",
+      "year": 2014,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/f0a1d4442389bcd7919a7054f8c0b785/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "1009243502",
+      "title": "Une autre histoire",
+      "artist": "Gérard Blanc",
+      "year": 1986,
+      "decade": 1980,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/167824f92728a3625f5d988eec87a658/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "1013210122",
+      "title": "Supernature",
+      "artist": "Cerrone",
+      "year": 1977,
+      "decade": 1970,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/e4df6ef3d87bc1161744c2acfd21f61d/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "1015879",
+      "title": "Hits from the Bong",
+      "artist": "Cypress Hill",
+      "year": 1993,
+      "decade": 1990,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/ff3a4fbb250a131f8cf3f413814eb29a/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "10284847",
+      "title": "D.A.N.C.E",
+      "artist": "Justice",
+      "year": 2007,
+      "decade": 2000,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/e9029dc8a49a5a1772043d330a412874/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "1030591232",
+      "title": "Smooth Operator",
+      "artist": "Sade",
+      "year": 1984,
+      "decade": 1980,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/45443734d0de7e2f8ee2933992a14899/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "1030591242",
+      "title": "Your Love Is King",
+      "artist": "Sade",
+      "year": 1983,
+      "decade": 1980,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/45443734d0de7e2f8ee2933992a14899/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "1030607572",
+      "title": "Kiss of Life",
+      "artist": "Sade",
+      "year": 1992,
+      "decade": 1990,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/975b8e921822b6e01de1663ef02cee08/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "1030620102",
+      "title": "Jezebel",
+      "artist": "Sade",
+      "year": 1985,
+      "decade": 1980,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/0c504a53a501020e1dc78849ab5f23e6/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "10392073",
+      "title": "Don't Let the Sun Go Down on Me",
+      "artist": "George Michael",
+      "year": 1991,
+      "decade": 1990,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/4c9fd7e1257024bff5be2a795fc7e5ca/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "1049255",
+      "title": "Ma Baker (ZDF Starparade 02.06.1977)",
+      "artist": "Boney M.",
+      "year": 1977,
+      "decade": 1970,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/c8a1346a19ecfb73f417160d61b258eb/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "105966812",
+      "title": "Marly-Gomont",
+      "artist": "Kamini",
+      "year": 2006,
+      "decade": 2000,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/f90cf9ecf503d07eb8b09bdbfd12a36b/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "106095102",
+      "title": "Sapés comme jamais (feat. Niska) (Pilule bleue)",
+      "artist": "GIMS",
+      "year": 2015,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/a3878ba440ebc7e2d74c9454bfa21405/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "106713886",
+      "title": "Antidote",
+      "artist": "Travis Scott",
+      "year": 2015,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/c6fe182fb0f3485428906c7b21873046/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "1067383",
+      "title": "Knockin' On Heaven's Door",
+      "artist": "Bob Dylan",
+      "year": 1973,
+      "decade": 1970,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/5cf6a9bfecb45c6e6d5f5ec0b253e9d6/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "10686934",
+      "title": "Run the World (Girls)",
+      "artist": "Beyoncé",
+      "year": 2011,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/b9ffe6c9d8a81bfa273378f45b06deee/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "1086370",
+      "title": "La maladie d'amour",
+      "artist": "Michel Sardou",
+      "year": 1973,
+      "decade": 1970,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/a1902bc0ac20438c8d248ecadda6a018/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "108733464",
+      "title": "Hallelujah",
+      "artist": "Jeff Buckley",
+      "year": 1994,
+      "decade": 1990,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/57dd4754a69acaaf3a8a82f7fd1b8ad3/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "1090084",
+      "title": "Tostaky (Le continent)",
+      "artist": "Noir Désir",
+      "year": 1992,
+      "decade": 1990,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/3f9cfbb5bd268b2145b5ad8ab2380db4/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "1092293262",
+      "title": "Seven Nation Army",
+      "artist": "The White Stripes",
+      "year": 2003,
+      "decade": 2000,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/370483b6b448fafeeff053a1556467da/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "1093255",
+      "title": "The Letter",
+      "artist": "The Box Tops",
+      "year": 1967,
+      "decade": 1960,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/4121c91bc7df364427704ecf400652f1/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "1093562",
+      "title": "La madrague",
+      "artist": "Brigitte Bardot",
+      "year": 1963,
+      "decade": 1960,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/34456d7be935799832fbfde3a2ddab9b/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "10963353",
+      "title": "Enamorame",
+      "artist": "Papi Sanchez",
+      "year": 2003,
+      "decade": 2000,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/d41d8cd98f00b204e9800998ecf8427e/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "1109729",
+      "title": "My Name Is",
+      "artist": "Eminem",
+      "year": 1998,
+      "decade": 1990,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/e2b36a9fda865cb2e9ed1476b6291a7d/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "1109737",
+      "title": "The Real Slim Shady",
+      "artist": "Eminem",
+      "year": 2000,
+      "decade": 2000,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/e2b36a9fda865cb2e9ed1476b6291a7d/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "1110233612",
+      "title": "Bang Bang",
+      "artist": "Nancy Sinatra",
+      "year": 1966,
+      "decade": 1960,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/4efbfb8855b2fd1a68ea125a106d55f4/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "1115044",
+      "title": "Barbie Girl",
+      "artist": "Aqua",
+      "year": 1997,
+      "decade": 1990,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/89c2dae2b498dc9ca9151324d02eca2d/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "1123014",
+      "title": "Friday I'm In Love",
+      "artist": "The Cure",
+      "year": 1992,
+      "decade": 1990,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/f0f19ba90f7cde0d35cc1dfdad7949c8/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "1125083",
+      "title": "In Too Deep",
+      "artist": "Sum 41",
+      "year": 2001,
+      "decade": 2000,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/4980c272257aa0c38dc2d22972b72dfe/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "1132150",
+      "title": "L'aventurier",
+      "artist": "Indochine",
+      "year": 1982,
+      "decade": 1980,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/184c410ed1a734d985ae85211f7ab313/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "113420702",
+      "title": "All About That Bass",
+      "artist": "Meghan Trainor",
+      "year": 2014,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/14f6b5d6ab06d3bc46b15c67c15305f1/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "1141353",
+      "title": "Garçon",
+      "artist": "Koxie",
+      "year": 2007,
+      "decade": 2000,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/190d6afd72e7a7146bbd305bdd70f289/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "1141668",
+      "title": "In Da Club",
+      "artist": "50 Cent",
+      "year": 2002,
+      "decade": 2000,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/8f4dd4d8abf85ceda96b6b4adf217590/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "1143625",
+      "title": "Boys Don't Cry",
+      "artist": "The Cure",
+      "year": 1979,
+      "decade": 1970,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/21d780d99cbe7eb5e1d8b5d31fce28c8/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "1145880612",
+      "title": "BEBÉ",
+      "artist": "Camilo",
+      "year": 1997,
+      "decade": 1990,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/0b413c9ca7f9fe5e27ada305e0d8557a/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "1150885",
+      "title": "La poupée qui fait non",
+      "artist": "Michel Polnareff",
+      "year": 1966,
+      "decade": 1960,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/40c841e93cdf64f89a4a6d8eb8aa107c/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "1156139",
+      "title": "Monsoon",
+      "artist": "Tokio Hotel",
+      "year": 2006,
+      "decade": 2000,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/9b70d88cab1350a7792a06e904e9fbd0/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "1165849",
+      "title": "Mourir sur scène",
+      "artist": "Dalida",
+      "year": 1983,
+      "decade": 1980,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/a26538b9c73da431a6e5a46e9dc23d66/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "116914094",
+      "title": "Another Brick in the Wall, Pt. 2",
+      "artist": "Pink Floyd",
+      "year": 1979,
+      "decade": 1970,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/2bea643b92a8fc6b19a23756f718cbd4/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "1171163",
+      "title": "I'm Still Standing",
+      "artist": "Elton John",
+      "year": 1983,
+      "decade": 1980,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/3f099560bed3f4813a8bf71e203cd3f0/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "1172093",
+      "title": "Ridin'",
+      "artist": "Chamillionaire",
+      "year": 2005,
+      "decade": 2000,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/61731168bac0366142b80b66a4e31d74/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "11747914",
+      "title": "Born This Way",
+      "artist": "Lady Gaga",
+      "year": 2010,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/d0790a19ca7b37af16029e10209d323a/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "118190312",
+      "title": "Love On The Brain",
+      "artist": "Rihanna",
+      "year": 2016,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/4fc5f387624c25de0ec96b4719e3a36d/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "1184103",
+      "title": "Dancing Queen",
+      "artist": "ABBA",
+      "year": 1976,
+      "decade": 1970,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/6d99196c168eaf687e0d3c88a7a87604/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "118584992",
+      "title": "Coming Home",
+      "artist": "Leon Bridges",
+      "year": 2015,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/90201494d223cc2ca346ae029c2ad05f/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "120026876",
+      "title": "Panda",
+      "artist": "Desiigner",
+      "year": 2015,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/c8de97b0f63c2fc67106ca69198aee18/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "12207198",
+      "title": "I Cannot Think",
+      "artist": "Outlines",
+      "year": 2011,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/73f4da0edf0438cca65de9f32aa4d8e7/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "122450802",
+      "title": "Ain't Your Mama",
+      "artist": "Jennifer Lopez",
+      "year": 2016,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/ad148abf988309facb40399ba4a54cec/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "122810074",
+      "title": "Je m'en fous",
+      "artist": "Ridsa",
+      "year": 2016,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/4a01e05969e7c3556a59cac9cf131422/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "123902868",
+      "title": "Avant la douane",
+      "artist": "Jul",
+      "year": 2016,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/c6f6f11a1d8549830ac2f311e11cee6d/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "125600984",
+      "title": "Allo maman",
+      "artist": "SCH",
+      "year": 2016,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/07d50cc50f4d446b7cbe9016cd0b0c3a/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "126772729",
+      "title": "Ultralight Beam",
+      "artist": "Kanye West",
+      "year": 2016,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/e055ecc8d01680cda0460017087728be/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "128743581",
+      "title": "Still D.R.E.",
+      "artist": "Dr. Dre",
+      "year": 1997,
+      "decade": 1990,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/0d9a24d054cbc5ab11843beed9f1422b/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "13144809",
+      "title": "Crazy Train (2002 Version)",
+      "artist": "Ozzy Osbourne",
+      "year": 2002,
+      "decade": 2000,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/aeefa871f8cdbd97f7860be4b1c834b7/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "13208884",
+      "title": "Suavemente (Merengue)",
+      "artist": "Elvis Crespo",
+      "year": 1997,
+      "decade": 1990,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/582c08e356802d1b46f26bf2d8029edd/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "132123602",
+      "title": "DA",
+      "artist": "PNL",
+      "year": 2016,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/3722b6f876813ecf4bdf75443bf02da1/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "132123632",
+      "title": "Jusqu'au dernier gramme",
+      "artist": "PNL",
+      "year": 2016,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/3722b6f876813ecf4bdf75443bf02da1/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "132479804",
+      "title": "Coco Câline",
+      "artist": "Julien Doré",
+      "year": 2016,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/a587dce212f2d74edeecbb40a6f4fc32/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "132479808",
+      "title": "Le lac",
+      "artist": "Julien Doré",
+      "year": 2016,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/a587dce212f2d74edeecbb40a6f4fc32/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "132629130",
+      "title": "Face à la mer",
+      "artist": "Calogero",
+      "year": 2004,
+      "decade": 2000,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/fbecebeb55edda6227dc099e2d1648c2/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "13529565",
+      "title": "Man Down",
+      "artist": "Rihanna",
+      "year": 2011,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/3a12c64bb52a167944783878ffe41f02/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "1358779842",
+      "title": "Money For Nothing",
+      "artist": "Dire Straits",
+      "year": 1985,
+      "decade": 1980,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/07348a1ee308434ec12bd86a8eccadc6/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "136216916",
+      "title": "Un homme debout",
+      "artist": "Claudio Capéo",
+      "year": 2016,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/c58147e823b27db5d904d6aa4386ba67/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "136331272",
+      "title": "Bruxelles",
+      "artist": "Boulevard des airs",
+      "year": 2015,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/af7a763947a279c5d97a4ffda42d5948/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "136334560",
+      "title": "Losing My Religion",
+      "artist": "R.E.M.",
+      "year": 1990,
+      "decade": 1990,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/a968ed3814acb2ef8f3929b1bebcb42d/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "136710424",
+      "title": "Stand By Me",
+      "artist": "Ben E. King",
+      "year": 1961,
+      "decade": 1960,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/efe117f19e86acfddfb8d047f2d1ab06/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "136889400",
+      "title": "Starboy",
+      "artist": "The Weeknd",
+      "year": 2016,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/134778e4c4f19ea71c82408300925a9a/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "13783449",
+      "title": "Yeah! (feat. Lil Jon & Ludacris)",
+      "artist": "USHER",
+      "year": 2003,
+      "decade": 2000,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/b89c20012cccb051c8a4e04d98386f95/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "13791930",
+      "title": "Smells Like Teen Spirit",
+      "artist": "Nirvana",
+      "year": 1989,
+      "decade": 1980,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/f0282817b697279e56df13909962a54a/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "138544279",
+      "title": "Street Spirit (Fade Out)",
+      "artist": "Radiohead",
+      "year": 1994,
+      "decade": 1990,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/0d2ccaf5f7b35af57f3d9c8f4504a6e6/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "138547415",
+      "title": "Creep",
+      "artist": "Radiohead",
+      "year": 1992,
+      "decade": 1990,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/1dd56fd8824492e1a5106c99a00a85ec/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "138782813",
+      "title": "Parce qu'on vient de loin",
+      "artist": "Corneille",
+      "year": 2002,
+      "decade": 2000,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/ef6f1a474883ea9d8be2b81a09853073/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "139470659",
+      "title": "Shape of You",
+      "artist": "Ed Sheeran",
+      "year": 2017,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/107c2b43f10c249077c1f7618563bb63/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "140603113",
+      "title": "Point De Départ",
+      "artist": "Hugo TSR",
+      "year": 2012,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/addedd991e98eeec4923bd95ccd744d5/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "142342961",
+      "title": "Despacito",
+      "artist": "Luis Fonsi",
+      "year": 2017,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/2acd00fea8d601770b066c1becd2b555/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "14268341",
+      "title": "Couleur menthe à l'eau",
+      "artist": "Eddy Mitchell",
+      "year": 1980,
+      "decade": 1980,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/14988a77bb2aac58ad783ccc8a721aaa/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "14299463",
+      "title": "Still Loving You",
+      "artist": "Scorpions",
+      "year": 1984,
+      "decade": 1980,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/948018bb2183e9b6b26cbf7e6a3d3c9a/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "1436102212",
+      "title": "Tropicana",
+      "artist": "Vanilla Gorilla",
+      "year": 2016,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/d21617b8614e5709260ab5cc547ed56b/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "14383881",
+      "title": "Levels",
+      "artist": "Avicii",
+      "year": 2011,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/30bc3d8c348ddddb00c44f28d3120ac5/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "143859856",
+      "title": "Scarface",
+      "artist": "Booba",
+      "year": 2010,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/fc6b9ffb6d86733a81d3ce841bbfaca2/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "144010762",
+      "title": "Sweet",
+      "artist": "Cigarettes After Sex",
+      "year": 2017,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/2db20377876da16feb8ec9652e835a81/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "14405185",
+      "title": "Price Tag",
+      "artist": "Jessie J",
+      "year": 2011,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/2e830d5ee10ad8654e0d8ab70a18e54a/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "14407038",
+      "title": "Je reviens te chercher",
+      "artist": "Gilbert Bécaud",
+      "year": 1967,
+      "decade": 1960,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/cf8a07eb09b85af17831d454b9c79529/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "1449740592",
+      "title": "Happier Than Ever",
+      "artist": "Billie Eilish",
+      "year": 2020,
+      "decade": 2020,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/bb2880548dd3bc71fb97def2eedec130/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "1457107762",
+      "title": "Take My Breath (Single Version)",
+      "artist": "The Weeknd",
+      "year": 2021,
+      "decade": 2020,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/198af52fb6801a5881180232cb649f61/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "1481960232",
+      "title": "Bed Time Story",
+      "artist": "Poupie",
+      "year": 2021,
+      "decade": 2020,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/5196fcf0ccc6870407187350c626546f/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "1483940212",
+      "title": "Nos plus belles années",
+      "artist": "Grand Corps Malade",
+      "year": 2021,
+      "decade": 2020,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/cb9d3e9131f763943239cc0258f502f4/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "1490343272",
+      "title": "Le Dernier Jour du Disco",
+      "artist": "Juliette Armanet",
+      "year": 2021,
+      "decade": 2020,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/8a5e52d2583e2a2c5c7d3d23d13f68d5/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "15165360",
+      "title": "I Follow Rivers (The Magician Remix)",
+      "artist": "Lykke Li",
+      "year": 2011,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/a1563e2100137a95c7021af9a67e9111/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "15194531",
+      "title": "Wake Me Up Before You Go-Go",
+      "artist": "Wham!",
+      "year": 1984,
+      "decade": 1980,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/3c1858a4aa5d732a60c8cfcf424f24ef/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "15586213",
+      "title": "Born in the U.S.A.",
+      "artist": "Bruce Springsteen",
+      "year": 1984,
+      "decade": 1980,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/106f651bf559796879b90e83c50b3e96/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "1579265",
+      "title": "Sunday Bloody Sunday",
+      "artist": "U2",
+      "year": 1983,
+      "decade": 1980,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/c66b126bb3afe75c7fedd62f9df4956b/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "16148946",
+      "title": "Mrs. Robinson",
+      "artist": "Simon & Garfunkel",
+      "year": 1968,
+      "decade": 1960,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/bb0905baf2a3a0f915ae902a3b719525/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "16284181",
+      "title": "Beggin",
+      "artist": "Madcon",
+      "year": 2007,
+      "decade": 2000,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/fb4f1ca198b5a3cdef4b49b95f061cab/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "1645426722",
+      "title": "Stolen Dance",
+      "artist": "Milky Chance",
+      "year": 2013,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/f9d654c8dfbb4420827b542b9a7c1425/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "1685337397",
+      "title": "LA FAMA",
+      "artist": "ROSALÍA",
+      "year": 2021,
+      "decade": 2020,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/c9f9dbb45882f60cdcd4d66953aeaed7/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "1712667357",
+      "title": "Guantanamera",
+      "artist": "Joseìto Fernàndez",
+      "year": 1960,
+      "decade": 1960,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/0ef87c0c233597d480eeddfca6e481c9/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "17199784",
+      "title": "Je veux",
+      "artist": "Zaz",
+      "year": 2010,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/e1b8d63c75b2e36eaa5586ca9b8da1dd/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "17826508",
+      "title": "Call Me Maybe",
+      "artist": "Carly Rae Jepsen",
+      "year": 2011,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/d59ba2295d91292a8bcb372bad9d88be/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "1799359847",
+      "title": "Fly-day Chinatown",
+      "artist": "Yasuha",
+      "year": 1981,
+      "decade": 1980,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/eb81bdf045b47750132014e3f10b05c3/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "18190280",
+      "title": "Summertime Sadness",
+      "artist": "Lana Del Rey",
+      "year": 2012,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/4c2c6143c3e83a01ea73517c57d1d138/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "2133626",
+      "title": "I Say a Little Prayer",
+      "artist": "Aretha Franklin",
+      "year": 1968,
+      "decade": 1960,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/f57fe49a9f12ce5b3978d3d51df0ad63/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "2150228",
+      "title": "La tribu de Dana",
+      "artist": "Manau",
+      "year": 1998,
+      "decade": 1990,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/61386ee14b64cf72cde1e98f34764f02/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "2170507",
+      "title": "Rockollection",
+      "artist": "Laurent Voulzy",
+      "year": 1977,
+      "decade": 1970,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/07aef1b810308fa46eec0ba9e9becfa7/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "2173954687",
+      "title": "Running Up That Hill (A Deal With God)",
+      "artist": "Kate Bush",
+      "year": 1985,
+      "decade": 1980,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/22fedaf5d2b0ac8977b93bc1db7a4a2a/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "2176852",
+      "title": "Rehab",
+      "artist": "Amy Winehouse",
+      "year": 2006,
+      "decade": 2000,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/5772b495f0dcdf660d0fc88c4c38a3fa/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "2179942",
+      "title": "Le vent nous portera",
+      "artist": "Noir Désir",
+      "year": 2001,
+      "decade": 2000,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/4dec2ced9ee7ba97704ef6e68e6f3a79/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "2202840",
+      "title": "Joe le taxi",
+      "artist": "Vanessa Paradis",
+      "year": 1987,
+      "decade": 1980,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/54f063f0537cdf9243e752814f9a1aef/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "2206500507",
+      "title": "La symphonie des éclairs",
+      "artist": "Zaho de Sagazan",
+      "year": 2023,
+      "decade": 2020,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/2c7ce4b94a6f8472baf2f88597e84dbd/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "2235136",
+      "title": "Santiano",
+      "artist": "Hugues Aufray",
+      "year": 1961,
+      "decade": 1960,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/06ddd13c5a7e1be4f9168b66e4e7b01a/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "2263033",
+      "title": "Sultans Of Swing",
+      "artist": "Dire Straits",
+      "year": 1978,
+      "decade": 1970,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/1bf2bc47623db2ec36a38be064131ce5/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "2266776",
+      "title": "Vesoul",
+      "artist": "Jacques Brel",
+      "year": 1968,
+      "decade": 1960,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/bf99e1c8aa808d1d913cfdac9781c9fa/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "2267042",
+      "title": "I Was Made For Lovin' You",
+      "artist": "KISS",
+      "year": 1979,
+      "decade": 1970,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/22abb990857654105f908a558ea78bc1/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "2277531",
+      "title": "Tomber la chemise",
+      "artist": "Zebda",
+      "year": 1998,
+      "decade": 1990,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/ae8633f4d8b625aa64927c5ca72c2666/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "2293791",
+      "title": "Is This Love",
+      "artist": "Bob Marley & The Wailers",
+      "year": 1978,
+      "decade": 1970,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/6367879e2e914efb1a5e546c7492ca0f/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "2295357",
+      "title": "Je sais pas jouer",
+      "artist": "Pierpoljak",
+      "year": 1998,
+      "decade": 1990,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/42004cdbb38e28a508d3c060d6989fbe/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "2296224",
+      "title": "À bicyclette",
+      "artist": "Yves Montand",
+      "year": 1968,
+      "decade": 1960,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/ab7a066bc97ed50e57d4c6669a426ba0/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "2312047",
+      "title": "Ain't No Sunshine",
+      "artist": "Bill Withers",
+      "year": 1971,
+      "decade": 1970,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/0a582ace7dda823714f8eaaa74ab9505/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "2321278",
+      "title": "California Dreamin' (Single Version)",
+      "artist": "The Mamas & The Papas",
+      "year": 1965,
+      "decade": 1960,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/dfa9363d1ff6372e0e321dbc9da46ec9/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "2329763",
+      "title": "J'veux du soleil",
+      "artist": "Au P'Tit Bonheur",
+      "year": 1991,
+      "decade": 1990,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/2024162542d6a6b8c451e773fc12fe22/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "2329884",
+      "title": "Le pénitencier",
+      "artist": "Johnny Hallyday",
+      "year": 1964,
+      "decade": 1960,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/4e0da18c2c62b11ca5eb58db536158a0/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "2386586085",
+      "title": "FE!N (feat. Playboi Carti)",
+      "artist": "Travis Scott",
+      "year": 2023,
+      "decade": 2020,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/6d7164fecb39ddee0cb15952e750d907/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "2420855",
+      "title": "Les copains d'abord",
+      "artist": "Georges Brassens",
+      "year": 1964,
+      "decade": 1960,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/27f0a1c925b268ff74eaf27c08a3d571/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "2425807",
+      "title": "Désenchantée",
+      "artist": "Mylène Farmer",
+      "year": 1991,
+      "decade": 1990,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/f905141f169ecf733b9540393778c3f5/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "2434859",
+      "title": "Les sunlights des tropiques",
+      "artist": "Gilbert Montagné",
+      "year": 1984,
+      "decade": 1980,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/71d03ce006c61a15f4284c9598757cdf/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "2434861",
+      "title": "On va s'aimer",
+      "artist": "Gilbert Montagné",
+      "year": 1983,
+      "decade": 1980,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/71d03ce006c61a15f4284c9598757cdf/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "2447727",
+      "title": "Holidays",
+      "artist": "Michel Polnareff",
+      "year": 1972,
+      "decade": 1970,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/c24f1c27a0613faa2e4485cd15533993/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "2459887",
+      "title": "Louxor j'adore",
+      "artist": "Philippe Katerine",
+      "year": 2005,
+      "decade": 2000,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/b7ad58cdd7964b5ab0311adf43954b3b/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "2498167",
+      "title": "A Forest",
+      "artist": "The Cure",
+      "year": 1980,
+      "decade": 1980,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/e7bc87da0296382c7089aa7631f00058/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "2503274",
+      "title": "The Logical Song",
+      "artist": "Supertramp",
+      "year": 1979,
+      "decade": 1970,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/6e982953fde60522577ef2958a17faa2/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "2514681",
+      "title": "Money For Nothing",
+      "artist": "Dire Straits",
+      "year": 1985,
+      "decade": 1980,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/0aeeab7a9ef9dcc03e3c6490f9bf822d/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "2514683",
+      "title": "Walk Of Life",
+      "artist": "Dire Straits",
+      "year": 1980,
+      "decade": 1980,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/0aeeab7a9ef9dcc03e3c6490f9bf822d/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "2515365",
+      "title": "Russians",
+      "artist": "Sting",
+      "year": 1985,
+      "decade": 1980,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/2e14c624581232938a446ce065e2815b/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "2545077",
+      "title": "Voulez-Vous",
+      "artist": "ABBA",
+      "year": 1979,
+      "decade": 1970,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/f313d9969203ea1735144a35ef26fa49/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "2553265",
+      "title": "Halo",
+      "artist": "Beyoncé",
+      "year": 2008,
+      "decade": 2000,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/7cf0bdc409e7a7898c745bf0244df312/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "2576083",
+      "title": "Je suis un homme",
+      "artist": "Zazie",
+      "year": 2007,
+      "decade": 2000,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/434f94ee6f80109dc265f60c134b996d/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "2603558",
+      "title": "Poker Face",
+      "artist": "Lady Gaga",
+      "year": 2008,
+      "decade": 2000,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/cc24d60a998e1a296f0c22efa8ddffd2/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "2628769",
+      "title": "Le sud",
+      "artist": "Nino Ferrer",
+      "year": 1975,
+      "decade": 1970,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/0be242d7aab897e7192f1445a8281057/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "2675166",
+      "title": "Right Now (Na Na Na)",
+      "artist": "Akon",
+      "year": 2008,
+      "decade": 2000,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/c3f2cf3cdf41b120fc142fa78779ece5/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "2689640",
+      "title": "Sweet Little Sixteen",
+      "artist": "Chuck Berry",
+      "year": 1958,
+      "decade": 1950,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/eefa31f08fa80445a1e3a592b86e459a/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "2705328082",
+      "title": "Caruso",
+      "artist": "Luciano Pavarotti",
+      "year": 1977,
+      "decade": 1970,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/eeca355768ab824cc53c25f516d0d633/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "2716195452",
+      "title": "Hélèna",
+      "artist": "Dalida",
+      "year": 1958,
+      "decade": 1950,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/19b8b447efe08967601240585490ffc1/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "2716232402",
+      "title": "Le temps des fleurs",
+      "artist": "Dalida",
+      "year": 1968,
+      "decade": 1960,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/9fe77b6e663bfbf6b5fbe5185ccd05ec/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "27533081",
+      "title": "Boogie Wonderland (with The Emotions)",
+      "artist": "Earth, Wind & Fire",
+      "year": 1979,
+      "decade": 1970,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/e192f4eaf270f9f36ccc59264fb05c7c/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "2801558082",
+      "title": "L’AMOUR DE MA VIE",
+      "artist": "Billie Eilish",
+      "year": 2024,
+      "decade": 2020,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/5d284b31cb9ddeb1a0c79aede5a94e1c/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "2806039702",
+      "title": "Purple Rain",
+      "artist": "Prince",
+      "year": 1984,
+      "decade": 1980,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/526d2d27a16da94b6f46fa4e786a34c9/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "2862281",
+      "title": "Ça m'énerve",
+      "artist": "Helmut Fritz",
+      "year": 2009,
+      "decade": 2000,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/2e0cf258c7a7a6fdffaed02dcd10bfa7/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "3032835891",
+      "title": "Tic, Tic, Tac",
+      "artist": "Carrapicho",
+      "year": 1996,
+      "decade": 1990,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/68c6b783be3b0bb994d1574de61ba23f/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "3045169941",
+      "title": "CIEL",
+      "artist": "GIMS",
+      "year": 2024,
+      "decade": 2020,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/44085ed4a534386f2baef3fac0c4333d/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "3065108721",
+      "title": "Die For You",
+      "artist": "Joji",
+      "year": 2022,
+      "decade": 2020,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/36aecc47636b326efc3987120dcf4c65/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "3089507",
+      "title": "Voilà c'est fini",
+      "artist": "Jean-Louis Aubert",
+      "year": 1989,
+      "decade": 1980,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/22e416ccb83a3dac4cd2b864aed58ae8/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "3091964",
+      "title": "I Get Around",
+      "artist": "The Beach Boys",
+      "year": 1964,
+      "decade": 1960,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/ab113555b056cb808b050dff43a9590a/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "3091966",
+      "title": "Surfin' U.S.A.",
+      "artist": "The Beach Boys",
+      "year": 1963,
+      "decade": 1960,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/ab113555b056cb808b050dff43a9590a/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "3091978",
+      "title": "Wouldn't It Be Nice",
+      "artist": "The Beach Boys",
+      "year": 1966,
+      "decade": 1960,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/ab113555b056cb808b050dff43a9590a/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "3091992",
+      "title": "Good Vibrations",
+      "artist": "The Beach Boys",
+      "year": 1966,
+      "decade": 1960,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/ab113555b056cb808b050dff43a9590a/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "3097531",
+      "title": "Je danse le Mia (Le terrible Funk Remix Extended)",
+      "artist": "IAM",
+      "year": 1994,
+      "decade": 1990,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/7e48a0e39690707823494da3e6a8e62c/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "3116650921",
+      "title": "Famille",
+      "artist": "Ben Mazué",
+      "year": 2025,
+      "decade": 2020,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/f8b486f2fc5f68f58d55514b15de04a8/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "3116875",
+      "title": "Un autre monde",
+      "artist": "Telephone",
+      "year": 1984,
+      "decade": 1980,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/bb659a511250094b4d1000c625a48d40/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "3116965141",
+      "title": "Should I",
+      "artist": "Rilès",
+      "year": 2016,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/fef999ee4d6ca80a3afc72ccb2e03084/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "3125744",
+      "title": "Red Red Wine",
+      "artist": "UB40",
+      "year": 1983,
+      "decade": 1980,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/67649d26b73794c3f2ad26be81a7b343/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "3129407",
+      "title": "Feel Good Inc.",
+      "artist": "Gorillaz",
+      "year": 2005,
+      "decade": 2000,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/3dc29a565149240729afc08e1f251b46/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "3129431",
+      "title": "Caravane",
+      "artist": "Raphaël",
+      "year": 2005,
+      "decade": 2000,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/368626f3f178b6925c036f0c76dc7335/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "3132726",
+      "title": "Foule sentimentale",
+      "artist": "Alain Souchon",
+      "year": 1993,
+      "decade": 1990,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/beca67efc4b98663f08e2a3cf4d5c137/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "3133738",
+      "title": "Wannabe",
+      "artist": "Spice Girls",
+      "year": 1995,
+      "decade": 1990,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/18c4f2d9608910a2b8eb1835052e895b/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "3135183",
+      "title": "Angela",
+      "artist": "Saïan Supa Crew",
+      "year": 1999,
+      "decade": 1990,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/5d7e7bb5a37d485cf1783f349d74fdf5/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "3135553",
+      "title": "One More Time",
+      "artist": "Daft Punk",
+      "year": 2000,
+      "decade": 2000,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/5718f7c81c27e0b2417e2a4c45224f8a/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "3135556",
+      "title": "Harder, Better, Faster, Stronger",
+      "artist": "Daft Punk",
+      "year": 2001,
+      "decade": 2000,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/5718f7c81c27e0b2417e2a4c45224f8a/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "3155135",
+      "title": "House of the Rising Sun",
+      "artist": "The Animals",
+      "year": 1964,
+      "decade": 1960,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/fcfd5b42f95e8e1e87e717a64b8d2fdb/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "3157972",
+      "title": "Viva La Vida",
+      "artist": "Coldplay",
+      "year": 2007,
+      "decade": 2000,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/eede3cd0dc3a5a87c7a5b1085b022e2d/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "3165861441",
+      "title": "Gasolina",
+      "artist": "Daddy Yankee",
+      "year": 2004,
+      "decade": 2000,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/d386e42d5c4dfb603e958371b79869f5/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "3171003131",
+      "title": "DtMF",
+      "artist": "Bad Bunny",
+      "year": 2025,
+      "decade": 2020,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/d98eaccfbb945bdf68241d6de7fe6a49/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "3256033",
+      "title": "Cendrillon",
+      "artist": "Telephone",
+      "year": 1982,
+      "decade": 1980,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/aac2d20da0a381b6f3ad4289da140fbd/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "3260573291",
+      "title": "Avenir",
+      "artist": "Louane",
+      "year": 2014,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/990bf2180240180a175ef5a316857aaa/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "3288307",
+      "title": "La Puissance",
+      "artist": "Rohff",
+      "year": 1999,
+      "decade": 1990,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/84ec9a508bd5152c7fa706dbad96d513/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "3334996",
+      "title": "Respire",
+      "artist": "Mickey 3D",
+      "year": 2002,
+      "decade": 2000,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/f21817df11a59593996e806b98781b6b/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "3376073381",
+      "title": "LA NUIT",
+      "artist": "Pomme",
+      "year": 2025,
+      "decade": 2020,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/594190b2e97fccadfca723573eb588ca/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "3413067",
+      "title": "Douce France",
+      "artist": "Charles Trenet",
+      "year": 1947,
+      "decade": 1940,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/a97228292dd48e6a0fa646151a3a1c7a/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "3413187",
+      "title": "La bohème",
+      "artist": "Charles Aznavour",
+      "year": 1965,
+      "decade": 1960,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/4a745ed02e6678ab0e1f85ad45f3d701/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "3435031",
+      "title": "Sur la route",
+      "artist": "De Palmas",
+      "year": 1994,
+      "decade": 1990,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/2edf5ee5ac26c7f1ba649c96ed0bc05c/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "3437034",
+      "title": "La Boulette (Génération Nan Nan)",
+      "artist": "Diam's",
+      "year": 2006,
+      "decade": 2000,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/05490ffeee00a99568b3189f6ab41e37/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "3437460",
+      "title": "DJ",
+      "artist": "Diam's",
+      "year": 2002,
+      "decade": 2000,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/fa2a5fe991d3373585a04662d7e3aea4/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "346967941",
+      "title": "I'm So Excited",
+      "artist": "The Pointer Sisters",
+      "year": 1982,
+      "decade": 1980,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/3744e9fc5f2d34c051d0c01bf4ff0d9c/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "349384731",
+      "title": "Prince charmant",
+      "artist": "Keen' V",
+      "year": 2011,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/236ebac9bde67d4b482b5f17a3f06666/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "350027751",
+      "title": "How Deep Is Your Love",
+      "artist": "Bee Gees",
+      "year": 1977,
+      "decade": 1970,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/ff58c365559fb6061db49dbdcfdf2287/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "350171311",
+      "title": "HUMBLE.",
+      "artist": "Kendrick Lamar",
+      "year": 2017,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/7ce6b8452fae425557067db6e6a1cad5/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "351594981",
+      "title": "Treat You Better",
+      "artist": "Shawn Mendes",
+      "year": 2016,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/13257668a9231947a74dcbd41c6e3933/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "3528163",
+      "title": "Tu m'oublieras",
+      "artist": "Larusso",
+      "year": 1998,
+      "decade": 1990,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/1304b43db2412a723e3bb883a00fa084/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "3529770711",
+      "title": "Dior",
+      "artist": "Pop Smoke",
+      "year": 2019,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/c60ab6af35bf2a1d38f385b9ba7372ff/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "354918041",
+      "title": "Θ. Macarena",
+      "artist": "Damso",
+      "year": 2017,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/79ba3cd515942d1dc62f49f859a374fd/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "355628131",
+      "title": "Je veux nager",
+      "artist": "Arno",
+      "year": 2002,
+      "decade": 2000,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/ba25f43e3d393a519987c32757eb9cb0/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "355709931",
+      "title": "L'envie",
+      "artist": "Johnny Hallyday",
+      "year": 1986,
+      "decade": 1980,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/20647a7d478dd345842a05d3c4c14c5d/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "355774881",
+      "title": "Marcia Baïla",
+      "artist": "Les Rita Mitsouko",
+      "year": 1984,
+      "decade": 1980,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/2634d7a41d773facd64fca07b84ba5e5/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "3558373981",
+      "title": "melodrama",
+      "artist": "disiz",
+      "year": 2025,
+      "decade": 2020,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/f2d340d41d5612ed3d875e64c300c732/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "3578286",
+      "title": "Who's Lovin' You",
+      "artist": "Jackson 5",
+      "year": 1969,
+      "decade": 1960,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/15cf2ca6ff8015125a6068cd5422674b/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "3588926901",
+      "title": "Stateside + Zara Larsson",
+      "artist": "PinkPantheress",
+      "year": 2025,
+      "decade": 2020,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/f2be3085c69d623de17f54115c31514e/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "360301951",
+      "title": "Sign of the Times",
+      "artist": "Harry Styles",
+      "year": 2017,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/a41167cfcc7e840821fad5f5f5f91da2/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "364951",
+      "title": "Daddy Cool",
+      "artist": "Boney M.",
+      "year": 1976,
+      "decade": 1970,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/c2ecc5f062629f42115e28f9a2b6ccd0/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "364962",
+      "title": "Rasputin",
+      "artist": "Boney M.",
+      "year": 1978,
+      "decade": 1970,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/1c8adc5ca978db9e7a07e61de2becd3f/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "365234",
+      "title": "Aux arbres citoyens",
+      "artist": "Yannick Noah",
+      "year": 2006,
+      "decade": 2000,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/64af00960cd146339b7915c81f0e3c64/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "37027921",
+      "title": "As Long As You Love Me",
+      "artist": "Justin Bieber",
+      "year": 2012,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/312ece7b31fb86c7a13afd757e99437c/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "370304431",
+      "title": "Mala Vida",
+      "artist": "Mano Negra",
+      "year": 1988,
+      "decade": 1980,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/e37fbc7fad8352359d367a0f34a8ed5c/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "371636731",
+      "title": "La lettre",
+      "artist": "Renan Luce",
+      "year": 2006,
+      "decade": 2000,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/b49dce8f007166bbb2d2f6b8dd5f7d50/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "3750650202",
+      "title": "Chan Chan",
+      "artist": "Buena Vista Social Club",
+      "year": 1997,
+      "decade": 1990,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/f1c80ecded74da97fb95413acb79d7c8/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "3750996632",
+      "title": "Lemon Tree",
+      "artist": "Fools Garden",
+      "year": 1995,
+      "decade": 1990,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/31e10efa1be6cda1f97a17b94175f79b/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "376193921",
+      "title": "Ma révolution",
+      "artist": "Jenifer",
+      "year": 2004,
+      "decade": 2000,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/139fdd6af30d1ece36c337ead420a380/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "3766762",
+      "title": "Perdu D'avance",
+      "artist": "Orelsan",
+      "year": 2009,
+      "decade": 2000,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/f7061d4e6fa7484202371ce3b0f80b95/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "3783107532",
+      "title": "Aline",
+      "artist": "Christophe",
+      "year": 1965,
+      "decade": 1960,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/a568ba9fe33f078e2633000c55ba2965/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "3786034662",
+      "title": "Une belle histoire",
+      "artist": "Michel Fugain",
+      "year": 1972,
+      "decade": 1970,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/a73eb3fa9e4b8b55b064fc76970ee7a3/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "3786102682",
+      "title": "L'amour c'est comme une cigarette",
+      "artist": "Sylvie Vartan",
+      "year": 1981,
+      "decade": 1980,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/e9d9d30fddfb018e8a4c729a08a2b0d3/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "3786127122",
+      "title": "La Maritza",
+      "artist": "Sylvie Vartan",
+      "year": 1968,
+      "decade": 1960,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/c439941f687f6a0c8369e1704b32a1f7/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "3786211662",
+      "title": "Hijo de la Luna",
+      "artist": "Mecano",
+      "year": 1986,
+      "decade": 1980,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/add801939478bda961afaa51a51ebf6f/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "3788311",
+      "title": "I Gotta Feeling",
+      "artist": "Black Eyed Peas",
+      "year": 2009,
+      "decade": 2000,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/ea30377840f4ef9ac62406c5e16e9c4b/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "3801343472",
+      "title": "What Is Love (7” Mix)",
+      "artist": "Haddaway",
+      "year": 1993,
+      "decade": 1990,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/98132e4a28124777b1704c25f6c14993/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "3809086042",
+      "title": "YMCA",
+      "artist": "Village People",
+      "year": 1978,
+      "decade": 1970,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/8752281bbdf1731cd7e1f4c90c4f96f5/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "3821992",
+      "title": "Just the Two of Us",
+      "artist": "Grover Washington, Jr.",
+      "year": 1978,
+      "decade": 1970,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/16e68170112a7a2a51759623e4a8b516/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "383742181",
+      "title": "Dead And Gone",
+      "artist": "T.I.",
+      "year": 2008,
+      "decade": 2000,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/f4c83cd8eebca6f61ee616f78160c99d/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "3869280421",
+      "title": "Téléphone-moi",
+      "artist": "Nicole Croisille",
+      "year": 1975,
+      "decade": 1970,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/a78841722d0c768c1b3a0e9ee91a73c8/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "3903961331",
+      "title": "Dream On",
+      "artist": "Aerosmith",
+      "year": 1973,
+      "decade": 1970,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/53e99dd8c5810800b878f7b5602679f6/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "3957741",
+      "title": "A Horse with No Name",
+      "artist": "America",
+      "year": 1971,
+      "decade": 1970,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/f2d64f55bde65b0c77c7a15c9dd01f8d/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "398055682",
+      "title": "Jocelyn Flores",
+      "artist": "XXXTentacion",
+      "year": 2017,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/b7d770d1049a3d4742d5ac0759b501e9/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "400407142",
+      "title": "Là-haut",
+      "artist": "Hugo TSR",
+      "year": 2017,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/f3385bd2d457d1936965313d1828e5a9/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "4091932171",
+      "title": "Under Pressure (feat. David Bowie)",
+      "artist": "Queen",
+      "year": 1981,
+      "decade": 1980,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/051352b56a65f61a396e22bd5ec0687a/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "4091937381",
+      "title": "Love of My Life",
+      "artist": "Queen",
+      "year": 1975,
+      "decade": 1970,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/0b56f4eee05fa1ea753c5654b2cdb70c/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "4108057",
+      "title": "Les démons de minuit",
+      "artist": "Images",
+      "year": 1986,
+      "decade": 1980,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/7db9815f0197eab20328b8ff4c98a8ad/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "4126793151",
+      "title": "My Name Is Stain",
+      "artist": "Shaka Ponk",
+      "year": 2011,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/0685a6a08baac9cd42b156489c307df6/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "413396422",
+      "title": "Manhattan-Kaboul",
+      "artist": "Renaud",
+      "year": 2002,
+      "decade": 2000,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/40e15835a87c5fd85962b4302440bb5a/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "4209315",
+      "title": "L'Assasymphonie",
+      "artist": "Mozart Opera Rock",
+      "year": 2009,
+      "decade": 2000,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/bbae773890b2d2208e07024cfcb74ddd/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "4210321",
+      "title": "These Boots Are Made for Walkin'",
+      "artist": "Nancy Sinatra",
+      "year": 1965,
+      "decade": 1960,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/b4a8b52e471c433dff594ae83c382f9b/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "426703682",
+      "title": "Hotel California",
+      "artist": "Eagles",
+      "year": 1976,
+      "decade": 1970,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/7a6c7b49cfdaf4ee233f66c3070d2f40/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "427219162",
+      "title": "Stayin' Alive (From \"Saturday Night Fever\" Soundtrack)",
+      "artist": "Bee Gees",
+      "year": 1977,
+      "decade": 1970,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/315772aec36013c1c0653d9dee37cffd/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "4298172",
+      "title": "Voyage voyage",
+      "artist": "Desireless",
+      "year": 1986,
+      "decade": 1980,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/3fcbfc72be5ad78fa6277eb5dc5df8d3/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "434625962",
+      "title": "Mambo No. 5 (a Little Bit of...)",
+      "artist": "Lou Bega",
+      "year": 1999,
+      "decade": 1990,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/83254823ee7c07af437ab0db991c798a/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "441178812",
+      "title": "idontwannabeyouanymore",
+      "artist": "Billie Eilish",
+      "year": 2017,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/c6e5ffd676146c447a4a81819c5d29ae/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "445894132",
+      "title": "Sabali",
+      "artist": "Amadou & Mariam",
+      "year": 2008,
+      "decade": 2000,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/1609988e59f75210f745c33a3caac8e4/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "455225312",
+      "title": "A la Folie",
+      "artist": "Juliette Armanet",
+      "year": 2017,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/62ebdf5e733890c90025df6e6b37efe1/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "461043312",
+      "title": "Heroes",
+      "artist": "David Bowie",
+      "year": 1977,
+      "decade": 1970,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/5fb91018679f65199308256be3c584ab/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "46280411",
+      "title": "La groupie du pianiste",
+      "artist": "Michel Berger",
+      "year": 1980,
+      "decade": 1980,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/63f38e23e016e4a83c1bb9c49622be99/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "46300831",
+      "title": "Il jouait du piano debout",
+      "artist": "France Gall",
+      "year": 1980,
+      "decade": 1980,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/e66fd76a84fa2b80d972a3ca6c902f2d/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "46307001",
+      "title": "Résiste",
+      "artist": "France Gall",
+      "year": 1981,
+      "decade": 1980,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/c8d29ebe164252a86c614c9bf2e9f69d/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "46307091",
+      "title": "Le paradis blanc",
+      "artist": "Michel Berger",
+      "year": 1990,
+      "decade": 1990,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/33035f226d5a01b14d6d1de3a8d1f7d3/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "4709937",
+      "title": "Bad Romance",
+      "artist": "Lady Gaga",
+      "year": 2009,
+      "decade": 2000,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/62f368993ddb68c5364cd03221d07ac6/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "4709944",
+      "title": "Telephone",
+      "artist": "Lady Gaga",
+      "year": 2009,
+      "decade": 2000,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/62f368993ddb68c5364cd03221d07ac6/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "476739462",
+      "title": "The Ketchup Song (Aserejé) (Spanish Version)",
+      "artist": "Las Ketchup",
+      "year": 2002,
+      "decade": 2000,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/be45674dc35c8f974a934dc3779c7b59/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "486385722",
+      "title": "The Big Tree",
+      "artist": "Stand High Patrol",
+      "year": 2012,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/86b2738a955772821df734c5ff5ca4f3/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "4969003",
+      "title": "Hey Joe",
+      "artist": "Jimi Hendrix",
+      "year": 1966,
+      "decade": 1960,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/b83888148da4c3978b9c3870d8cb3166/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "501851822",
+      "title": "MALAMENTE",
+      "artist": "ROSALÍA",
+      "year": 2018,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/d9dd828f4b0208ce51c0b58e7091466b/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "503169162",
+      "title": "Praise The Lord (Da Shine) (feat. Skepta)",
+      "artist": "A$AP Rocky",
+      "year": 2018,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/f3b412a4f69c59dfb46583a93995f565/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "5151905",
+      "title": "Mistral gagnant",
+      "artist": "Renaud",
+      "year": 1985,
+      "decade": 1980,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/83a7a070a8239c8d479fe2eb7ee38408/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "519797812",
+      "title": "Toto et Ninetta",
+      "artist": "Jul",
+      "year": 2018,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/6dbd163dd100518fa8d3d9c54f1f229d/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "529117801",
+      "title": "I Knew You Were Trouble.",
+      "artist": "Taylor Swift",
+      "year": 2012,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/56a83d3002710bf2044b86c01db665aa/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "535033782",
+      "title": "In the Air Tonight",
+      "artist": "Phil Collins",
+      "year": 1981,
+      "decade": 1980,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/5021ed24548defa6b9d2c924b4f876f3/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "538706952",
+      "title": "Hot Stuff",
+      "artist": "Donna Summer",
+      "year": 1979,
+      "decade": 1970,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/2d6faf79614d81cf881f8500dd25598b/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "540428",
+      "title": "Les cactus",
+      "artist": "Jacques Dutronc",
+      "year": 1966,
+      "decade": 1960,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/4b3410fb489d544ce96cf32cd768f8dc/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "540432",
+      "title": "Il est cinq heures, Paris s'éveille",
+      "artist": "Jacques Dutronc",
+      "year": 1968,
+      "decade": 1960,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/4b3410fb489d544ce96cf32cd768f8dc/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "541848",
+      "title": "Footloose",
+      "artist": "Kenny Loggins",
+      "year": 1984,
+      "decade": 1980,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/b24e2f371b5270ffee98e6fcb3ae3bb3/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "5420471",
+      "title": "Whatcha Say",
+      "artist": "Jason Derulo",
+      "year": 2009,
+      "decade": 2000,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/27386b7a34a432c964078d3cff59cf6f/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "542254",
+      "title": "Laisse pas traîner ton fils",
+      "artist": "Suprême NTM",
+      "year": 1998,
+      "decade": 1990,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/83338a0c87e1cc5a330981d7398a20bb/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "54519761",
+      "title": "Happy",
+      "artist": "C2C",
+      "year": 2012,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/fb2b1fbdb9779c146ef7bee3c4d00507/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "545793672",
+      "title": "Toi + Moi",
+      "artist": "Gregoire",
+      "year": 2005,
+      "decade": 2000,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/12e52c003bab1dae558a6f3ff7374ae2/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "546875572",
+      "title": "Balance ton quoi",
+      "artist": "Angèle",
+      "year": 2018,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/4a2360324af313f73b56fd1f7faaac88/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "54790571",
+      "title": "C’est la vie",
+      "artist": "Khaled",
+      "year": 1995,
+      "decade": 1990,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/98cbfc20b96d9376de1d8af10d2bfb8a/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "551991",
+      "title": "Petite Marie",
+      "artist": "Francis Cabrel",
+      "year": 1977,
+      "decade": 1970,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/fec7b3911430fde79d3de8fdc9a7c4c4/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "5606967",
+      "title": "Baby",
+      "artist": "Justin Bieber",
+      "year": 2009,
+      "decade": 2000,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/39aa26b45fa69cd89b8ef1a46f106c43/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "561683",
+      "title": "L'été indien",
+      "artist": "Joe Dassin",
+      "year": 1975,
+      "decade": 1970,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/97672f0531b1e9f65473ae20eeab84b6/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "561686",
+      "title": "Et si tu n'existais pas",
+      "artist": "Joe Dassin",
+      "year": 1975,
+      "decade": 1970,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/97672f0531b1e9f65473ae20eeab84b6/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "561836",
+      "title": "Sweet Dreams (Are Made of This)",
+      "artist": "Eurythmics",
+      "year": 1983,
+      "decade": 1980,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/364f0d4ea4b5452b59e6664b9e5480f0/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "561856742",
+      "title": "Shallow",
+      "artist": "Lady Gaga",
+      "year": 2018,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/88a8288e14f61ffa39c14ac2ef9210d8/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "5639255",
+      "title": "Wati by Night",
+      "artist": "Sexion d'Assaut",
+      "year": 2010,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/00cb64e8f7241cd51899b88a616eecf2/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "565420",
+      "title": "Ma philosophie",
+      "artist": "Amel Bent",
+      "year": 2004,
+      "decade": 2000,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/6a10abd77e2794541f2ad9836de961fa/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "56889611",
+      "title": "Ce que l'on s'aime",
+      "artist": "Tryo",
+      "year": 2008,
+      "decade": 2000,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/8338c70609aa2c02cb7ddcd6b9327ad4/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "570650",
+      "title": "Somebody to Love",
+      "artist": "Jefferson Airplane",
+      "year": 1967,
+      "decade": 1960,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/31a1edf24e4a10da27c99d39c183aa71/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "576431",
+      "title": "Eye of the Tiger",
+      "artist": "Survivor",
+      "year": 1981,
+      "decade": 1980,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/e66b5d3a40f69690c1633afb73cc590c/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "580936",
+      "title": "Say My Name",
+      "artist": "Destiny's Child",
+      "year": 1998,
+      "decade": 1990,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/73da200f9335f752d2f7cb5ed8933cef/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "582252",
+      "title": "Toxic",
+      "artist": "Britney Spears",
+      "year": 2004,
+      "decade": 2000,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/34265ac018fe0d973eac131fe04038a2/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "583033",
+      "title": "Le dîner",
+      "artist": "Bénabar",
+      "year": 2005,
+      "decade": 2000,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/19bb9a2e32f6145ec193026d4967365a/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "593690882",
+      "title": "I Put A Spell On You",
+      "artist": "Nina Simone",
+      "year": 1965,
+      "decade": 1960,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/500185991bdc8910511f9381d0731f0a/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "593690942",
+      "title": "Feeling Good",
+      "artist": "Nina Simone",
+      "year": 1965,
+      "decade": 1960,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/500185991bdc8910511f9381d0731f0a/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "595411042",
+      "title": "Maneater",
+      "artist": "Daryl Hall & John Oates",
+      "year": 1982,
+      "decade": 1980,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/43017fb510e98468316ea03262503344/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "596537",
+      "title": "Dans les yeux d'Émilie",
+      "artist": "Joe Dassin",
+      "year": 1977,
+      "decade": 1970,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/94c6a1a266ad1ffaa4ee94937760a8e2/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "598449072",
+      "title": "Écris l'histoire",
+      "artist": "Grégory Lemarchal",
+      "year": 2005,
+      "decade": 2000,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/740c4d8c36bf7a7de9b5fc050d548586/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "60455491",
+      "title": "Les filles de mon pays",
+      "artist": "Enrico Macias",
+      "year": 1964,
+      "decade": 1960,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/7c9ec9d48b599c0e8f81c7763180b9e3/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "60726278",
+      "title": "Gangnam Style (강남스타일)",
+      "artist": "Psy",
+      "year": 2012,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/45e4493fcc15997085491debddcf049e/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "60741780",
+      "title": "Elle me dit",
+      "artist": "Mika",
+      "year": 2011,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/068384192aba5d1bd3f8166f1a965af1/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "609244",
+      "title": "Crazy In Love (feat. JAŸ-Z)",
+      "artist": "Beyoncé",
+      "year": 2003,
+      "decade": 2000,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/1ea1a631aa5235bbd0063643beb96fa8/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "613093802",
+      "title": "Femme Like U",
+      "artist": "K-Maro",
+      "year": 2004,
+      "decade": 2000,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/cde524bc038583ef54c15668b2da9e6f/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "614693",
+      "title": "Dernière danse",
+      "artist": "Kyo",
+      "year": 2002,
+      "decade": 2000,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/945b9d0b6641b3e111db0c409949dc8b/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "623348332",
+      "title": "Baby I'm Yours",
+      "artist": "Breakbot",
+      "year": 2010,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/3cab701f45adab1c97dba73573973edc/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "62508655",
+      "title": "Tombé pour elle",
+      "artist": "Booba",
+      "year": 2012,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/b049cac43419981a0468ffd37cbe2aca/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "62710442",
+      "title": "All I Want for Christmas Is You",
+      "artist": "Mariah Carey",
+      "year": 1994,
+      "decade": 1990,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/60d8f7635ead9b3c5e571aec47a8c73e/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "628266",
+      "title": "Hey Ya!",
+      "artist": "Outkast",
+      "year": 2003,
+      "decade": 2000,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/f81783b6cc6030733cd475f820855562/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "6297555",
+      "title": "Alors on danse",
+      "artist": "Stromae",
+      "year": 2009,
+      "decade": 2000,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/43bd78a4753df33da9efc2207c4286ee/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "63480987",
+      "title": "Dreams",
+      "artist": "Fleetwood Mac",
+      "year": 1977,
+      "decade": 1970,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/9732751ce91d786dcf30069853697078/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "63510358",
+      "title": "Radioactive",
+      "artist": "Imagine Dragons",
+      "year": 2012,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/7e8314f4280cffde363547a495a260bc/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "639971642",
+      "title": "Poupée de cire, poupée de son",
+      "artist": "France Gall",
+      "year": 1965,
+      "decade": 1960,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/3708157a81e9e8190ed550523d6b4567/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "64550206",
+      "title": "Non, Je ne regrette rien",
+      "artist": "Edith Piaf",
+      "year": 1960,
+      "decade": 1960,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/003800aa65db8a17aebf36da46c6019a/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "6461440",
+      "title": "Love The Way You Lie",
+      "artist": "Eminem",
+      "year": 2009,
+      "decade": 2000,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/be682506145061814eddee648edb7c59/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "646327092",
+      "title": "Ain't No Mountain High Enough",
+      "artist": "Marvin Gaye",
+      "year": 1967,
+      "decade": 1960,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/7beb28379235585e5c8376d11776479f/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "653159322",
+      "title": "Au DD",
+      "artist": "PNL",
+      "year": 2019,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/ff5caf314549e1cff1960c5b2acfd384/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "655095912",
+      "title": "bad guy",
+      "artist": "Billie Eilish",
+      "year": 2019,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/6630083f454d48eadb6a9b53f035d734/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "65707466",
+      "title": "L'aigle noir (Version 1970 avec couplet supplémentaire)",
+      "artist": "Barbara",
+      "year": 1970,
+      "decade": 1970,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/902e4fa1d3adb33d3f4bc2e76a4970e2/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "66028747",
+      "title": "Cha Cha Slide",
+      "artist": "Mr. C",
+      "year": 2000,
+      "decade": 2000,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/a04f2e6fa10ef70fc88201bcc0361b0f/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "6611231",
+      "title": "Boulevard of Broken Dreams",
+      "artist": "Green Day",
+      "year": 2004,
+      "decade": 2000,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/4a2497e819405074b107b3bce1d95cf9/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "6621823",
+      "title": "Mignon Mignon",
+      "artist": "René La Taupe",
+      "year": 2010,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/8ae8d05965fa4cb38dcc0df07ea8353f/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "662355",
+      "title": "The Boy Is Mine",
+      "artist": "Brandy",
+      "year": 1998,
+      "decade": 1990,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/d32a8ad1829763937eb9a4c05b37a88e/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "664507",
+      "title": "Like a Prayer",
+      "artist": "Madonna",
+      "year": 1989,
+      "decade": 1980,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/cb3560d83ededa230d78f7bf047c583a/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "665714352",
+      "title": "Roxanne",
+      "artist": "The Police",
+      "year": 1978,
+      "decade": 1970,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/f51850ce4fccc736b881a5ce8aede9e1/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "665714672",
+      "title": "Message In A Bottle",
+      "artist": "The Police",
+      "year": 1979,
+      "decade": 1970,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/b11b98eb4bea1c8abcff67eee2a7eeb7/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "67238735",
+      "title": "Get Lucky (feat. Pharrell Williams and Nile Rodgers)",
+      "artist": "Daft Punk",
+      "year": 2013,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/311bba0fc112d15f72c8b5a65f0456c1/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "673165762",
+      "title": "Sexy Bitch (feat. Akon)",
+      "artist": "David Guetta",
+      "year": 2009,
+      "decade": 2000,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/052de888ea3a0a6f30d564850a07967d/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "67535294",
+      "title": "Tombé sous le charme",
+      "artist": "Christophe Maé",
+      "year": 2013,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/2cb9bd73c8225eb64cf4cac91ea4a434/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "677232",
+      "title": "Numb",
+      "artist": "Linkin Park",
+      "year": 2003,
+      "decade": 2000,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/44df4f6fb2534768f4924365c103d0f7/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "6776987",
+      "title": "Celui",
+      "artist": "Colonel Reyel",
+      "year": 2010,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/02d06908b27df54defa2cd524045a8ce/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "678336",
+      "title": "Like a Virgin",
+      "artist": "Madonna",
+      "year": 1983,
+      "decade": 1980,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/3836708e2d450cdaa61341112b972228/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "678372",
+      "title": "La Isla Bonita",
+      "artist": "Madonna",
+      "year": 1987,
+      "decade": 1980,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/43a8e2b1b035391f58b0927cf1040bc4/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "679160142",
+      "title": "Les mots bleus",
+      "artist": "Johan Papaconstantino",
+      "year": 2019,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/0b9f210d9a6aebc961418952204de827/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "67929154",
+      "title": "Bitch, Don’t Kill My Vibe",
+      "artist": "Kendrick Lamar",
+      "year": 2012,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/b5be27644d505bad7bdb516fe4165475/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "67973997",
+      "title": "Ça ira",
+      "artist": "Joyce Jonathan",
+      "year": 2013,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/c21728dad61cd29824c5b640aa52e504/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "68513610",
+      "title": "Just Can't Get Enough",
+      "artist": "Depeche Mode",
+      "year": 1981,
+      "decade": 1980,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/55972109f7c4049deb78402a94ee3b7b/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "68953564",
+      "title": "Hit the Road Jack",
+      "artist": "Ray Charles",
+      "year": 1961,
+      "decade": 1960,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/606741e24e4109ba36979153a95ed4de/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "6907156",
+      "title": "Freed From Desire",
+      "artist": "Gala",
+      "year": 1996,
+      "decade": 1990,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/479a6495cefe8a34acc064788f715337/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "69125492",
+      "title": "Morgane de toi",
+      "artist": "Renaud",
+      "year": 1983,
+      "decade": 1980,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/87d0dca8554707fa4b05ce0777bd6e91/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "699056262",
+      "title": "Old Town Road",
+      "artist": "Lil Nas X",
+      "year": 2018,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/3cfd6900fd2b342ec0e478faf300f6a2/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "701326562",
+      "title": "Happy (From \"Despicable Me 2\")",
+      "artist": "Pharrell Williams",
+      "year": 2013,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/a1939a9a40dc97ed404cc4597c6a32bc/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "701987322",
+      "title": "JCVD",
+      "artist": "Jul",
+      "year": 2019,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/d70dbea33c760ed8b7fdf77b90986e1f/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "70322132",
+      "title": "R U Mine?",
+      "artist": "Arctic Monkeys",
+      "year": 2012,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/64e54e307bd5e2bdb27ffeb662fd910d/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "70506864",
+      "title": "Trumpets",
+      "artist": "Jason Derulo",
+      "year": 2012,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/741300c86dff553e7d0bb450da340cae/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "70785260",
+      "title": "Paris-Seychelles",
+      "artist": "Julien Doré",
+      "year": 2013,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/b4b1caef7426c5f7c240c5dc8976cb8a/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "70835066",
+      "title": "My Way",
+      "artist": "Frank Sinatra",
+      "year": 1969,
+      "decade": 1960,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/ae5e2905c3e2236b19480b96c7b93bc8/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "7087539",
+      "title": "Breakfast In America",
+      "artist": "Supertramp",
+      "year": 1979,
+      "decade": 1970,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/fee526711039ce10381a3091204faca4/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "7120489",
+      "title": "Quand la musique est bonne",
+      "artist": "Jean-Jacques Goldman",
+      "year": 1982,
+      "decade": 1980,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/e097e40cc3c1654acfa342db8cee4298/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "714269242",
+      "title": "All By Myself",
+      "artist": "Céline Dion",
+      "year": 1996,
+      "decade": 1990,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/348692abbdb9950a998c8d58cbba78b7/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "71519882",
+      "title": "The Man",
+      "artist": "Aloe Blacc",
+      "year": 2010,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/87777b6cc6e2cae9e660574e525b7650/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "71560063",
+      "title": "Paroles… paroles…",
+      "artist": "Dalida",
+      "year": 1973,
+      "decade": 1970,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/0b76577f6d67cfe3fe879f2027a0d541/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "71608366",
+      "title": "Me Gustas Tu",
+      "artist": "Manu Chao",
+      "year": 2000,
+      "decade": 2000,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/8453da83592b1ce09febf8af0e7751b8/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "71645431",
+      "title": "Roar",
+      "artist": "Katy Perry",
+      "year": 2013,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/fe781ecd9879a82beed80f6d3e80745b/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "717273922",
+      "title": "Nights",
+      "artist": "Frank Ocean",
+      "year": 2016,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/f798a866107715dd6dc1049e498ce21f/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "72060062",
+      "title": "Le Freak",
+      "artist": "Chic",
+      "year": 1978,
+      "decade": 1970,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/9c44d9af981048f20672aaccdc45d489/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "721785",
+      "title": "On s'attache",
+      "artist": "Christophe Maé",
+      "year": 2007,
+      "decade": 2000,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/38285435cbde2e4754b2333802d4d4e4/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "72427143",
+      "title": "Libérée, Délivrée (De \"La Reine des Neiges\"/Bande Originale Française)",
+      "artist": "Anaïs Delva",
+      "year": 2013,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/a81e4dda1a1a75f0e742247760e66f79/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "725274",
+      "title": "Californication",
+      "artist": "Red Hot Chili Peppers",
+      "year": 1998,
+      "decade": 1990,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/5e61e8290a4d1d64ca58920656c9602d/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "725850",
+      "title": "Under the Bridge",
+      "artist": "Red Hot Chili Peppers",
+      "year": 1991,
+      "decade": 1990,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/5d7af03204d679ef877b9033d279d8bd/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "727166002",
+      "title": "Rien d'spécial",
+      "artist": "Népal",
+      "year": 2016,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/097ae32a12fa665e9472afc6c7c5b798/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "72717420",
+      "title": "Bella",
+      "artist": "GIMS",
+      "year": 2013,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/a48a99f7fd9c42d9de770de4543b4b86/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "7314746",
+      "title": "Laissez-moi danser",
+      "artist": "Dalida",
+      "year": 1979,
+      "decade": 1970,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/ce50b90bc1fe5009c761076576db9e91/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "73693857",
+      "title": "La Vie en Rose",
+      "artist": "Edith Piaf",
+      "year": 1947,
+      "decade": 1940,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/6e6dde2c332dcb75e76f302f19de636c/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "7410095",
+      "title": "It's Raining Men",
+      "artist": "The Weather Girls",
+      "year": 1982,
+      "decade": 1980,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/c766fc92f519864b3060cb1fdb00dff5/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "741876152",
+      "title": "THANK GOD",
+      "artist": "Rilès",
+      "year": 2019,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/f8b549ac6c977aafd046376c9a5b09a9/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "75072795",
+      "title": "Stay High (Habits Remix)",
+      "artist": "Tove Lo",
+      "year": 2013,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/234f7e4100c8764ac365f61715882b0b/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "7521058",
+      "title": "Marijuana",
+      "artist": "Kid Cudi",
+      "year": 2010,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/a1237e106b3355ecac6c62c2ad79ef8d/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "753407",
+      "title": "Can't Take My Eyes off You",
+      "artist": "Frankie Valli",
+      "year": 1967,
+      "decade": 1960,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/17f1b4ad3b351a38dffdb95d2015b7e9/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "75867418",
+      "title": "J'oublie tout",
+      "artist": "Jul",
+      "year": 2014,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/4b706cb4bc491163765f1daf29ce74ac/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "76108761",
+      "title": "Le Graal",
+      "artist": "Kyo",
+      "year": 2014,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/5201cca8fd2d1eef5bbde5111870ba17/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "764920",
+      "title": "I'm a Believer",
+      "artist": "The Monkees",
+      "year": 1966,
+      "decade": 1960,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/6e6a035031deac68c0d498fe311ac145/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "7667059",
+      "title": "POWER",
+      "artist": "Kanye West",
+      "year": 2004,
+      "decade": 2000,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/742aba8510ba803bea51d304cf2ca786/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "767071002",
+      "title": "La bandite",
+      "artist": "Jul",
+      "year": 2019,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/115c03334d395798d9e7933b65698ed2/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "7675403",
+      "title": "I Will Always Love You",
+      "artist": "Whitney Houston",
+      "year": 1985,
+      "decade": 1980,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/d071ab8d81111be6434c2f2cf372ab13/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "77380170",
+      "title": "Wiggle (feat. Snoop Dogg)",
+      "artist": "Jason Derulo",
+      "year": 2014,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/7302af56cc727c0a95205af18ac63d3a/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "77698470",
+      "title": "Magic in the Air (feat. Ahmed Chawki)",
+      "artist": "MAGIC SYSTEM",
+      "year": 2014,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/9a71de78221c8c2d4225865ede8b49eb/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "78033230",
+      "title": "Oh, Pretty Woman",
+      "artist": "Roy Orbison",
+      "year": 1964,
+      "decade": 1960,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/057141cf6b44141b44cbda46b2d38a10/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "781478012",
+      "title": "Pookie",
+      "artist": "Aya Nakamura",
+      "year": 2018,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/0092a895979e7311749b0282f1eb8fe6/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "78213541",
+      "title": "Chicago",
+      "artist": "Michael Jackson",
+      "year": 2014,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/8d0164d7161ac43452ec58201e56e3a4/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "790943",
+      "title": "Belle demoiselle",
+      "artist": "Christophe Maé",
+      "year": 2007,
+      "decade": 2000,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/213be29ac257cea4f89698f4e13b7b75/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "79223833",
+      "title": "Prayer in C (Robin Schulz Remix) [Radio Edit]",
+      "artist": "Lilly Wood And The Prick",
+      "year": 2014,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/cefb31c2b007964bb83916226e5eeb6d/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "793115",
+      "title": "Alexandrie Alexandra",
+      "artist": "Claude François",
+      "year": 1977,
+      "decade": 1970,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/8334a13ea3fb67d978bc0ad49918c8f9/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "79587580",
+      "title": "Chandelier",
+      "artist": "Sia",
+      "year": 2014,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/4275db12f5e284b3c2f3e20726187b64/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "797505962",
+      "title": "Dis-moi",
+      "artist": "BB Brunes",
+      "year": 2006,
+      "decade": 2000,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/a674ca401c8a47bb8ab224f3c025a1eb/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "79875048",
+      "title": "Sing",
+      "artist": "Ed Sheeran",
+      "year": 2014,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/b1d763da698c38bde6a526c8220ca0ea/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "80274512",
+      "title": "Bring Me To Life",
+      "artist": "Evanescence",
+      "year": 2000,
+      "decade": 2000,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/56c02d3764f5a078ceecd27b64b7d789/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "810179",
+      "title": "How You Remind Me",
+      "artist": "Nickelback",
+      "year": 2001,
+      "decade": 2000,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/61395db55522768a7a42e085c487d045/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "811201692",
+      "title": "Sensualité",
+      "artist": "Axelle Red",
+      "year": 1993,
+      "decade": 1990,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/5bf3caa3083242557f0e93c1ced631d6/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "8164642",
+      "title": "They Don't Care About Us",
+      "artist": "Michael Jackson",
+      "year": 1992,
+      "decade": 1990,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/fbed9a8cfcdd8a5e48cebbea8d8078ea/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "82715364",
+      "title": "Skyfall",
+      "artist": "Adele",
+      "year": 2012,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/81e6d7baa7f47b804704922412e7a014/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "831313",
+      "title": "Billie Jean",
+      "artist": "Michael Jackson",
+      "year": 1982,
+      "decade": 1980,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/f01e09ceb8ad1e96707c1b4aadb5911b/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "831319",
+      "title": "Thriller",
+      "artist": "Michael Jackson",
+      "year": 1982,
+      "decade": 1980,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/f01e09ceb8ad1e96707c1b4aadb5911b/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "83844536",
+      "title": "One Last Time",
+      "artist": "Ariana Grande",
+      "year": 2014,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/b5021d5a88c44071a97416c65d4dbdd9/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "84791735",
+      "title": "Take Me To Church",
+      "artist": "Hozier",
+      "year": 2013,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/8442e9ac0227a07b00c9dfd0ec00032d/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "858371",
+      "title": "The Final Countdown",
+      "artist": "Europe",
+      "year": 1986,
+      "decade": 1980,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/f27265df605c4bce229b0623e18f179a/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "859699",
+      "title": "Chop Suey!",
+      "artist": "System of a Down",
+      "year": 2001,
+      "decade": 2000,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/9a26018a2c9bf0eed86e6c5ae6b3decb/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "870090",
+      "title": "J'ai demandé à la lune",
+      "artist": "Indochine",
+      "year": 2002,
+      "decade": 2000,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/9675b4e3f8831b8dd027b78d97903727/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "871452",
+      "title": "Seul",
+      "artist": "Garou",
+      "year": 2000,
+      "decade": 2000,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/714c238edcb37ccb8c1a002501cddac1/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "871455",
+      "title": "Sous le vent",
+      "artist": "Céline Dion",
+      "year": 2001,
+      "decade": 2000,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/714c238edcb37ccb8c1a002501cddac1/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "873558",
+      "title": "Shut Up And Let Me Go",
+      "artist": "The Ting Tings",
+      "year": 2008,
+      "decade": 2000,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/09679fc7a105bde3d48d84508035f238/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "88003859",
+      "title": "Stairway to Heaven",
+      "artist": "Led Zeppelin",
+      "year": 1971,
+      "decade": 1970,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/460a0edd96f743be03b7405eac38c633/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "882920",
+      "title": "Les lacs du Connemara",
+      "artist": "Michel Sardou",
+      "year": 1981,
+      "decade": 1980,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/e53e5f3d98300714b72dbe6903292035/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "884041",
+      "title": "Gimme! Gimme! Gimme! (A Man After Midnight)",
+      "artist": "ABBA",
+      "year": 1979,
+      "decade": 1970,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/b8b70d474b7a8f27799e0d665e9b737e/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "886323",
+      "title": "La vie ne m'apprend rien",
+      "artist": "Daniel Balavoine",
+      "year": 1980,
+      "decade": 1980,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/fb63c8264233908a7462a3ac8c30cd6c/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "895409",
+      "title": "Aller Plus Haut",
+      "artist": "Tina Arena",
+      "year": 1998,
+      "decade": 1990,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/d02b7e08ee7ffe1e246e03d486a429be/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "89572411",
+      "title": "Emmenez-moi",
+      "artist": "Charles Aznavour",
+      "year": 1967,
+      "decade": 1960,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/fe30e29fd9cf285df42d9c32ab18df26/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "89629797",
+      "title": "Blue (Da Ba Dee) (Video Edit)",
+      "artist": "Eiffel 65",
+      "year": 1999,
+      "decade": 1990,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/03aaa3268500f38fe03588f7b25522dd/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "900973",
+      "title": "Streets of Philadelphia",
+      "artist": "Bruce Springsteen",
+      "year": 1985,
+      "decade": 1980,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/8c55d1896d68dbf86cf7b918ad8e8e41/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "904732",
+      "title": "Respect",
+      "artist": "Aretha Franklin",
+      "year": 1967,
+      "decade": 1960,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/9e9ba9115d0fb62879d1bb672ee67c07/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "906625",
+      "title": "What A Wonderful World",
+      "artist": "Louis Armstrong",
+      "year": 1967,
+      "decade": 1960,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/a7a471ea9f14193811d0af5ece533585/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "911085",
+      "title": "In A Sentimental Mood",
+      "artist": "Duke Ellington",
+      "year": 1935,
+      "decade": 1930,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/4b9b9e345791d561054e471079dc0f2d/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "911462792",
+      "title": "Holding Out for a Hero (From \"Footloose\" Soundtrack)",
+      "artist": "Bonnie Tyler",
+      "year": 1984,
+      "decade": 1980,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/444736f0448461d5db34cb2f35ec8ff1/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "916424",
+      "title": "Without Me",
+      "artist": "Eminem",
+      "year": 2000,
+      "decade": 2000,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/ec3c8ed67427064c70f67e5815b74cef/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "91939334",
+      "title": "Je vais t'aimer",
+      "artist": "Michel Sardou",
+      "year": 1976,
+      "decade": 1970,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/8862d3384395170fcabfb9af0dea9095/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "921379",
+      "title": "Allumer le feu",
+      "artist": "Johnny Hallyday",
+      "year": 1998,
+      "decade": 1990,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/e2cdcae076cf912ccf8b55eef4bd020f/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "925106",
+      "title": "Umbrella",
+      "artist": "Rihanna",
+      "year": 2007,
+      "decade": 2000,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/91276466fbc876d96be9e6926060af60/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "925108",
+      "title": "Don't Stop The Music",
+      "artist": "Rihanna",
+      "year": 2007,
+      "decade": 2000,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/91276466fbc876d96be9e6926060af60/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "926691372",
+      "title": "Anissa",
+      "artist": "Wejdene",
+      "year": 2020,
+      "decade": 2020,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/0a89327926f848b2249c72b234567a87/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "92719900",
+      "title": "Highway to Hell",
+      "artist": "AC/DC",
+      "year": 1979,
+      "decade": 1970,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/de48d988a82fc401f4b9bafc2639f7d0/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "92734438",
+      "title": "Uptown Funk (feat. Bruno Mars)",
+      "artist": "Mark Ronson",
+      "year": 2014,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/3734366a73152d0367a83a4b09fd163f/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "93781202",
+      "title": "Namek",
+      "artist": "Dinos",
+      "year": 2014,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/e3a7cff2a400b2055cf2c28b66fd516d/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "93916028",
+      "title": "Rude Boy",
+      "artist": "Dub Inc",
+      "year": 2003,
+      "decade": 2000,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/e7d9763cc4e8586ac77a373a2eda83cb/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "951927432",
+      "title": "Kanashimi ga Tomaranai I CAN'T STOP THE LONELINESS",
+      "artist": "Anri",
+      "year": 1983,
+      "decade": 1980,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/b86d778a2614f8b253d26e49abc14c09/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "952788",
+      "title": "Zombie",
+      "artist": "The Cranberries",
+      "year": 1993,
+      "decade": 1990,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/36917cca6bd7098af00298bba28524a6/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "95813354",
+      "title": "See You Again (feat. Charlie Puth)",
+      "artist": "Wiz Khalifa",
+      "year": 2015,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/9411ab46dfc749311f7bbfd7398b7251/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "969494",
+      "title": "Cry Me a River",
+      "artist": "Justin Timberlake",
+      "year": 2002,
+      "decade": 2000,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/7cba368fa8466d72d149264577cb19d7/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "97081744",
+      "title": "Walk On the Wild Side",
+      "artist": "Lou Reed",
+      "year": 1972,
+      "decade": 1970,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/4abefbc7702fcdd12d5312961c0df70b/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "972240512",
+      "title": "Karma",
+      "artist": "Naâman",
+      "year": 2015,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/fac18da853edcd8aa1345df49cc60a9b/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "97328562",
+      "title": "Thinkin Bout You",
+      "artist": "Frank Ocean",
+      "year": 2012,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/519400e29d268f449cf00af879e71af6/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "979041",
+      "title": "Smack That (Clean)",
+      "artist": "Akon",
+      "year": 2006,
+      "decade": 2000,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/bc4d98904d61661cc6d7dd53745340d0/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "9809484",
+      "title": "Veni vidi vici",
+      "artist": "La Fouine",
+      "year": 2010,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/1a3a60c08081d0eb05c0fd942aa41da1/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "983238",
+      "title": "J't'emmène au vent",
+      "artist": "Louise Attaque",
+      "year": 1996,
+      "decade": 1990,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/0b2be6637d8afd3dfc1bc77d5585054f/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "983242",
+      "title": "Ton invitation",
+      "artist": "Louise Attaque",
+      "year": 1996,
+      "decade": 1990,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/0b2be6637d8afd3dfc1bc77d5585054f/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "98356864",
+      "title": "Andalouse",
+      "artist": "Kendji Girac",
+      "year": 2014,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/2d12f5b9d7d01aa4e96046e3b2317450/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "983903",
+      "title": "Osez Joséphine",
+      "artist": "Alain Bashung",
+      "year": 1991,
+      "decade": 1990,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/9aa229d6245db52b6ac599d5641e8aef/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "99095796",
+      "title": "Macumba",
+      "artist": "Jean-Pierre Mader",
+      "year": 1985,
+      "decade": 1980,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/b2a7f0283c4f726835a221bbbade64bf/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "991348192",
+      "title": "Mais je t'aime",
+      "artist": "Grand Corps Malade",
+      "year": 2020,
+      "decade": 2020,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/229104f78f9aa6d82fc6b9cc256d680c/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "993913",
+      "title": "Elle a les yeux revolver",
+      "artist": "Marc Lavoine",
+      "year": 1985,
+      "decade": 1980,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/3895cc7a8bce11727a9758d91d5ca15b/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "994491",
+      "title": "Macarena",
+      "artist": "Los Del Río",
+      "year": 1993,
+      "decade": 1990,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/6a827921da4e6afde64294d7483cbf0e/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "9956014",
+      "title": "Paint It, Black",
+      "artist": "The Rolling Stones",
+      "year": 1966,
+      "decade": 1960,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/8d88273e39d8806c6041b413a8c4cf74/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "99976952",
+      "title": "Stressed Out",
+      "artist": "Twenty One Pilots",
+      "year": 2015,
+      "decade": 2010,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/dbbde1014cda9b101412a8e27add0ad2/250x250-000000-80-0-0.jpg"
+    },
+    {
+      "id": "9997935",
+      "title": "Chérie Coco (feat. Soprano)",
+      "artist": "Magic System",
+      "year": 2008,
+      "decade": 2000,
+      "cover": "https://cdn-images.dzcdn.net/images/cover/dc25cbddfd0dd54306585d43fc8c248b/250x250-000000-80-0-0.jpg"
+    }
+  ]
+}
