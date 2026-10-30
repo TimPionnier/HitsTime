@@ -4,10 +4,12 @@ import {
   latestShardName,
   oldestFirst,
   parseArgs,
+  parseSpotifyEmbed,
   playlistTitle,
   recordPlaylist,
   rankAnyVersion,
   rankFaithful,
+  spotifyGap,
   tracksOf,
 } from "./export-daily-playlist.mjs";
 
@@ -124,6 +126,46 @@ describe("rankAnyVersion", () => {
       dylan("artist", { "artist-credit": [{ name: "Guns N' Roses" }] }),
     ];
     expect(rankAnyVersion(track, 150, recordings)).toEqual([]);
+  });
+});
+
+describe("parseSpotifyEmbed", () => {
+  const page = (entity) =>
+    `<html><script id="__NEXT_DATA__" type="application/json">${JSON.stringify({
+      props: { pageProps: { state: { data: { entity } } } },
+    })}</script></html>`;
+
+  it("reads the release year and the length in seconds", () => {
+    const html = page({ releaseDate: { isoString: "2013-08-31T00:00:00Z" }, duration: 218360 });
+    expect(parseSpotifyEmbed(html)).toEqual({ year: 2013, seconds: 218 });
+  });
+
+  it("returns null when the page has no data or an unexpected shape", () => {
+    expect(parseSpotifyEmbed("<html></html>")).toBeNull();
+    expect(parseSpotifyEmbed(page({}))).toBeNull();
+    expect(parseSpotifyEmbed('<script id="__NEXT_DATA__">not json</script>')).toBeNull();
+  });
+});
+
+describe("spotifyGap", () => {
+  it("is faithful when year and length are close to the game's", () => {
+    const gap = spotifyGap({ year: 1964, seconds: 270 }, 1964, 269);
+    expect(gap.faithful).toBe(true);
+  });
+
+  it("is not faithful for a compilation released decades later", () => {
+    expect(spotifyGap({ year: 2013, seconds: 218 }, 1964, 269).faithful).toBe(false);
+  });
+
+  it("is not faithful when the length is far off, even in the right year", () => {
+    expect(spotifyGap({ year: 1979, seconds: 315 }, 1979, 224).faithful).toBe(false);
+  });
+
+  it("scores a closer track lower, and an unreadable one worst", () => {
+    const near = spotifyGap({ year: 1976, seconds: 206 }, 1976, 206).score;
+    const compilation = spotifyGap({ year: 1984, seconds: 206 }, 1976, 206).score;
+    expect(near).toBeLessThan(compilation);
+    expect(spotifyGap(null, 1976, 206).score).toBe(Number.POSITIVE_INFINITY);
   });
 });
 

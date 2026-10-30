@@ -487,6 +487,15 @@ runs from `daily-playlist.yml`.
   the track (seen on challenge #47: 11 sent, 10 on Spotify). The script therefore checks
   candidates one at a time (at most 40 per song). `node scripts/export-daily-playlist.mjs
   --dry-run [date]` shows the coverage without creating anything.
+- **Which Spotify track:** the exporter uses the FIRST Spotify track ListenBrainz lists for a
+  recording, and that is often a compilation or re-recording (seen on challenge #48: "House of
+  the Rising Sun" released 2013, "Hot Stuff" 91 s too long). Only Spotify knows the release, so
+  for each linked candidate the script reads that first track's year and length from its public
+  embed page (`open.spotify.com/embed/track/<id>`, an unofficial page: if its layout changes
+  the read returns null and the order ListenBrainz gives is used again). A candidate is
+  "faithful" when the Spotify year is within 1 of the game's year and the length within 15 s
+  of Deezer's; the first faithful one wins, otherwise the closest one seen, and the log says
+  "APPROXIMATE Spotify track". Some songs have no good candidate at all.
 - **Order:** tracks are sorted oldest first by the `year` of the daily shard (the validated
   year used by the game, from the frozen pool), never by MusicBrainz or Deezer dates. Ties
   keep play order. This makes the playlist the answer key of the day's puzzle.
