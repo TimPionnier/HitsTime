@@ -45,6 +45,13 @@ const SEARCH_LIMIT = 100;
 const SEARCH_PAGES = 3;
 // Cap on single-recording Spotify checks per track, to bound the run time.
 const MAX_LINK_CHECKS = 40;
+// Cap on Spotify embed pages read per track.
+const MAX_TRACK_EVALUATIONS = 15;
+// A Spotify track is faithful when its release year and length are close to the game's.
+const FAITHFUL_YEAR_GAP = 1;
+const FAITHFUL_SECONDS_GAP = 15;
+const YEAR_GAP_WEIGHT_SECONDS = 8;
+const BROWSER_USER_AGENT = "Mozilla/5.0";
 // Pushes live/remix takes behind any studio-like one in the any-version ranking.
 const FALLBACK_ALTERNATE_PENALTY_SECONDS = 1000;
 // Wide enough for radio edit vs album version (30 s on "Yeah!"), narrow enough to
@@ -215,13 +222,13 @@ async function recordingsForIsrc(isrc) {
 }
 
 /**
- * Does ListenBrainz link this ONE recording to Spotify?
+ * The Spotify tracks ListenBrainz links to this ONE recording (possibly none).
  *
  * Always asked for a single recording: with several in one request the answer
  * is unreliable (rows missing, repeated or labelled with another recording),
  * and a wrong "yes" means the exporter later drops the track from the playlist.
  */
-async function isLinkedToSpotify(mbid) {
+async function spotifyIdsFor(mbid) {
   const response = await fetch(SPOTIFY_LOOKUP_URL, {
     method: "POST",
     headers: { "Content-Type": "application/json", "User-Agent": USER_AGENT },
@@ -229,46 +236,116 @@ async function isLinkedToSpotify(mbid) {
   });
   if (!response.ok) throw new HttpError(SPOTIFY_LOOKUP_URL, response.status);
   const rows = await response.json();
-  return rows.some((row) => row.recording_mbid === mbid && row.spotify_track_ids.length > 0);
-}
-
-/** First recording of the ranked list that is linked to Spotify, or null. */
-async function firstLinked(ranked, checked) {
-  for (const recording of ranked) {
-    if (!checked.has(recording.id)) {
-      if (checked.size >= MAX_LINK_CHECKS) return null;
-      checked.set(recording.id, await isLinkedToSpotify(recording.id));
-    }
-    if (checked.get(recording.id)) return recording;
-  }
-  return null;
+  return rows.find((row) => row.recording_mbid === mbid)?.spotify_track_ids ?? [];
 }
 
 /**
- * Finds the recording to put in the playlist, trying in order of fidelity:
- * the ISRC's own recordings, then faithful same-song recordings from a name
- * search (paged), then any version of the song.
+ * Release year and length of a Spotify track, read from its public embed page.
+ *
+ * The exporter puts the FIRST Spotify track ListenBrainz lists for a recording
+ * in the playlist, and that is often a compilation or a re-recording rather than
+ * the album or single. Only Spotify knows which release a track belongs to, and
+ * its API needs a key we do not have, so the embed page (which anyone can open)
+ * is read instead. Any failure returns null: the choice then falls back to the
+ * order ListenBrainz gives.
+ */
+export function parseSpotifyEmbed(html) {
+  const match = html.match(/<script id="__NEXT_DATA__"[^>]*>([^<]*)<\/script>/);
+  if (!match) return null;
+  try {
+    const entity = JSON.parse(match[1]).props.pageProps.state.data.entity;
+    const year = Number(String(entity.releaseDate?.isoString ?? "").slice(0, 4));
+    const seconds = Math.round(Number(entity.duration) / 1000);
+    if (!Number.isFinite(year) || year < 1900 || !Number.isFinite(seconds)) return null;
+    return { year, seconds };
+  } catch {
+    return null;
+  }
+}
+
+async function spotifyTrackInfo(spotifyId) {
+  try {
+    const response = await fetch(`https://open.spotify.com/embed/track/${spotifyId}`, {
+      headers: { "User-Agent": BROWSER_USER_AGENT },
+    });
+    return response.ok ? parseSpotifyEmbed(await response.text()) : null;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * How far a Spotify track is from the song we want: a gap of one year weighs
+ * YEAR_GAP_WEIGHT_SECONDS seconds of length. `info` null (unreadable) is the
+ * worst score, so a readable candidate always wins over an unknown one.
+ */
+export function spotifyGap(info, gameYear, durationSeconds) {
+  if (!info) return { score: Number.POSITIVE_INFINITY, faithful: false };
+  const yearGap = Math.abs(info.year - gameYear);
+  const secondsGap = durationSeconds ? Math.abs(info.seconds - durationSeconds) : 0;
+  return {
+    score: yearGap * YEAR_GAP_WEIGHT_SECONDS + secondsGap,
+    faithful: yearGap <= FAITHFUL_YEAR_GAP && secondsGap <= FAITHFUL_SECONDS_GAP,
+  };
+}
+
+/**
+ * Finds the recording to put in the playlist.
+ *
+ * Candidates come in order of fidelity (the ISRC's own recordings, faithful
+ * same-song recordings from a name search, then any version of the song). Each
+ * one that ListenBrainz links to Spotify is judged on the Spotify track the
+ * exporter would actually use; the first faithful one wins, otherwise the least
+ * unfaithful one seen.
  */
 async function matchRecording(track, deezer) {
   const checked = new Map();
+  let best = null;
+  let evaluations = 0;
+
+  // Returns true when the candidate is faithful enough to stop searching.
+  async function consider(recording, kind) {
+    if (!checked.has(recording.id)) {
+      if (checked.size >= MAX_LINK_CHECKS) return false;
+      const ids = await spotifyIdsFor(recording.id);
+      let gap = null;
+      if (ids.length > 0 && evaluations < MAX_TRACK_EVALUATIONS) {
+        evaluations += 1;
+        gap = spotifyGap(await spotifyTrackInfo(ids[0]), track.year, deezer.duration);
+      }
+      // linked: ListenBrainz knows a Spotify track; gap: how good the first one is.
+      checked.set(recording.id, { linked: ids.length > 0, gap });
+    }
+    const { linked, gap } = checked.get(recording.id);
+    if (!linked) return false;
+    const score = gap?.score ?? Number.POSITIVE_INFINITY;
+    const faithful = gap?.faithful === true;
+    if (!best || score < best.score) best = { recording, kind, score, faithful };
+    return faithful;
+  }
+
+  async function firstFaithful(ranked, kind) {
+    for (const recording of ranked) {
+      if (await consider(recording, kind)) return true;
+    }
+    return false;
+  }
 
   await sleep(MUSICBRAINZ_DELAY_MS);
   const byIsrc = deezer.isrc ? await recordingsForIsrc(deezer.isrc) : [];
-  const exact = await firstLinked(byIsrc, checked);
-  if (exact) return { recording: exact, kind: "ISRC" };
+  if (await firstFaithful(byIsrc, "ISRC")) return best;
 
   const seen = [];
   for (let page = 0; page < SEARCH_PAGES; page += 1) {
     await sleep(MUSICBRAINZ_DELAY_MS);
     const recordings = await searchRecordings(track, page * SEARCH_LIMIT);
     seen.push(...recordings);
-    const faithful = await firstLinked(rankFaithful(track, deezer.duration, seen), checked);
-    if (faithful) return { recording: faithful, kind: "name search" };
+    if (await firstFaithful(rankFaithful(track, deezer.duration, seen), "name search")) return best;
     if (recordings.length < SEARCH_LIMIT) break;
   }
 
-  const other = await firstLinked(rankAnyVersion(track, deezer.duration, seen), checked);
-  return other ? { recording: other, kind: "other version" } : null;
+  await firstFaithful(rankAnyVersion(track, deezer.duration, seen), "other version");
+  return best;
 }
 
 async function resolveTracks(tracks) {
@@ -282,10 +359,11 @@ async function resolveTracks(tracks) {
       continue;
     }
     resolved.push({ track, mbid: match.recording.id });
-    if (match.kind !== "ISRC") {
+    if (match.kind !== "ISRC" || !match.faithful) {
       const seconds = match.recording.length ? Math.round(match.recording.length / 1000) : "?";
+      const fidelity = match.faithful ? "faithful" : "APPROXIMATE Spotify track";
       console.log(
-        `Matched (${match.kind}): ${label} -> "${match.recording.title}" ${seconds}s (Deezer ${deezer.duration}s)`,
+        `Matched (${match.kind}, ${fidelity}): ${label} -> "${match.recording.title}" ${seconds}s (Deezer ${deezer.duration}s)`,
       );
     }
   }
