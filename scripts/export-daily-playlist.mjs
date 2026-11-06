@@ -38,8 +38,10 @@ const SPOTIFY_LOOKUP_URL = "https://labs.api.listenbrainz.org/spotify-id-from-mb
 // MusicBrainz rejects anonymous clients and allows about one request per second.
 const USER_AGENT = "hitstime-daily-playlist/1.0 (https://github.com/TimPionnier/HitsTime)";
 const MUSICBRAINZ_DELAY_MS = 1100;
-const MUSICBRAINZ_RETRY_DELAY_MS = 5000;
+const RETRY_DELAY_MS = 5000;
 const MAX_ATTEMPTS = 4;
+// 429 and 503 are how MusicBrainz asks to slow down; 502 and 504 are the usual gateway errors.
+const RETRYABLE_STATUSES = new Set([429, 502, 503, 504]);
 const LISTED_PLAYLISTS_COUNT = 100;
 const SEARCH_LIMIT = 100;
 const SEARCH_PAGES = 3;
@@ -124,15 +126,36 @@ class HttpError extends Error {
   }
 }
 
-// 503 is how MusicBrainz says "slow down", so it is retried with a growing pause.
-async function getJson(url, attempt = 1) {
-  const response = await fetch(url, {
+/** "fetch failed" alone says nothing: the reason is on `cause` (timeout, reset, DNS...). */
+export function describeNetworkError(error) {
+  const cause = error?.cause;
+  const detail = cause?.code ?? cause?.message;
+  return detail ? `${error.message} (${detail})` : String(error?.message ?? error);
+}
+
+/**
+ * fetch that retries transient failures with a growing pause: a network error
+ * (these made scheduled runs fail on their very first call) or a gateway status.
+ * Pass { retry: false } for a call that is not safe to repeat, such as creating a
+ * playlist, where a lost answer would otherwise lead to a duplicate.
+ */
+export async function request(url, options, { retry = true, delayMs = RETRY_DELAY_MS } = {}) {
+  for (let attempt = 1; ; attempt += 1) {
+    const canRetry = retry && attempt < MAX_ATTEMPTS;
+    try {
+      const response = await fetch(url, options);
+      if (!canRetry || !RETRYABLE_STATUSES.has(response.status)) return response;
+    } catch (error) {
+      if (!canRetry) throw new Error(`${url}: ${describeNetworkError(error)}`);
+    }
+    await sleep(delayMs * attempt);
+  }
+}
+
+async function getJson(url) {
+  const response = await request(url, {
     headers: { "User-Agent": USER_AGENT, Accept: "application/json" },
   });
-  if (response.status === 503 && attempt < MAX_ATTEMPTS) {
-    await sleep(MUSICBRAINZ_RETRY_DELAY_MS * attempt);
-    return getJson(url, attempt + 1);
-  }
   if (!response.ok) throw new HttpError(url, response.status);
   return response.json();
 }
@@ -229,7 +252,7 @@ async function recordingsForIsrc(isrc) {
  * and a wrong "yes" means the exporter later drops the track from the playlist.
  */
 async function spotifyIdsFor(mbid) {
-  const response = await fetch(SPOTIFY_LOOKUP_URL, {
+  const response = await request(SPOTIFY_LOOKUP_URL, {
     method: "POST",
     headers: { "Content-Type": "application/json", "User-Agent": USER_AGENT },
     body: JSON.stringify([{ recording_mbid: mbid }]),
@@ -372,15 +395,20 @@ async function resolveTracks(tracks) {
 
 function listenbrainz(token) {
   async function call(method, path, body) {
-    const response = await fetch(`${LISTENBRAINZ_API}${path}`, {
-      method,
-      headers: {
-        Authorization: `Token ${token}`,
-        "Content-Type": "application/json",
-        "User-Agent": USER_AGENT,
+    const response = await request(
+      `${LISTENBRAINZ_API}${path}`,
+      {
+        method,
+        headers: {
+          Authorization: `Token ${token}`,
+          "Content-Type": "application/json",
+          "User-Agent": USER_AGENT,
+        },
+        body: body ? JSON.stringify(body) : undefined,
       },
-      body: body ? JSON.stringify(body) : undefined,
-    });
+      // Only reads are repeated: a lost answer to create or export could duplicate a playlist.
+      { retry: method === "GET" },
+    );
     const text = await response.text();
     if (!response.ok) throw new Error(`${method} ${path}: HTTP ${response.status} ${text}`);
     return JSON.parse(text);
