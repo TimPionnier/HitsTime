@@ -510,6 +510,11 @@ runs from `daily-playlist.yml`.
 - **Idempotency:** the script first creates a ListenBrainz playlist titled "#N" and exports
   that copy; if one already exists the day is skipped, so the 12:05 catch-up run never
   duplicates. A failed export deletes the copy so the next run retries.
+- **Network failures:** scheduled runs sometimes failed within seconds with a bare "fetch
+  failed" (runs of 31 Oct, 1, 3 and 5 Nov; on 5 Nov both runs of the day failed, so the
+  playlist was missing). The script now retries network errors and 429/502/503/504 with a
+  growing pause (4 attempts) and names the cause (`ECONNRESET`, `ETIMEDOUT`...). Only reads
+  are retried: create and export are not, because a lost answer would duplicate the playlist.
 - **Fragile bits:** ListenBrainz's exporter reads `track["extension"]` unconditionally, so
   every JSPF track carries an empty extension; `/playlist/create` takes
   `{"playlist": {...}}` while `/playlist/export-jspf/*` takes the bare playlist. Both are

@@ -1,12 +1,14 @@
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import {
   buildJspf,
+  describeNetworkError,
   latestShardName,
   oldestFirst,
   parseArgs,
   parseSpotifyEmbed,
   playlistTitle,
   recordPlaylist,
+  request,
   rankAnyVersion,
   rankFaithful,
   spotifyGap,
@@ -247,5 +249,66 @@ describe("buildJspf", () => {
     for (const track of jspf.track) {
       expect(track.extension["https://musicbrainz.org/doc/jspf#track"]).toBeDefined();
     }
+  });
+});
+
+describe("describeNetworkError", () => {
+  it("adds the cause that fetch hides behind its generic message", () => {
+    const error = new TypeError("fetch failed", { cause: { code: "ECONNRESET" } });
+    expect(describeNetworkError(error)).toBe("fetch failed (ECONNRESET)");
+  });
+
+  it("keeps the message when there is no cause", () => {
+    expect(describeNetworkError(new Error("boom"))).toBe("boom");
+  });
+});
+
+describe("request", () => {
+  afterEach(() => {
+    vi.unstubAllGlobals();
+  });
+
+  const reply = (status) => ({ status, ok: status >= 200 && status < 300 });
+  const options = { delayMs: 0 };
+
+  it("retries a network error and returns the next answer", async () => {
+    const fetchMock = vi
+      .fn()
+      .mockRejectedValueOnce(new TypeError("fetch failed"))
+      .mockResolvedValueOnce(reply(200));
+    vi.stubGlobal("fetch", fetchMock);
+    const response = await request("https://example.test", {}, options);
+    expect(response.ok).toBe(true);
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+  });
+
+  it("retries a gateway status such as 503", async () => {
+    const fetchMock = vi.fn().mockResolvedValueOnce(reply(503)).mockResolvedValueOnce(reply(200));
+    vi.stubGlobal("fetch", fetchMock);
+    expect((await request("https://example.test", {}, options)).ok).toBe(true);
+  });
+
+  it("returns a client error such as 404 at once", async () => {
+    const fetchMock = vi.fn().mockResolvedValue(reply(404));
+    vi.stubGlobal("fetch", fetchMock);
+    expect((await request("https://example.test", {}, options)).status).toBe(404);
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+  });
+
+  it("gives up after four attempts and names the cause", async () => {
+    const failure = new TypeError("fetch failed", { cause: { code: "ETIMEDOUT" } });
+    const fetchMock = vi.fn().mockRejectedValue(failure);
+    vi.stubGlobal("fetch", fetchMock);
+    await expect(request("https://example.test", {}, options)).rejects.toThrow(/ETIMEDOUT/);
+    expect(fetchMock).toHaveBeenCalledTimes(4);
+  });
+
+  it("does not repeat a call that is unsafe to repeat", async () => {
+    const fetchMock = vi.fn().mockRejectedValue(new TypeError("fetch failed"));
+    vi.stubGlobal("fetch", fetchMock);
+    await expect(request("https://example.test", {}, { retry: false, delayMs: 0 })).rejects.toThrow(
+      /fetch failed/,
+    );
+    expect(fetchMock).toHaveBeenCalledTimes(1);
   });
 });
