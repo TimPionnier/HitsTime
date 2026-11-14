@@ -128,6 +128,11 @@ export function withPeek(attempt: DailyAttempt): DailyAttempt | null {
   return { ...next, adjustedMs: adjustedMsFor(next.rawActiveMs, next.errors, next.peeks) };
 }
 
+/** Play order (1-based) of each answered track; the anchor card is never in `rounds`. */
+export function roundNumbersFor(rounds: DailyRound[]): Map<string, number> {
+  return new Map(rounds.map((r, index) => [r.trackId, index + 1]));
+}
+
 export function adjustedMsFor(rawActiveMs: number, errors: number, peeks = 0): number {
   const charged = Math.min(Math.max(0, peeks), PEEK_CAP);
   return rawActiveMs + errors * ERROR_PENALTY_MS + charged * PEEK_PENALTY_MS;

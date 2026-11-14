@@ -6,6 +6,7 @@ import {
   PEEK_PENALTY_MS,
   allAttempts,
   formatMs,
+  roundNumbersFor,
   statsFrom,
 } from '../services/dailyStore';
 import { ROUNDS } from '../engine/daily';
@@ -30,6 +31,7 @@ export function DailyEnd() {
   if (!attempt || !daily) return null;
 
   const wrongIds = new Set(attempt.rounds.filter((r) => !r.correct).map((r) => r.trackId));
+  const roundNumbers = roundNumbersFor(attempt.rounds);
   const peeks = attempt.peeks ?? 0;
 
   /**
@@ -135,6 +137,7 @@ export function DailyEnd() {
                     track={track}
                     tone={wrongIds.has(track.id) ? 'wrong' : 'normal'}
                     small
+                    round={roundNumbers.get(track.id)}
                   />
                 ))}
               </div>

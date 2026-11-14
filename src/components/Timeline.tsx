@@ -3,6 +3,7 @@ import { motion } from 'motion/react';
 import { useApp } from '../store';
 import { TimelineCard, MysteryCardFace } from './TimelineCard';
 import type { GameTrack } from '../engine/types';
+import { roundNumbersFor } from '../services/dailyStore';
 
 function FlipIn({ children }: { children: React.ReactNode }) {
   return (
@@ -60,6 +61,7 @@ export function Timeline() {
   const place = useApp((s) => s.place);
   const confirm = useApp((s) => s.confirm);
   const t = useApp((s) => s.t);
+  const dailyAttempt = useApp((s) => s.dailyAttempt);
   const scroller = useRef<HTMLDivElement>(null);
   const [focusedGap, setFocusedGap] = useState<number | null>(null);
   const gapRefs = useRef<Map<number, HTMLElement>>(new Map());
@@ -122,6 +124,8 @@ export function Timeline() {
   const scrollBy = (dx: number) => scroller.current?.scrollBy({ left: dx, behavior: 'smooth' });
 
   const wrongIds = new Set(game.wrongIds);
+  const roundNumbers =
+    gameMode === 'daily' && dailyAttempt ? roundNumbersFor(dailyAttempt.rounds) : null;
 
   const toneFor = (track: GameTrack): 'normal' | 'correct' | 'wrong' => {
     // A card misplaced in daily mode stays red for the rest of the run — it is
@@ -181,11 +185,11 @@ export function Timeline() {
       items.push(
         isNew ? (
           <FlipIn key={track.id}>
-            <TimelineCard track={track} tone={toneFor(track)} />
+            <TimelineCard track={track} tone={toneFor(track)} round={roundNumbers?.get(track.id)} />
           </FlipIn>
         ) : (
           <motion.div key={track.id} layout>
-            <TimelineCard track={track} tone={toneFor(track)} />
+            <TimelineCard track={track} tone={toneFor(track)} round={roundNumbers?.get(track.id)} />
           </motion.div>
         ),
       );
