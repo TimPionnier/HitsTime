@@ -31,16 +31,17 @@ import {
 } from '../engine/daily';
 import { NotPublishedYet, loadChallenge } from '../daily/shards';
 import {
-  analyticsTimeMs,
   getAttempt,
   isSuspect,
   newAttempt,
+  pointsOf,
   saveAttempt,
   type DailyAttempt,
   type DailyRound,
 } from '../services/dailyStore';
 import { DailyTimer } from '../services/dailyTimer';
 import {
+  DAILY_ANALYTICS_MODE,
   abandonRun,
   beginRun,
   dailyScope,
@@ -294,10 +295,8 @@ export const useApp = create<AppState>((set, get) => {
       };
       saveAttempt(finished);
       set({ dailyAttempt: finished });
-      // The worker still buckets daily runs as a duration, so it gets the time
-      // metric rather than the points. See docs/analytics-architecture.md §1.6.
       reportRun({
-        score: analyticsTimeMs(rawActiveMs, finished.errors),
+        score: pointsOf(finished),
         cleared: true,
         errors: finished.errors,
         suspect: finished.suspect ?? false,
@@ -795,7 +794,7 @@ export const useApp = create<AppState>((set, get) => {
         // Reported here rather than on entry: the early return above serves a
         // finished day as a review screen, and counting that as a play would
         // make the archive inflate today's numbers.
-        void beginRun('daily', dailyScope(target), {
+        void beginRun(DAILY_ANALYTICS_MODE, dailyScope(target), {
           algoVersion: challenge.algoVersion,
           poolVersion: challenge.poolVersion,
         });

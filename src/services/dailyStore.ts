@@ -11,13 +11,6 @@ import { totalPoints } from '../engine/points';
 
 const KEY = 'hitstime.daily.v1';
 
-/**
- * What one misplacement costs in the time metric still reported to analytics.
- * The worker buckets daily runs as a time (lower is better); the player's own
- * score is the points of `engine/points.ts`.
- */
-export const ERROR_PENALTY_MS = 30_000;
-
 export interface DailyRound {
   trackId: string;
   chosenIndex: number;
@@ -127,11 +120,6 @@ export function perfectTrackIds(rounds: DailyRound[]): Set<string> {
 /** The player's score: derived from the rounds, so it can never drift from them. */
 export function pointsOf(attempt: Pick<DailyAttempt, 'rounds'>): number {
   return totalPoints(attempt.rounds);
-}
-
-/** Time metric sent to analytics, which still buckets daily runs as a duration. */
-export function analyticsTimeMs(rawActiveMs: number, errors: number): number {
-  return rawActiveMs + errors * ERROR_PENALTY_MS;
 }
 
 /**

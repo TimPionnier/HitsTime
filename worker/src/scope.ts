@@ -12,7 +12,14 @@
  * free-play modes is bounded by the playlist it was scored on.
  */
 
-export const MODES = ['daily', 'timeline', 'olderYounger'] as const;
+/**
+ * `daily` is the original daily challenge, scored as a duration (lower is
+ * better). `dailyPoints` is the same challenge scored in points (higher is
+ * better). They are separate modes so that the two scales never share an
+ * average or a histogram; `daily` stays accepted for clients that were loaded
+ * before the switch.
+ */
+export const MODES = ['daily', 'dailyPoints', 'timeline', 'olderYounger'] as const;
 export type Mode = (typeof MODES)[number];
 
 export function isMode(v: unknown): v is Mode {
@@ -26,6 +33,11 @@ export function isMode(v: unknown): v is Mode {
  * Getting it backwards makes "best" mean "worst" and does not look wrong on a
  * dashboard — the most embarrassing available bug, and a one-liner to prevent.
  */
+/** Both daily modes are scoped to a calendar date. */
+export function isDailyMode(mode: Mode): boolean {
+  return mode === 'daily' || mode === 'dailyPoints';
+}
+
 export function directionFor(mode: Mode): 'min' | 'max' {
   return mode === 'daily' ? 'min' : 'max';
 }
@@ -52,7 +64,7 @@ const PLAYLIST_SCOPE = /^[a-z]{1,16}:\d{1,20}$/;
 export function canonicalScope(mode: Mode, raw: unknown): string | null {
   if (typeof raw !== 'string' || raw.length > 64) return null;
 
-  if (mode === 'daily') return DAILY_SCOPE.test(raw) ? raw : null;
+  if (isDailyMode(mode)) return DAILY_SCOPE.test(raw) ? raw : null;
 
   if (!PLAYLIST_SCOPE.test(raw)) return null;
   return PLAYLIST_ALLOWLIST.has(raw) ? raw : 'other';
@@ -68,6 +80,9 @@ export function canonicalScope(mode: Mode, raw: unknown): string | null {
 const SCORE_LIMITS: Record<Mode, { min: number; max: number }> = {
   // 5 s is below any human run of ten rounds; 6 h is past any real session.
   daily: { min: 5_000, max: 21_600_000 },
+  // A run of ten rounds cannot beat 1 700 points; the margin keeps a future
+  // bonus from being refused. Zero is real: every card misplaced.
+  dailyPoints: { min: 0, max: 3_000 },
   timeline: { min: 0, max: 500 },
   olderYounger: { min: 0, max: 500 },
 };

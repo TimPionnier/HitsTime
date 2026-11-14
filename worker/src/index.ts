@@ -16,7 +16,14 @@
  */
 import type { D1Database, Env, ExecutionContext } from './env';
 import { BUCKETS_V, bucketCount, bucketOf, bucketSpecFor } from './buckets';
-import { canonicalScope, directionFor, isMode, scoreInRange, type Mode } from './scope';
+import {
+  canonicalScope,
+  directionFor,
+  isDailyMode,
+  isMode,
+  scoreInRange,
+  type Mode,
+} from './scope';
 import { TICKET_TTL_MS, newNonce, signTicket, verifyTicket } from './ticket';
 import { utcDay, visitorHash } from './visitor';
 
@@ -118,7 +125,7 @@ function userAgent(req: Request): string {
  * is still on yesterday.
  */
 function scopeDatePlausible(mode: Mode, scope: string, now: Date): boolean {
-  if (mode !== 'daily') return true;
+  if (!isDailyMode(mode)) return true;
   const date = scope.slice(2);
   const t = Date.parse(`${date}T00:00:00Z`);
   if (Number.isNaN(t)) return false;
@@ -211,6 +218,7 @@ async function handleFinish(req: Request, env: Env, now: Date): Promise<Response
   // existed. Note what is NOT done: a fast run is never rejected — a genuinely
   // quick player is indistinguishable from a lucky one, and refusing them would
   // be a worse bug than counting a cheat.
+  // Only the duration scale has this bound; points say nothing about elapsed time.
   const overrun = mode === 'daily' && (score as number) > now.getTime() - ticket.iat + 5_000;
 
   // The day the ticket was ISSUED, so a run spanning midnight lands in one row

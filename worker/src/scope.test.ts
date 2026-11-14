@@ -1,10 +1,11 @@
 import { describe, expect, it } from 'vitest';
 
-import { canonicalScope, directionFor, isMode, scoreInRange } from './scope';
+import { canonicalScope, directionFor, isDailyMode, isMode, scoreInRange } from './scope';
 
 describe('mode', () => {
-  it('accepts only the three real modes', () => {
+  it('accepts only the real modes', () => {
     expect(isMode('daily')).toBe(true);
+    expect(isMode('dailyPoints')).toBe(true);
     expect(isMode('timeline')).toBe(true);
     expect(isMode('olderYounger')).toBe(true);
     expect(isMode('Daily')).toBe(false);
@@ -15,12 +16,26 @@ describe('mode', () => {
   it('gives daily the min direction and the point modes max', () => {
     // If this ever flips, "best score" silently becomes "worst score".
     expect(directionFor('daily')).toBe('min');
+    expect(directionFor('dailyPoints')).toBe('max');
     expect(directionFor('timeline')).toBe('max');
     expect(directionFor('olderYounger')).toBe('max');
   });
 });
 
+describe('isDailyMode', () => {
+  it('covers both scales of the daily challenge and nothing else', () => {
+    expect(isDailyMode('daily')).toBe(true);
+    expect(isDailyMode('dailyPoints')).toBe(true);
+    expect(isDailyMode('timeline')).toBe(false);
+  });
+});
+
 describe('canonicalScope', () => {
+  it('scopes daily points to a date too', () => {
+    expect(canonicalScope('dailyPoints', 'd:2026-09-13')).toBe('d:2026-09-13');
+    expect(canonicalScope('dailyPoints', 'deezer:15689112801')).toBeNull();
+  });
+
   it('keeps a well-formed daily date', () => {
     expect(canonicalScope('daily', 'd:2026-09-13')).toBe('d:2026-09-13');
   });
@@ -60,6 +75,18 @@ describe('scoreInRange', () => {
     expect(scoreInRange('daily', 1_000)).toBe(false);
     expect(scoreInRange('daily', -5)).toBe(false);
     expect(scoreInRange('timeline', 10_000)).toBe(false);
+  });
+
+  it('accepts a realistic daily points score, zero included', () => {
+    expect(scoreInRange('dailyPoints', 1_180)).toBe(true);
+    expect(scoreInRange('dailyPoints', 0)).toBe(true);
+  });
+
+  it('rejects a daily points score no run can reach', () => {
+    expect(scoreInRange('dailyPoints', 50_000)).toBe(false);
+    expect(scoreInRange('dailyPoints', -1)).toBe(false);
+    // A duration-sized value is not a points score.
+    expect(scoreInRange('dailyPoints', 62_000)).toBe(false);
   });
 
   it('rejects non-integers and non-numbers', () => {

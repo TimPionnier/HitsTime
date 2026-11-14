@@ -16,6 +16,8 @@ import { isFullGuess } from '../engine/guess';
 import { cn } from '../lib/cn';
 import { usePlaylistUrl } from '../hooks/usePlaylistUrl';
 import { ListMusic, Volume2, VolumeX } from 'lucide-react';
+import { GlobalStats } from '../components/GlobalStats';
+import { DAILY_ANALYTICS_MODE, dailyScope } from '../services/analytics';
 import { useSoundEnabled } from '../hooks/useSoundEnabled';
 import { DailyInfoTooltip } from '../components/DailyInfoTooltip';
 
@@ -207,6 +209,14 @@ export function DailyEnd() {
           value={stats.bestPoints === null ? '—' : String(stats.bestPoints)}
         />
       </div>
+
+      {/* Everyone who played THIS puzzle, scoped to the date: the only
+          comparison in the game that is actually like-for-like. */}
+      <GlobalStats
+        mode={DAILY_ANALYTICS_MODE}
+        scope={dailyScope(attempt.date)}
+        score={points.total}
+      />
 
       <div className="flex flex-wrap items-center justify-center gap-2 pb-4">
         <button

@@ -61,6 +61,9 @@ export function playlistScope(providerId: string, playlistId: string): string {
   return `${providerId}:${playlistId}`;
 }
 
+/** The daily challenge is reported under its points scale, apart from the old duration one. */
+export const DAILY_ANALYTICS_MODE = 'dailyPoints';
+
 export interface RunVersions {
   algoVersion?: number;
   poolVersion?: number;
@@ -75,14 +78,10 @@ export interface RunVersions {
  * docs/anti-cheat-architecture.md §2) is the day to add it, deliberately.
  */
 export interface RunResult {
-  /** Points for the free-play modes, adjustedMs for daily. */
+  /** Points, for every mode. */
   score: number;
   cleared: boolean;
   errors?: number;
-  /** Peeked runs are counted but excluded from averages — a 5-minute penalty
-   *  from a heuristic would otherwise dominate a distribution measured in
-   *  seconds. See docs/analytics-architecture.md §1.6. */
-  peeks?: number;
   suspect?: boolean;
 }
 

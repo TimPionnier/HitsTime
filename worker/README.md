@@ -12,6 +12,16 @@ The client renders a percentile off the histogram instead.
 Nothing in the game breaks if this is never deployed. With no
 `VITE_ANALYTICS_URL` at build time, `src/services/analytics.ts` is a no-op.
 
+## Modes
+
+`timeline` and `olderYounger` score in points. The daily challenge exists under
+two modes that never share an average or a histogram: `daily` (a duration in
+ms, lower is better, kept for clients loaded before the switch) and
+`dailyPoints` (points from 0 to 1 700, higher is better, 100-point bins). The
+current client reports `dailyPoints`. Deploy the Worker **before** the site:
+a client that starts a `dailyPoints` run against an older Worker gets a
+`bad_ticket`/400 and the run simply goes uncounted.
+
 ## Deploy
 
 ```bash

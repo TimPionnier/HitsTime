@@ -1,7 +1,5 @@
 import { describe, expect, it } from "vitest";
 import {
-  ERROR_PENALTY_MS,
-  analyticsTimeMs,
   newAttempt,
   perfectTrackIds,
   pointsOf,
@@ -34,12 +32,6 @@ describe("pointsOf", () => {
   it("is derived from the rounds", () => {
     const attempt = { rounds: [round(), round({ correct: false })] };
     expect(pointsOf(attempt)).toBe(100 - 25);
-  });
-});
-
-describe("analyticsTimeMs", () => {
-  it("adds the error penalty to the thinking time", () => {
-    expect(analyticsTimeMs(60_000, 2)).toBe(60_000 + 2 * ERROR_PENALTY_MS);
   });
 });
 
