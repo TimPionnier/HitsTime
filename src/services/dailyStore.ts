@@ -7,26 +7,16 @@
  */
 import { ALGO_VERSION, dateForDayIndex, dayIndexFor, localDateISO } from '../engine/daily';
 import { isFullGuess } from '../engine/guess';
+import { totalPoints } from '../engine/points';
 
 const KEY = 'hitstime.daily.v1';
 
-/** What one misplacement costs. See docs/daily-challenge-architecture.md §7. */
-export const ERROR_PENALTY_MS = 30_000;
-
 /**
- * What getting caught with DevTools open costs — ten misplacements' worth.
- *
- * Charged at most PEEK_CAP times per run: the detector is edge-triggered, so
- * open/close/open would otherwise stack into a run nobody can recover from, and
- * the point is to make peeking not worth it, not to make it unsurvivable.
+ * What one misplacement costs in the time metric still reported to analytics.
+ * The worker buckets daily runs as a time (lower is better); the player's own
+ * score is the points of `engine/points.ts`.
  */
-export const PEEK_PENALTY_MS = 300_000;
-
-/** Peeks charged per run. Raise it if you want repeat offences to stack. */
-export const PEEK_CAP = 1;
-
-/** Hard mode: what a round takes off the clock when both title and artist are right. */
-export const GUESS_BONUS_MS = 20_000;
+export const ERROR_PENALTY_MS = 30_000;
 
 export interface DailyRound {
   trackId: string;
@@ -35,7 +25,6 @@ export interface DailyRound {
   correct: boolean;
   /** Thinking time for this round — reveal animation excluded. */
   thinkMs: number;
-  /** Hard mode only. */
   titleFound?: boolean;
   artistFound?: boolean;
 }
@@ -47,17 +36,11 @@ export interface DailyAttempt {
   /** Integrity tag: a mismatch means this result belongs to a different puzzle. */
   seedHex: string;
   status: 'in_progress' | 'finished';
-  /** Frozen when the attempt starts, so the setting cannot be flipped mid-run. */
-  hard?: boolean;
   rounds: DailyRound[];
   errors: number;
-  /** Times a docked DevTools panel was detected mid-run. 0..PEEK_CAP. */
-  peeks?: number;
   /** Correct placements before the first error. Freezes; never resets. */
   streak: number;
   rawActiveMs: number;
-  /** rawActiveMs + both penalties - hard-mode bonus, never below 0 — the score. */
-  adjustedMs: number;
   startedAtEpochMs: number;
   finishedAtEpochMs?: number;
   suspect?: boolean;
@@ -70,7 +53,7 @@ export interface DailyStats {
   maxStreak: number;
   /** Histogram of `errors`, index 0..10. */
   distribution: number[];
-  bestAdjustedMs: number | null;
+  bestPoints: number | null;
 }
 
 interface Persisted {
@@ -122,24 +105,6 @@ export function saveAttempt(attempt: DailyAttempt): void {
   write(data);
 }
 
-/**
- * Charge one peek against an in-progress attempt.
- *
- * Returns null when nothing should change — a finished run, or a run that has
- * already paid. Pure so the rule is testable without a store, a DOM, or a
- * simulated DevTools panel, none of which are things a unit test can conjure.
- */
-export function withPeek(attempt: DailyAttempt): DailyAttempt | null {
-  if (attempt.status !== 'in_progress') return null;
-  const peeks = attempt.peeks ?? 0;
-  if (peeks >= PEEK_CAP) return null;
-  const next = { ...attempt, peeks: peeks + 1 };
-  return {
-    ...next,
-    adjustedMs: adjustedMsFor(next.rawActiveMs, next.errors, next.peeks, bonusRounds(next.rounds)),
-  };
-}
-
 /** Round number shown on the anchor card, which is dealt face up and never answered. */
 export const ANCHOR_ROUND = 0;
 
@@ -159,21 +124,14 @@ export function perfectTrackIds(rounds: DailyRound[]): Set<string> {
   );
 }
 
-/** Rounds that earned the hard-mode bonus. */
-export function bonusRounds(rounds: DailyRound[]): number {
-  return rounds.filter(isFullGuess).length;
+/** The player's score: derived from the rounds, so it can never drift from them. */
+export function pointsOf(attempt: Pick<DailyAttempt, 'rounds'>): number {
+  return totalPoints(attempt.rounds);
 }
 
-export function adjustedMsFor(
-  rawActiveMs: number,
-  errors: number,
-  peeks = 0,
-  bonuses = 0,
-): number {
-  const charged = Math.min(Math.max(0, peeks), PEEK_CAP);
-  const total =
-    rawActiveMs + errors * ERROR_PENALTY_MS + charged * PEEK_PENALTY_MS - bonuses * GUESS_BONUS_MS;
-  return Math.max(0, total);
+/** Time metric sent to analytics, which still buckets daily runs as a duration. */
+export function analyticsTimeMs(rawActiveMs: number, errors: number): number {
+  return rawActiveMs + errors * ERROR_PENALTY_MS;
 }
 
 /**
@@ -196,7 +154,8 @@ export function statsFrom(attempts: Record<string, DailyAttempt>): DailyStats {
   for (const a of finished) {
     if (a.errors >= 0 && a.errors <= 10) distribution[a.errors]++;
     if (a.errors === 0) perfect++;
-    if (best === null || a.adjustedMs < best) best = a.adjustedMs;
+    const points = pointsOf(a);
+    if (best === null || points > best) best = points;
   }
 
   // Streak = consecutive days played, walking back from the most recent day
@@ -224,7 +183,7 @@ export function statsFrom(attempts: Record<string, DailyAttempt>): DailyStats {
     currentStreak: current,
     maxStreak: max,
     distribution,
-    bestAdjustedMs: best,
+    bestPoints: best,
   };
 }
 
@@ -232,7 +191,6 @@ export function newAttempt(
   date: string,
   poolVersion: number,
   seedHex: string,
-  hard = false,
 ): DailyAttempt {
   return {
     date,
@@ -240,13 +198,10 @@ export function newAttempt(
     algoVersion: ALGO_VERSION,
     seedHex,
     status: 'in_progress',
-    hard,
     rounds: [],
     errors: 0,
     streak: 0,
-    peeks: 0,
     rawActiveMs: 0,
-    adjustedMs: 0,
     startedAtEpochMs: Date.now(),
   };
 }

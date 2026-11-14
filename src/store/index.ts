@@ -31,13 +31,11 @@ import {
 } from '../engine/daily';
 import { NotPublishedYet, loadChallenge } from '../daily/shards';
 import {
-  adjustedMsFor,
+  analyticsTimeMs,
   getAttempt,
-  bonusRounds,
   isSuspect,
   newAttempt,
   saveAttempt,
-  withPeek,
   type DailyAttempt,
   type DailyRound,
 } from '../services/dailyStore';
@@ -50,7 +48,6 @@ import {
   reportRun,
   reportShardMissing,
 } from '../services/analytics';
-import { watchDevtools } from '../services/devtools';
 
 export type Screen = 'modeSelect' | 'game' | 'end' | 'dailyArchive';
 export type GameMode = 'timeline' | 'olderYounger' | 'daily';
@@ -60,11 +57,7 @@ type ClipStatus = 'idle' | 'playing' | 'done';
 const BATCH_SIZE = 10;
 const PREFETCH_AT = 5;
 const REVEAL_MS = 1600;
-
-/** How long the peek snackbar stays up. */
-const SNACK_MS = 7000;
-
-const HARD_MODE_KEY = 'hitstime.hardMode';
+const TIMER_POLL_MS = 100;
 
 const DEFAULT_PLAYLIST: PlaylistMeta = {
   id: '15689112801',
@@ -80,10 +73,8 @@ interface AppState {
   provider: MusicProvider;
   playlist: PlaylistMeta;
   gameMode: GameMode;
-  /** Player preference. A daily run reads `dailyAttempt.hard` instead, frozen at its start. */
-  hardMode: boolean;
   guess: TrackGuess;
-  /** Outcome of the round being revealed; null outside the reveal and outside hard mode. */
+  /** Outcome of the round being revealed; null outside the reveal. */
   guessResult: GuessResult | null;
   /** Free-play timeline: points earned from titles and artists, kept apart from `game.score`. */
   guessBonusPoints: number;
@@ -94,8 +85,6 @@ interface AppState {
   clip: { status: ClipStatus; progress: number };
   loading: boolean;
   error: string | null;
-  /** Transient message shown over the game. Currently only the peek warning. */
-  snack: string | null;
 
   // End-of-game timeline snapshot (includes the wrong card for review)
   endTimeline: { tracks: GameTrack[]; wrongTrack: RevealResult | null } | null;
@@ -114,7 +103,6 @@ interface AppState {
 
   t: (key: TKey, vars?: TVars) => string;
   setLang: (lang: Lang) => void;
-  setHardMode: (hard: boolean) => void;
   setGuess: (field: keyof TrackGuess, value: string) => void;
   init: () => void;
   startGame: (mode?: GameMode) => Promise<void>;
@@ -130,7 +118,6 @@ interface AppState {
   startDaily: (date?: string) => Promise<void>;
   openArchive: () => void;
   dailyElapsedMs: () => number;
-  dismissSnack: () => void;
 }
 
 function initialLang(): Lang {
@@ -143,14 +130,6 @@ function initialLang(): Lang {
   }
 }
 
-function initialHardMode(): boolean {
-  try {
-    return localStorage.getItem(HARD_MODE_KEY) === '1';
-  } catch {
-    return false;
-  }
-}
-
 const deezerProvider = createDeezerProvider();
 
 export const useApp = create<AppState>((set, get) => {
@@ -158,40 +137,16 @@ export const useApp = create<AppState>((set, get) => {
   let timer: DailyTimer | null = null;
   /** performance.now() at the moment the current round became answerable. */
   let roundStartMs = 0;
+  let timerPoll: number | undefined;
 
-  /**
-   * Charge the peek penalty.
-   *
-   * Note what this deliberately does NOT do: pause the clock. Stopping time
-   * while the panel is open would hand the peeker a free, untimed look at the
-   * store once they had paid — the opposite of the intent.
-   *
-   * Guarded on an answerable daily round, so the panel can be opened freely on
-   * the menus, the archive, the end screen, and in the free-play modes. Nothing
-   * there is worth hiding.
-   *
-   * Returns whether the charge landed. The detector uses that to decide whether
-   * to latch: a refusal here must leave it armed, or opening the panel before
-   * starting a run would disarm it for the whole session.
-   */
-  const chargePeek = (): boolean => {
-    const { gameMode, game, dailyAttempt, t } = get();
-    if (gameMode !== 'daily' || !dailyAttempt) return false;
-    const phase = game?.phase;
-    if (phase !== 'listening' && phase !== 'pendingValidation') return false;
-
-    const charged = withPeek(dailyAttempt);
-    if (!charged) return false;
-
-    persistDaily({ peeks: charged.peeks });
-    set({ snack: t('peekCaught') });
-    window.setTimeout(() => {
-      if (get().snack === t('peekCaught')) set({ snack: null });
-    }, SNACK_MS);
-    return true;
+  // DailyTimer discards any gap over 2s between two reads, so something must
+  // read it steadily or the run's time (and each round's thinking time) stays
+  // near zero. The screen used to do that by displaying the clock.
+  const setTimer = (next: DailyTimer | null) => {
+    window.clearInterval(timerPoll);
+    timer = next;
+    if (next) timerPoll = window.setInterval(() => next.elapsedMs(), TIMER_POLL_MS);
   };
-
-  if (typeof window !== 'undefined') watchDevtools(chargePeek);
 
   // Pause the clock whenever the tab goes away, so an abandoned tab can't
   // inflate a run and a backgrounded one can't be farmed.
@@ -212,12 +167,6 @@ export const useApp = create<AppState>((set, get) => {
     const { dailyAttempt } = get();
     if (!dailyAttempt) return;
     const next: DailyAttempt = { ...dailyAttempt, ...patch };
-    next.adjustedMs = adjustedMsFor(
-      next.rawActiveMs,
-      next.errors,
-      next.peeks ?? 0,
-      bonusRounds(next.rounds),
-    );
     saveAttempt(next);
     set({ dailyAttempt: next });
   };
@@ -256,9 +205,9 @@ export const useApp = create<AppState>((set, get) => {
 
   /** Record the score and land on the end screen. */
   const finishGame = (score: number, cleared: boolean) => {
-    const { playlist, provider, gameMode, game, hardMode, guessBonusPoints } = get();
-    // Analytics gets the score without hard-mode bonus points, so the global
-    // distribution stays comparable between normal and hard runs.
+    const { playlist, provider, gameMode, game, guessBonusPoints } = get();
+    // Analytics gets the score without guess bonus points, so the global
+    // distribution stays comparable with the runs recorded before they existed.
     reportRun({ score, cleared });
     addScore({
       providerId: provider.id,
@@ -267,7 +216,6 @@ export const useApp = create<AppState>((set, get) => {
       gameMode,
       score: score + guessBonusPoints,
       cleared,
-      hard: gameMode === 'timeline' && hardMode,
       date: new Date().toISOString(),
     });
 
@@ -341,35 +289,21 @@ export const useApp = create<AppState>((set, get) => {
         errors: state.errors,
         streak: state.streak,
         rawActiveMs,
-        adjustedMs: adjustedMsFor(
-          rawActiveMs,
-          state.errors,
-          attempt.peeks ?? 0,
-          bonusRounds(attempt.rounds),
-        ),
         finishedAtEpochMs: Date.now(),
-        // A peek is a suspicion, not a proof — but it belongs in the same flag
-        // the implausible-timing check uses, so a future leaderboard has one
-        // field to filter on.
-        suspect: isSuspect(attempt.rounds, rawActiveMs) || (attempt.peeks ?? 0) > 0,
+        suspect: isSuspect(attempt.rounds, rawActiveMs),
       };
       saveAttempt(finished);
       set({ dailyAttempt: finished });
-      // `peeks` and `suspect` ride along so the server can keep these runs in
-      // the play counts while excluding them from averages — a 5-minute
-      // heuristic penalty would otherwise swamp a distribution measured in
-      // seconds. See docs/analytics-architecture.md §1.6.
-      // Sent without the hard-mode bonus: up to -3:20 per run would skew a
-      // distribution shared with normal-mode players.
+      // The worker still buckets daily runs as a duration, so it gets the time
+      // metric rather than the points. See docs/analytics-architecture.md §1.6.
       reportRun({
-        score: adjustedMsFor(rawActiveMs, finished.errors, finished.peeks ?? 0),
+        score: analyticsTimeMs(rawActiveMs, finished.errors),
         cleared: true,
         errors: finished.errors,
-        peeks: finished.peeks ?? 0,
         suspect: finished.suspect ?? false,
       });
     }
-    timer = null;
+    setTimer(null);
     set({
       game: state,
       screen: 'end',
@@ -456,7 +390,6 @@ export const useApp = create<AppState>((set, get) => {
     provider: deezerProvider,
     playlist: DEFAULT_PLAYLIST,
     gameMode: 'timeline',
-    hardMode: initialHardMode(),
     guess: EMPTY_GUESS,
     guessResult: null,
     guessBonusPoints: 0,
@@ -467,7 +400,6 @@ export const useApp = create<AppState>((set, get) => {
     clip: { status: 'idle', progress: 0 },
     loading: false,
     error: null,
-    snack: null,
     daily: null,
     dailyAttempt: null,
     dailyDate: localDateISO(),
@@ -486,15 +418,6 @@ export const useApp = create<AppState>((set, get) => {
         /* ignore */
       }
       set({ lang });
-    },
-
-    setHardMode: (hard) => {
-      try {
-        localStorage.setItem(HARD_MODE_KEY, hard ? '1' : '0');
-      } catch {
-        /* ignore */
-      }
-      set({ hardMode: hard });
     },
 
     setGuess: (field, value) => set({ guess: { ...get().guess, [field]: value } }),
@@ -670,7 +593,7 @@ export const useApp = create<AppState>((set, get) => {
 
         const revealed = validate(game, 'continue');
         const attempt = get().dailyAttempt;
-        const guessResult = attempt?.hard ? checkGuess(get().guess, game.mystery!) : null;
+        const guessResult = checkGuess(get().guess, game.mystery!);
         const round: DailyRound = {
           trackId: game.mystery!.id,
           chosenIndex: game.pendingIndex!,
@@ -707,8 +630,7 @@ export const useApp = create<AppState>((set, get) => {
 
       const revealed = validate(game);
       const round = get().roundNumber + 1;
-      const guessResult =
-        get().hardMode && game.mystery ? checkGuess(get().guess, game.mystery) : null;
+      const guessResult = game.mystery ? checkGuess(get().guess, game.mystery) : null;
       const full = guessResult !== null && isFullGuess(guessResult);
       const bonusPoints = full ? GUESS_BONUS_POINTS : 0;
       const perfectId = full && revealed.reveal?.correct ? revealed.reveal.track.id : null;
@@ -770,14 +692,13 @@ export const useApp = create<AppState>((set, get) => {
     goHome: () => {
       get().provider?.stop();
       abandonRun();
-      timer = null;
+      setTimer(null);
       set({
         screen: 'modeSelect',
         game: null,
         oyGame: null,
         endTimeline: null,
         error: null,
-        snack: null,
         rawTrackData: null,
         prefetchedTracks: null,
         prefetching: false,
@@ -811,7 +732,6 @@ export const useApp = create<AppState>((set, get) => {
         screen: 'game',
         loading: true,
         error: null,
-        snack: null,
         guess: EMPTY_GUESS,
         guessResult: null,
         dailyDate: target,
@@ -870,7 +790,7 @@ export const useApp = create<AppState>((set, get) => {
         const attempt =
           existing && existing.seedHex === challenge.seedHex
             ? existing
-            : newAttempt(target, challenge.poolVersion, challenge.seedHex, get().hardMode);
+            : newAttempt(target, challenge.poolVersion, challenge.seedHex);
 
         // Reported here rather than on entry: the early return above serves a
         // finished day as a review screen, and counting that as a play would
@@ -881,7 +801,8 @@ export const useApp = create<AppState>((set, get) => {
         });
 
         previewRetried.clear();
-        timer = new DailyTimer(attempt.rawActiveMs);
+        const dailyTimer = new DailyTimer(attempt.rawActiveMs);
+        setTimer(dailyTimer);
         roundStartMs = attempt.rawActiveMs;
 
         let state = startDailyGame(tracks);
@@ -904,9 +825,9 @@ export const useApp = create<AppState>((set, get) => {
           loading: false,
           clip: { status: 'idle', progress: 0 },
         });
-        timer.resume();
+        dailyTimer.resume();
       } catch (err) {
-        timer = null;
+        setTimer(null);
         // Not a failure: the player's local day has started but the build that
         // publishes it has not run yet. Saying "something went wrong" would
         // send them to reload forever.
@@ -922,32 +843,29 @@ export const useApp = create<AppState>((set, get) => {
     openArchive: () => {
       get().provider?.stop();
       abandonRun();
-      timer = null;
+      setTimer(null);
       set({
         screen: 'dailyArchive',
         game: null,
         oyGame: null,
         endTimeline: null,
         error: null,
-        snack: null,
       });
     },
 
     dailyElapsedMs: () => timer?.elapsedMs() ?? get().dailyAttempt?.rawActiveMs ?? 0,
 
-    dismissSnack: () => set({ snack: null }),
 
     changeMode: () => {
       get().provider?.stop();
       abandonRun();
-      timer = null;
+      setTimer(null);
       set({
         screen: 'modeSelect',
         game: null,
         oyGame: null,
         endTimeline: null,
         error: null,
-        snack: null,
         prefetchedTracks: null,
         prefetching: false,
         usedTrackIds: new Set<string>(),

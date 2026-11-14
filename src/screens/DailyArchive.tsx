@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import { useApp } from '../store';
 import { EPOCH, dateForDayIndex, dayIndexFor, localDateISO } from '../engine/daily';
-import { allAttempts, formatMs, statsFrom } from '../services/dailyStore';
+import { allAttempts, statsFrom } from '../services/dailyStore';
 
 /**
  * Every challenge from day 1 to today.
@@ -49,7 +49,7 @@ export function DailyArchive() {
         <Stat label={t('dailyStreakLabel')} value={String(stats.currentStreak)} />
         <Stat
           label={t('dailyBest')}
-          value={stats.bestAdjustedMs === null ? '—' : formatMs(stats.bestAdjustedMs)}
+          value={stats.bestPoints === null ? '—' : String(stats.bestPoints)}
         />
       </div>
 

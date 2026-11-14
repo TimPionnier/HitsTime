@@ -1,25 +1,23 @@
 import { useMemo, useRef, useState } from 'react';
+import { PerfectRunCelebration } from '../components/PerfectRunCelebration';
 import { useApp } from '../store';
 import { TimelineCard, type CardTone } from '../components/TimelineCard';
 import {
-  ERROR_PENALTY_MS,
-  GUESS_BONUS_MS,
-  PEEK_PENALTY_MS,
   allAttempts,
   formatMs,
-  bonusRounds,
   perfectTrackIds,
   roundNumbersFor,
   roundOf,
   statsFrom,
 } from '../services/dailyStore';
+import { pointsBreakdown } from '../engine/points';
 import { ROUNDS } from '../engine/daily';
 import { isFullGuess } from '../engine/guess';
 import { cn } from '../lib/cn';
-import { GlobalStats } from '../components/GlobalStats';
-import { dailyScope } from '../services/analytics';
 import { usePlaylistUrl } from '../hooks/usePlaylistUrl';
-import { ListMusic } from 'lucide-react';
+import { ListMusic, Volume2, VolumeX } from 'lucide-react';
+import { useSoundEnabled } from '../hooks/useSoundEnabled';
+import { DailyInfoTooltip } from '../components/DailyInfoTooltip';
 
 export function DailyEnd() {
   const attempt = useApp((s) => s.dailyAttempt);
@@ -30,6 +28,8 @@ export function DailyEnd() {
   const t = useApp((s) => s.t);
 
   const scroller = useRef<HTMLDivElement>(null);
+  const scoreRef = useRef<HTMLParagraphElement>(null);
+  const [soundEnabled, toggleSound] = useSoundEnabled();
   const [copied, setCopied] = useState(false);
   const stats = useMemo(() => statsFrom(allAttempts()), [attempt]);
   const playlistUrl = usePlaylistUrl(daily?.dayIndex ?? 0);
@@ -38,14 +38,15 @@ export function DailyEnd() {
 
   const wrongIds = new Set(attempt.rounds.filter((r) => !r.correct).map((r) => r.trackId));
   const roundNumbers = roundNumbersFor(attempt.rounds);
-  const peeks = attempt.peeks ?? 0;
   const toneOf = (trackId: string): CardTone => {
     if (wrongIds.has(trackId)) return 'wrong';
     return perfectIds.has(trackId) ? 'perfect' : 'normal';
   };
-  const bonuses = bonusRounds(attempt.rounds);
   const perfectIds = perfectTrackIds(attempt.rounds);
-  const perfectsLabel = t(bonuses === 1 ? 'perfectOne' : 'perfectMany', { n: bonuses });
+  const perfects = perfectIds.size;
+  const isGoldenRun = attempt.rounds.length > 0 && perfects === attempt.rounds.length;
+  const perfectsLabel = t(perfects === 1 ? 'perfectOne' : 'perfectMany', { n: perfects });
+  const points = pointsBreakdown(attempt.rounds);
 
   /**
    * Correct/incorrect per round and nothing else. A grid that encoded years, or
@@ -60,8 +61,7 @@ export function DailyEnd() {
         return isFullGuess(r) ? '🟨' : '🟩';
       })
       .join(''),
-    `${ROUNDS - attempt.errors}/${ROUNDS} · ${formatMs(attempt.adjustedMs)}`,
-    ...(attempt.hard ? [`${perfectsLabel}`] : []),
+    `${points.total} ${t('pointsUnit')} · ${ROUNDS - attempt.errors}/${ROUNDS} · ${perfectsLabel}`,
     // Resolved against the live document, NOT hardcoded: `base` is './', the
     // site lives under a repository subpath on GitHub Pages, and a pasted
     // origin would rot silently the day it moves. A share from a dev machine
@@ -89,41 +89,63 @@ export function DailyEnd() {
     'grid size-9 sm:size-11 shrink-0 place-items-center rounded-full bg-raised text-xl text-muted transition-colors hover:bg-accent hover:text-ground';
 
   return (
-    <div className="flex h-full flex-col items-center gap-4 overflow-y-auto px-4 sm:px-6 py-4">
+    <div
+      className={cn(
+        'relative flex h-full flex-col items-center gap-4 overflow-y-auto px-4 sm:px-6 py-4',
+        isGoldenRun && 'theme-gold',
+      )}
+    >
+      {attempt.errors === 0 && attempt.rounds.length > 0 && (
+        <PerfectRunCelebration
+          originRef={scoreRef}
+          golden={isGoldenRun}
+          soundEnabled={soundEnabled}
+        />
+      )}
+      {attempt.errors === 0 && attempt.rounds.length > 0 && (
+        <button
+          onClick={toggleSound}
+          aria-label={t(soundEnabled ? 'soundOff' : 'soundOn')}
+          aria-pressed={soundEnabled}
+          className="absolute right-4 top-16 z-50 grid size-9 place-items-center rounded-full bg-raised text-muted transition-colors hover:text-accent"
+        >
+          {soundEnabled ? (
+            <Volume2 size={18} strokeWidth={2} aria-hidden="true" />
+          ) : (
+            <VolumeX size={18} strokeWidth={2} aria-hidden="true" />
+          )}
+        </button>
+      )}
       <div className="text-center">
         <p className="text-sm text-muted">
           {t('dailyPuzzle')} #{daily.dayIndex} · {attempt.date}
         </p>
-        <p className="mt-1 text-4xl sm:text-5xl font-extrabold tabular-nums text-accent">
-          {formatMs(attempt.adjustedMs)}
+        <p
+          ref={scoreRef}
+          className="mt-1 text-4xl sm:text-5xl font-extrabold tabular-nums text-accent"
+        >
+          {points.total} <span className="text-xl sm:text-2xl">{t('pointsUnit')}</span>
+          <span className="ml-2 align-middle">
+            <DailyInfoTooltip />
+          </span>
         </p>
         <p className="mt-1 text-sm font-bold">
-          {attempt.errors === 0 && peeks === 0 ? (
+          {attempt.errors === 0 ? (
             <span className="text-accent">{t('dailyPerfect')}</span>
           ) : (
             <span className="text-danger">
-              {attempt.errors > 0 && (
-                <>
-                  {attempt.errors} {t('dailyErrors')} · +
-                  {formatMs(attempt.errors * ERROR_PENALTY_MS)} {t('dailyPenalty')}
-                </>
-              )}
-              {attempt.errors > 0 && peeks > 0 && ' · '}
-              {peeks > 0 && (
-                <>
-                  {t('dailyPeek')} · +{formatMs(peeks * PEEK_PENALTY_MS)}
-                </>
-              )}
+              {attempt.errors} {t('dailyErrors')}
             </span>
           )}
+          {perfects > 0 && <span className="text-gold">{' \u00b7 '}{perfectsLabel}</span>}
         </p>
-        {attempt.hard && (
-          <p className="mt-1 text-sm font-bold text-gold">
-            {perfectsLabel} · {'\u2212'}
-            {formatMs(bonuses * GUESS_BONUS_MS)} {t('guessBonus')}
-          </p>
-        )}
-        <p className="mt-1 text-xs text-muted">
+        <dl className="mx-auto mt-2 grid max-w-xs grid-cols-[1fr_auto] gap-x-6 gap-y-0.5 text-left text-xs text-muted">
+          <PointsLine label={t('pointsPlacement')} value={points.placement} />
+          <PointsLine label={t('pointsSpeed')} value={points.speed} />
+          <PointsLine label={t('pointsGuesses')} value={points.guesses} />
+          <PointsLine label={t('pointsPerfects')} value={points.perfect} />
+        </dl>
+        <p className="mt-2 text-xs text-muted">
           {formatMs(attempt.rawActiveMs)} {t('dailyTime')}
         </p>
       </div>
@@ -182,20 +204,9 @@ export function DailyEnd() {
         <Stat label={t('dailyStreakLabel')} value={String(stats.currentStreak)} />
         <Stat
           label={t('dailyBest')}
-          value={stats.bestAdjustedMs === null ? '—' : formatMs(stats.bestAdjustedMs)}
+          value={stats.bestPoints === null ? '—' : String(stats.bestPoints)}
         />
       </div>
-
-      {/* Everyone who played THIS puzzle — scoped to the date, which is the
-          only comparison in the game that is actually like-for-like. A peeked
-          run is not ranked: its score carries five minutes the distribution
-          excludes. */}
-      <GlobalStats
-        mode="daily"
-        scope={dailyScope(attempt.date)}
-        score={attempt.adjustedMs}
-        comparable={peeks === 0}
-      />
 
       <div className="flex flex-wrap items-center justify-center gap-2 pb-4">
         <button
@@ -229,6 +240,18 @@ export function DailyEnd() {
         </button>
       </div>
     </div>
+  );
+}
+
+function PointsLine({ label, value }: { label: string; value: number }) {
+  return (
+    <>
+      <dt>{label}</dt>
+      <dd className="text-right font-bold tabular-nums text-white">
+        {value > 0 ? '+' : ''}
+        {value}
+      </dd>
+    </>
   );
 }
 

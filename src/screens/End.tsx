@@ -117,7 +117,7 @@ export function EndScreen() {
         <p className="text-5xl sm:text-6xl font-extrabold text-accent text-center">{activeGame.score + guessBonusPoints}</p>
         <p className="mt-1 text-xs text-muted text-center">
           {gameMode === 'timeline' ? t('timelineMode') : t('olderYounger')}
-          {guessBonusPoints > 0 && ` · ${t('hardMode')} +${guessBonusPoints} ${t('guessBonus')}`}
+          {guessBonusPoints > 0 && ` · +${guessBonusPoints} ${t('guessBonus')}`}
         </p>
       </div>
 

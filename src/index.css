@@ -13,6 +13,12 @@
   --font-sans: 'Figtree', ui-sans-serif, system-ui, sans-serif;
 }
 
+/* Every perfect round: the accent green turns gold inside this subtree only. */
+.theme-gold {
+  --color-accent: var(--color-gold);
+  --color-accent-dark: #d4a90a;
+}
+
 html,
 body,
 #root {
