@@ -13,6 +13,11 @@
   --font-sans: 'Figtree', ui-sans-serif, system-ui, sans-serif;
 }
 
+/* Short viewports (small phones, landscape, on-screen keyboard open): game cards shrink. */
+@custom-variant short (@media (max-height: 700px));
+/* Landscape phones: the layout compacts as far as it can and the screen scrolls. */
+@custom-variant tiny (@media (max-height: 480px));
+
 /* Every perfect round: the accent green turns gold inside this subtree only. */
 .theme-gold {
   --color-accent: var(--color-gold);

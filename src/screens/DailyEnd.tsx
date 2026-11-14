@@ -136,7 +136,7 @@ export function DailyEnd() {
             <span className="text-accent">{t('dailyPerfect')}</span>
           ) : (
             <span className="text-danger">
-              {attempt.errors} {t('dailyErrors')}
+              {attempt.errors} {t(attempt.errors === 1 ? 'dailyErrorOne' : 'dailyErrors')}
             </span>
           )}
           {perfects > 0 && <span className="text-gold">{' \u00b7 '}{perfectsLabel}</span>}
@@ -158,7 +158,7 @@ export function DailyEnd() {
           <span
             key={i}
             className={cn(
-              'grid size-7 place-items-center rounded text-xs font-bold',
+              'grid size-6 sm:size-7 place-items-center rounded text-[11px] sm:text-xs font-bold',
               r.correct ? 'bg-accent/20 text-accent' : 'bg-danger/20 text-danger',
               r.correct && isFullGuess(r) && 'bg-gold/20 text-gold',
             )}

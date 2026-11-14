@@ -24,7 +24,7 @@ export default function App() {
 
   return (
     <div className="flex h-full flex-col">
-      <header className="flex items-center justify-between px-3 sm:px-6 py-2 sm:py-4">
+      <header className="flex items-center justify-between px-3 sm:px-6 py-2 sm:py-4 tiny:py-1">
         <button
           onClick={goHome}
           className="flex items-center gap-2 text-base sm:text-lg font-extrabold tracking-tight"
@@ -46,7 +46,7 @@ export default function App() {
         {screen === 'end' && gameMode === 'daily' && <DailyEnd />}
         {screen === 'end' && gameMode !== 'daily' && <EndScreen />}
       </main>
-      <footer className="px-3 sm:px-6 py-2 sm:py-3 text-center text-[10px] sm:text-xs text-muted">
+      <footer className="px-3 sm:px-6 py-2 sm:py-3 tiny:py-1 text-center text-[10px] sm:text-xs text-muted">
         {translate(lang, 'disclaimer')}{' '}
         <a
           href="https://www.deezer.com"

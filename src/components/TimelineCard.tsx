@@ -44,7 +44,9 @@ export function TimelineCard({
   /** Daily mode: the round in which this card was played. */
   round?: number;
 }) {
-  const size = large ? 'h-[26rem] w-72' : small ? 'h-36 w-24 sm:h-44 sm:w-28' : 'h-44 w-28 sm:h-52 sm:w-36';
+  const size = large ? 'h-[26rem] w-72' : small
+      ? 'h-36 w-24 sm:h-44 sm:w-28 short:h-32 short:w-20 tiny:h-24 tiny:w-16'
+      : 'h-44 w-28 sm:h-52 sm:w-36 short:h-36 short:w-24 tiny:h-24 tiny:w-20';
   const yearText = large ? 'text-6xl' : small ? 'text-2xl sm:text-3xl' : 'text-3xl sm:text-4xl';
   const labelText = large ? 'text-sm' : small ? 'text-[9px] sm:text-[10px]' : 'text-[10px] sm:text-xs';
 
@@ -100,7 +102,11 @@ export function TimelineCard({
 export function MysteryCardFace({ small = false }: { small?: boolean }) {
   return (
     <div
-      className={`flex ${small ? 'h-44 w-28 sm:h-52 sm:w-36' : 'h-48 w-32 sm:h-60 sm:w-40'} shrink-0 flex-col items-center justify-center gap-2 rounded-xl sm:rounded-2xl border-2 border-dashed border-accent/70 bg-surface`}
+      className={`flex ${
+        small
+          ? 'h-44 w-28 shrink-0 sm:h-52 sm:w-36 short:h-36 short:w-24 tiny:h-24 tiny:w-20'
+          : 'h-48 min-h-20 aspect-[2/3] shrink sm:h-60 tiny:hidden'
+      } flex-col items-center justify-center gap-2 rounded-xl sm:rounded-2xl border-2 border-dashed border-accent/70 bg-surface`}
     >
       <span className="text-4xl sm:text-5xl font-extrabold text-accent">?</span>
     </div>

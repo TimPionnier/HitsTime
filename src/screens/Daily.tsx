@@ -57,7 +57,7 @@ export function DailyScreen() {
   const badgeTone = isPerfectRound ? "gold" : roundDelta > 0 ? "accent" : "danger";
 
   return (
-    <div className="flex h-full flex-col">
+    <div className="flex h-full flex-col overflow-y-auto">
       <div className="flex items-center justify-between px-4 sm:px-6 pt-1 text-sm">
         <button onClick={openArchive} className="text-muted underline hover:text-white">
           {t("dailyPuzzle")} #{daily.dayIndex}
@@ -78,11 +78,10 @@ export function DailyScreen() {
           </div>
           <span
             className={cn(
-              "font-extrabold tabular-nums text-accent transition-all duration-300",
+              "text-5xl short:text-4xl tiny:text-3xl font-extrabold tabular-nums text-accent transition-all duration-300",
               isPerfectRound && "scale-110 text-gold",
               flash && "scale-110 text-danger",
             )}
-            style={{ fontSize: "3rem" }}
           >
             {shownPoints}
           </span>
@@ -91,7 +90,7 @@ export function DailyScreen() {
         <span className="text-xs font-bold text-muted">
           {errors > 0 ? (
             <span className="text-danger">
-              {errors} {t("dailyErrors")}
+              {errors} {t(errors === 1 ? "dailyErrorOne" : "dailyErrors")}
             </span>
           ) : (
             t("dailyPerfect")
@@ -107,7 +106,7 @@ export function DailyScreen() {
 
       {error && <p className="px-6 text-center text-sm font-semibold text-danger">{error}</p>}
 
-      <div className="flex flex-1 flex-col items-center justify-center gap-3 sm:gap-4 px-4 sm:px-6">
+      <div className="flex min-h-24 tiny:min-h-12 flex-1 flex-col items-center justify-center gap-3 sm:gap-4 px-4 sm:px-6">
         {phase === "listening" && (
           <>
             <MysteryCardFace />
@@ -145,7 +144,7 @@ export function DailyScreen() {
         <GuessInputs />
       </div>
 
-      <div className="pb-2 sm:pb-6">
+      <div className="pb-2 sm:pb-6 tiny:pb-1">
         <Timeline />
       </div>
     </div>
