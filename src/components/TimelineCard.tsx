@@ -18,11 +18,14 @@ export function TimelineCard({
   tone = 'normal',
   large = false,
   small = false,
+  round,
 }: {
   track: GameTrack;
   tone?: CardTone;
   large?: boolean;
   small?: boolean;
+  /** Daily mode: the round in which this card was played. */
+  round?: number;
 }) {
   const size = large ? 'h-[26rem] w-72' : small ? 'h-36 w-24 sm:h-44 sm:w-28' : 'h-44 w-28 sm:h-52 sm:w-36';
   const yearText = large ? 'text-6xl' : small ? 'text-2xl sm:text-3xl' : 'text-3xl sm:text-4xl';
@@ -44,6 +47,16 @@ export function TimelineCard({
         </>
       ) : (
         <div className="absolute inset-0 bg-raised" />
+      )}
+
+      {round !== undefined && (
+        <span
+          className={`absolute left-0 top-0 z-20 rounded-br-xl px-2 py-0.5 text-[11px] font-bold sm:text-xs ${
+            tone === 'wrong' ? 'bg-danger text-white' : 'bg-accent text-ground'
+          }`}
+        >
+          #{round}
+        </span>
       )}
 
       {/* Content on top of cover */}
