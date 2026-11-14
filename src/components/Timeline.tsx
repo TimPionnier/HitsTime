@@ -35,7 +35,7 @@ function GapSlot({
     <button
       onClick={onPick}
       aria-label="Place card here"
-      className={`flex h-44 sm:h-52 shrink-0 items-center justify-center rounded-xl border-2 border-dashed text-2xl font-bold transition-all ${
+      className={`flex h-44 sm:h-52 short:h-36 tiny:h-24 shrink-0 items-center justify-center rounded-xl border-2 border-dashed text-2xl font-bold transition-all ${
         focused
           ? 'w-20 sm:w-28 border-accent text-accent bg-accent/10'
           : 'w-8 sm:w-10 border-muted/30 text-muted/50 hover:w-20 sm:hover:w-28 hover:border-accent hover:text-accent hover:bg-accent/10 active:w-20 active:border-accent active:text-accent'
@@ -49,7 +49,7 @@ function GapSlot({
 /** Marker shown at the slot where a misplaced card actually belonged. */
 function BelongedHere({ label }: { label: string }) {
   return (
-    <div className="flex h-44 sm:h-52 w-14 sm:w-16 shrink-0 flex-col items-center justify-center gap-1 rounded-2xl border-2 border-accent bg-accent/10 px-1 text-center">
+    <div className="flex h-44 sm:h-52 short:h-36 tiny:h-24 w-14 sm:w-16 shrink-0 flex-col items-center justify-center gap-1 rounded-2xl border-2 border-accent bg-accent/10 px-1 text-center">
       <span className="text-2xl">↓</span>
       <span className="text-[10px] font-bold leading-tight text-accent">{label}</span>
     </div>
@@ -215,7 +215,7 @@ export function Timeline() {
       </button>
       <div
         ref={scroller}
-        className="timeline-scroll flex flex-1 items-center gap-1 overflow-x-auto py-2 sm:py-4"
+        className="timeline-scroll flex flex-1 items-center gap-1 overflow-x-auto py-2 sm:py-4 tiny:py-1"
       >
         <div className="mx-auto flex items-center gap-1">{items}</div>
       </div>

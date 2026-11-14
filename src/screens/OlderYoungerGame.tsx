@@ -62,7 +62,7 @@ export function OlderYoungerGame() {
     : 'normal';
 
   return (
-    <div className="flex h-full flex-col">
+    <div className="flex h-full flex-col overflow-y-auto">
       {/* Playlist title */}
       {playlist && (
         <div className="px-6 pt-1 text-center">
@@ -97,7 +97,7 @@ export function OlderYoungerGame() {
       )}
 
       {/* Main area — single large card */}
-      <div className="flex flex-1 flex-col items-center justify-center gap-4 sm:gap-6 px-4 sm:px-6">
+      <div className="flex min-h-24 tiny:min-h-12 flex-1 flex-col items-center justify-center gap-4 sm:gap-6 px-4 sm:px-6">
         <TimelineCard track={displayTrack} tone={cardTone} large />
 
         {/* Playback bar */}

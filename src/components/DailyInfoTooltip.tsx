@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useApp } from "../store";
 import {
   ARTIST_POINTS,
@@ -17,11 +17,23 @@ const MS_PER_SECOND = 1000;
 export function DailyInfoTooltip() {
   const t = useApp((s) => s.t);
   const [open, setOpen] = useState(false);
+  const root = useRef<HTMLSpanElement>(null);
+
+  // A tap outside closes it: touch screens have no hover to leave.
+  useEffect(() => {
+    if (!open) return;
+    const close = (event: PointerEvent) => {
+      if (event.target instanceof Node && root.current?.contains(event.target)) return;
+      setOpen(false);
+    };
+    document.addEventListener("pointerdown", close);
+    return () => document.removeEventListener("pointerdown", close);
+  }, [open]);
   // Built from the scoring constants so the explanation cannot drift from the rules.
   // Title and artist are worth the same today; the text speaks of one figure.
   const guessPoints = Math.min(TITLE_POINTS, ARTIST_POINTS);
   return (
-    <span className="relative inline-flex">
+    <span ref={root} className="relative inline-flex">
       <button
         aria-label={t("scoreInfoShort")}
         onClick={() => setOpen((o) => !o)}
@@ -34,7 +46,7 @@ export function DailyInfoTooltip() {
       {open && (
         <span
           role="tooltip"
-          className="absolute left-1/2 top-7 z-50 w-80 font-normal normal-nums max-w-[90vw] -translate-x-1/2 rounded-xl bg-raised p-3 text-left text-xs leading-relaxed text-white shadow-xl shadow-black/50"
+          className="fixed inset-x-4 top-24 z-50 max-h-[70vh] overflow-y-auto rounded-xl bg-raised p-3 text-left text-xs font-normal normal-nums leading-relaxed text-white shadow-xl shadow-black/50 sm:absolute sm:inset-x-auto sm:left-1/2 sm:top-7 sm:w-80 sm:-translate-x-1/2"
         >
           <span className="mb-1 block font-bold">{t("scoreInfoShort")}</span>
           {t("scoreInfo", {

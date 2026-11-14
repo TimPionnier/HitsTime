@@ -35,7 +35,7 @@ export function PlaybackBar() {
           >
             <span className="text-base sm:text-lg leading-none">{"▶"}</span> {t('playClip')}
           </button>
-          <p className="text-xs text-muted">{t('clipOnce')}</p>
+          <p className="text-xs text-muted tiny:hidden">{t('clipOnce')}</p>
         </>
       )}
       {clip.status !== 'idle' && (
