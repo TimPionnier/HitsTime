@@ -1,4 +1,5 @@
 import type { GameTrack } from '../engine/types';
+import { ANCHOR_ROUND } from '../services/dailyStore';
 
 export type CardTone = 'normal' | 'correct' | 'wrong';
 
@@ -31,6 +32,9 @@ export function TimelineCard({
   const yearText = large ? 'text-6xl' : small ? 'text-2xl sm:text-3xl' : 'text-3xl sm:text-4xl';
   const labelText = large ? 'text-sm' : small ? 'text-[9px] sm:text-[10px]' : 'text-[10px] sm:text-xs';
 
+  const yearColor =
+    round === ANCHOR_ROUND ? 'text-start' : tone === 'wrong' ? 'text-danger' : 'text-accent';
+
   return (
     <div
       className={`relative flex ${size} shrink-0 flex-col overflow-hidden rounded-2xl text-center transition-shadow ${toneRing[tone]}`}
@@ -52,7 +56,11 @@ export function TimelineCard({
       {round !== undefined && (
         <span
           className={`absolute left-0 top-0 z-20 rounded-br-xl px-2 py-0.5 text-[11px] font-bold sm:text-xs ${
-            tone === 'wrong' ? 'bg-danger text-white' : 'bg-accent text-ground'
+            round === ANCHOR_ROUND
+              ? 'bg-start text-white'
+              : tone === 'wrong'
+                ? 'bg-danger text-white'
+                : 'bg-accent text-ground'
           }`}
         >
           #{round}
@@ -65,7 +73,7 @@ export function TimelineCard({
       </div>
       <div className="relative z-10 flex h-[50%] items-center justify-center">
         <span
-          className={`${yearText} font-extrabold drop-shadow-lg ${tone === 'wrong' ? 'text-danger' : 'text-accent'}`}
+          className={`${yearText} font-extrabold drop-shadow-lg ${yearColor}`}
         >
           {track.year}
         </span>

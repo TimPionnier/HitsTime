@@ -128,9 +128,16 @@ export function withPeek(attempt: DailyAttempt): DailyAttempt | null {
   return { ...next, adjustedMs: adjustedMsFor(next.rawActiveMs, next.errors, next.peeks) };
 }
 
+/** Round number shown on the anchor card, which is dealt face up and never answered. */
+export const ANCHOR_ROUND = 0;
+
 /** Play order (1-based) of each answered track; the anchor card is never in `rounds`. */
 export function roundNumbersFor(rounds: DailyRound[]): Map<string, number> {
   return new Map(rounds.map((r, index) => [r.trackId, index + 1]));
+}
+
+export function roundOf(numbers: Map<string, number>, trackId: string): number {
+  return numbers.get(trackId) ?? ANCHOR_ROUND;
 }
 
 export function adjustedMsFor(rawActiveMs: number, errors: number, peeks = 0): number {

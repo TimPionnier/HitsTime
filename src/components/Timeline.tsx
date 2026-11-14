@@ -3,7 +3,7 @@ import { motion } from 'motion/react';
 import { useApp } from '../store';
 import { TimelineCard, MysteryCardFace } from './TimelineCard';
 import type { GameTrack } from '../engine/types';
-import { roundNumbersFor } from '../services/dailyStore';
+import { roundNumbersFor, roundOf } from '../services/dailyStore';
 
 function FlipIn({ children }: { children: React.ReactNode }) {
   return (
@@ -185,11 +185,11 @@ export function Timeline() {
       items.push(
         isNew ? (
           <FlipIn key={track.id}>
-            <TimelineCard track={track} tone={toneFor(track)} round={roundNumbers?.get(track.id)} />
+            <TimelineCard track={track} tone={toneFor(track)} round={roundNumbers ? roundOf(roundNumbers, track.id) : undefined} />
           </FlipIn>
         ) : (
           <motion.div key={track.id} layout>
-            <TimelineCard track={track} tone={toneFor(track)} round={roundNumbers?.get(track.id)} />
+            <TimelineCard track={track} tone={toneFor(track)} round={roundNumbers ? roundOf(roundNumbers, track.id) : undefined} />
           </motion.div>
         ),
       );
