@@ -110,24 +110,24 @@ describe('analytics — the ticket', () => {
     );
     vi.stubGlobal('fetch', fetchSpy);
 
-    await mod.beginRun('daily', 'd:2026-09-13', { algoVersion: 1, poolVersion: 1 });
+    await mod.beginRun(mod.DAILY_ANALYTICS_MODE, 'd:2026-09-13', { algoVersion: 1, poolVersion: 1 });
     expect(fetchSpy.mock.calls[0][0]).toBe('https://api.example.test/v1/start');
 
     fetchSpy.mockClear();
-    mod.reportRun({ score: 62_000, cleared: true, errors: 0, peeks: 0 });
+    mod.reportRun({ score: 1_180, cleared: true, errors: 0 });
     expect(fetchSpy).toHaveBeenCalledTimes(1);
 
     const [url, init] = fetchSpy.mock.calls[0];
     expect(url).toBe('https://api.example.test/v1/finish');
     expect(JSON.parse(String(init?.body))).toMatchObject({
       ticket: 'abc.def',
-      score: 62_000,
+      score: 1_180,
       cleared: true,
     });
 
     // Second report with the same run must not fire: the nonce is spent.
     fetchSpy.mockClear();
-    mod.reportRun({ score: 62_000, cleared: true });
+    mod.reportRun({ score: 1_180, cleared: true });
     expect(fetchSpy).not.toHaveBeenCalled();
   });
 

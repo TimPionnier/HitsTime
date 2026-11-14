@@ -45,6 +45,19 @@ describe('buckets', () => {
     expect(bucketSpecFor('timeline')).toEqual(bucketSpecFor('olderYounger'));
   });
 
+  it('bins daily points by hundreds, with an overflow above the maximum', () => {
+    const spec = bucketSpecFor('dailyPoints');
+    expect(bucketOf(spec, 0)).toBe(0);
+    expect(bucketOf(spec, 99)).toBe(0);
+    expect(bucketOf(spec, 100)).toBe(1);
+    expect(bucketOf(spec, 1_180)).toBe(11);
+    expect(bucketOf(spec, 1_700)).toBe(spec.edges.length);
+  });
+
+  it('keeps the daily durations and the daily points on their own scales', () => {
+    expect(bucketSpecFor('dailyPoints').edges).not.toEqual(bucketSpecFor('daily').edges);
+  });
+
   it('separates daily from the point modes', () => {
     expect(bucketSpecFor('daily').edges).not.toEqual(bucketSpecFor('timeline').edges);
   });

@@ -233,6 +233,61 @@ describe('POST /v1/finish', () => {
   });
 });
 
+describe('daily points', () => {
+  const scope = 'd:2026-09-13';
+
+  it('records a points run on the points scale, with no elapsed-time bound', async () => {
+    // 1 180 points after 3 s of wall time: a duration of that size would be an
+    // overrun, a points score is not.
+    const res = await play(
+      { score: 1_180, cleared: true, errors: 0 },
+      { mode: 'dailyPoints', scope, elapsedMs: 3_000 },
+    );
+    expect(res.status).toBe(204);
+
+    const agg = [...db.agg.values()][0];
+    expect(agg.mode).toBe('dailyPoints');
+    expect(agg.score_count).toBe(1);
+    expect(agg.score_sum).toBe(1_180);
+  });
+
+  it('refuses a duration-sized value as a points score', async () => {
+    const ticket = await ticketFor('dailyPoints', scope);
+    expect((await finish({ ticket, score: 62_000 })).status).toBe(400);
+  });
+
+  it('keeps its average apart from the old duration scale', async () => {
+    for (let i = 0; i < MIN_SAMPLE; i++) {
+      await play(
+        { score: 1_000, cleared: true },
+        { mode: 'dailyPoints', scope, elapsedMs: 0, ip: `10.1.0.${i}` },
+      );
+      await play({ score: 60_000, cleared: true }, { mode: 'daily', scope, ip: `10.2.0.${i}` });
+    }
+    expect((await stats(`mode=dailyPoints&scope=${scope}`)).avg).toBe(1_000);
+    expect((await stats(`mode=daily&scope=${scope}`)).avg).toBe(60_000);
+  });
+
+  it('reports the max direction and the points histogram', async () => {
+    for (let i = 0; i < MIN_SAMPLE; i++) {
+      await play(
+        { score: 1_180, cleared: true },
+        { mode: 'dailyPoints', scope, elapsedMs: 0, ip: `10.3.0.${i}` },
+      );
+    }
+    const s = await stats(`mode=dailyPoints&scope=${scope}`);
+    expect(s.direction).toBe('max');
+    const buckets = s.buckets as { counts: number[]; edges: number[] };
+    expect(buckets.edges[0]).toBe(100);
+    expect(buckets.counts[11]).toBe(MIN_SAMPLE);
+  });
+
+  it('rejects a date far in the future, as for the duration scale', async () => {
+    const res = await start({ mode: 'dailyPoints', scope: 'd:2099-01-01' });
+    expect(res.status).toBe(400);
+  });
+});
+
 describe('GET /v1/stats', () => {
   async function seed(n: number, score = 60_000) {
     for (let i = 0; i < n; i++) {

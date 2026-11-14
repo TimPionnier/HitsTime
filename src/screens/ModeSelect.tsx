@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useApp, type GameMode } from '../store';
 import { ModePlayCount } from '../components/GlobalStats';
+import { DAILY_ANALYTICS_MODE } from '../services/analytics';
 
 const MODES: GameMode[] = ['daily', 'timeline', 'olderYounger'];
 
@@ -85,7 +86,7 @@ export function ModeSelect() {
               <span className="text-xs text-muted">{c.hint}</span>
               {/* Renders nothing until there is something to say, so the card
                   looks the same as it does today on a fresh deploy. */}
-              <ModePlayCount mode={c.mode} />
+              <ModePlayCount mode={c.mode === 'daily' ? DAILY_ANALYTICS_MODE : c.mode} />
             </div>
           </button>
         ))}

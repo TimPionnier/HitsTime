@@ -32,6 +32,11 @@ const DAILY_EDGES_MS = [
   240_000, 300_000, 360_000, 450_000, 600_000, 900_000, 1_800_000,
 ];
 
+/** Daily points run from 0 to 1 700, so 100-point bins with an overflow above. */
+const DAILY_POINTS_EDGES = [
+  100, 200, 300, 400, 500, 600, 700, 800, 900, 1_000, 1_100, 1_200, 1_300, 1_400, 1_500, 1_600,
+];
+
 /**
  * The free-play modes score in points, where a run ends on the first mistake —
  * so the distribution is dense at the low end and has a long, thin tail.
@@ -39,7 +44,9 @@ const DAILY_EDGES_MS = [
 const POINT_EDGES = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 15, 20, 25, 30, 40, 50, 75, 100];
 
 export function bucketSpecFor(mode: string): BucketSpec {
-  return { v: BUCKETS_V, edges: mode === 'daily' ? DAILY_EDGES_MS : POINT_EDGES };
+  if (mode === 'daily') return { v: BUCKETS_V, edges: DAILY_EDGES_MS };
+  if (mode === 'dailyPoints') return { v: BUCKETS_V, edges: DAILY_POINTS_EDGES };
+  return { v: BUCKETS_V, edges: POINT_EDGES };
 }
 
 /** Number of bins in a spec, overflow included. */
