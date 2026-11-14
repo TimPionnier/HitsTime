@@ -7,6 +7,7 @@ import {
   allAttempts,
   formatMs,
   roundNumbersFor,
+  roundOf,
   statsFrom,
 } from '../services/dailyStore';
 import { ROUNDS } from '../engine/daily';
@@ -137,7 +138,7 @@ export function DailyEnd() {
                     track={track}
                     tone={wrongIds.has(track.id) ? 'wrong' : 'normal'}
                     small
-                    round={roundNumbers.get(track.id)}
+                    round={roundOf(roundNumbers, track.id)}
                   />
                 ))}
               </div>
