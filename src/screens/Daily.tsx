@@ -4,7 +4,19 @@ import { Timeline } from '../components/Timeline';
 import { PlaybackBar } from '../components/PlaybackBar';
 import { MysteryCardFace } from '../components/TimelineCard';
 import { YearInfoTooltip } from '../components/YearInfoTooltip';
-import { ERROR_PENALTY_MS, PEEK_PENALTY_MS, formatMs } from '../services/dailyStore';
+import {
+  ERROR_PENALTY_MS,
+  GUESS_BONUS_MS,
+  PEEK_PENALTY_MS,
+  adjustedMsFor,
+  formatMs,
+  bonusRounds,
+} from '../services/dailyStore';
+import { isFullGuess } from '../engine/guess';
+import { GuessInputs } from '../components/GuessInputs';
+import { BonusBadge } from '../components/BonusBadge';
+import { useTweenedNumber } from '../hooks/useTweenedNumber';
+import { cn } from '../lib/cn';
 import { ROUNDS } from '../engine/daily';
 
 /**
@@ -38,6 +50,7 @@ export function DailyScreen() {
   const t = useApp((s) => s.t);
   const error = useApp((s) => s.error);
   const loading = useApp((s) => s.loading);
+  const guessResult = useApp((s) => s.guessResult);
 
   const phase = game?.phase;
   const raw = useLiveElapsed(phase === 'listening' || phase === 'pendingValidation');
@@ -53,6 +66,9 @@ export function DailyScreen() {
     return () => window.clearTimeout(id);
   }, [errors]);
 
+  const bonusMs = bonusRounds(dailyAttempt?.rounds ?? []) * GUESS_BONUS_MS;
+  const shownBonusMs = useTweenedNumber(bonusMs);
+
   if (loading || !game || !daily) {
     return (
       <div className="flex h-full flex-col items-center justify-center gap-4 px-6">
@@ -65,13 +81,17 @@ export function DailyScreen() {
   const { reveal } = game;
   const round = game.timeline.length - 1 + (phase === 'revealing' ? 0 : 1);
   const peeks = daily ? (dailyAttempt?.peeks ?? 0) : 0;
-  const adjusted = raw + errors * ERROR_PENALTY_MS + peeks * PEEK_PENALTY_MS;
+  const adjusted = adjustedMsFor(raw, errors, peeks, shownBonusMs / GUESS_BONUS_MS);
+  const hard = dailyAttempt?.hard === true;
+  const roundBonusMs =
+    phase === 'revealing' && guessResult && isFullGuess(guessResult) ? GUESS_BONUS_MS : 0;
 
   return (
     <div className="flex h-full flex-col">
       <div className="flex items-center justify-between px-4 sm:px-6 pt-1 text-sm">
         <button onClick={openArchive} className="text-muted underline hover:text-white">
           {t('dailyPuzzle')} #{daily.dayIndex}
+          {hard && ` · ${t('hardModeTag')}`}
         </button>
         <span className="text-muted">
           {Math.min(round, ROUNDS)}/{ROUNDS}
@@ -80,11 +100,16 @@ export function DailyScreen() {
 
       {/* Clock — the score, penalties included. */}
       <div className="flex flex-col items-center px-4 sm:px-6 pb-1 sm:pb-2">
-        <div className="flex items-center gap-2">
+        <div className="relative flex items-center gap-2">
+          <div className="absolute inset-y-0 right-full mr-3 flex items-center">
+            <BonusBadge label={roundBonusMs > 0 ? `\u2212${roundBonusMs / 1000} s` : null} />
+          </div>
           <span
-            className={`font-extrabold tabular-nums transition-all duration-300 ${
-              flash ? 'scale-110 text-danger' : 'text-accent'
-            }`}
+            className={cn(
+              'font-extrabold tabular-nums text-accent transition-all duration-300',
+              roundBonusMs > 0 && 'scale-110 text-gold',
+              flash && 'scale-110 text-danger',
+            )}
             style={{ fontSize: '3rem' }}
           >
             {formatMs(adjusted)}
@@ -109,6 +134,13 @@ export function DailyScreen() {
             </span>
           ) : (
             t('dailyPerfect')
+          )}
+          {bonusMs > 0 && (
+            <span className="text-gold">
+              {' · '}
+              {'\u2212'}
+              {formatMs(bonusMs)} {t('guessBonus')}
+            </span>
           )}
         </span>
       </div>
@@ -138,13 +170,19 @@ export function DailyScreen() {
         )}
         {phase === 'revealing' && reveal && (
           <p
-            className={`text-2xl sm:text-3xl font-extrabold ${
-              reveal.correct ? 'text-accent' : 'text-danger'
-            }`}
+            className={cn(
+              'text-2xl sm:text-3xl font-extrabold',
+              reveal.correct ? 'text-accent' : 'text-danger',
+              reveal.correct && roundBonusMs > 0 && 'text-gold',
+            )}
           >
             {reveal.correct ? t('correct').replace('+1', '') : `${t('wrong')} +30s`}
           </p>
         )}
+      </div>
+
+      <div className="flex justify-center px-4 pb-2 sm:px-6 sm:pb-3">
+        <GuessInputs />
       </div>
 
       <div className="pb-2 sm:pb-6">

@@ -21,6 +21,7 @@ export function Leaderboard({ entries }: { entries: ScoreEntry[] }) {
             <span className="text-sm text-muted">
               {new Date(e.date).toLocaleDateString(lang === 'fr' ? 'fr-FR' : 'en-GB')}
               {e.cleared && <span className="ml-2 text-accent">★</span>}
+              {e.hard && <span className="ml-2 text-xs font-bold text-accent">{t('hardModeTag')}</span>}
             </span>
           </span>
           <span className="text-lg font-extrabold">{e.score}</span>

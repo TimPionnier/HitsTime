@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useApp, type GameMode } from '../store';
 import { ModePlayCount } from '../components/GlobalStats';
+import { cn } from '../lib/cn';
 
 const MODES: GameMode[] = ['daily', 'timeline', 'olderYounger'];
 
@@ -9,6 +10,8 @@ export function ModeSelect() {
   const startGame = useApp((s) => s.startGame);
   const prefetching = useApp((s) => s.prefetching);
   const error = useApp((s) => s.error);
+  const hardMode = useApp((s) => s.hardMode);
+  const setHardMode = useApp((s) => s.setHardMode);
 
   const [selected, setSelected] = useState(0);
 
@@ -90,6 +93,35 @@ export function ModeSelect() {
           </button>
         ))}
       </div>
+
+      <button
+        type="button"
+        role="switch"
+        aria-checked={hardMode}
+        onClick={() => setHardMode(!hardMode)}
+        // Enter on the switch must toggle it, not also start the selected mode
+        // through the window shortcut above.
+        onKeyDown={(e) => e.stopPropagation()}
+        className="flex w-full max-w-md items-center gap-3 rounded-2xl bg-surface px-4 py-3 text-left transition-colors hover:bg-raised"
+      >
+        <span
+          className={cn(
+            'relative h-6 w-11 shrink-0 rounded-full transition-colors',
+            hardMode ? 'bg-accent' : 'bg-raised ring-1 ring-muted/40',
+          )}
+        >
+          <span
+            className={cn(
+              'absolute left-0.5 top-0.5 size-5 rounded-full bg-white transition-transform',
+              hardMode && 'translate-x-5',
+            )}
+          />
+        </span>
+        <span className="flex flex-col">
+          <span className="text-sm font-bold">{t('hardMode')}</span>
+          <span className="text-xs text-muted">{t('hardModeHint')}</span>
+        </span>
+      </button>
     </div>
   );
 }

@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useApp } from '../store';
+import { isTextEntry } from '../lib/isTextEntry';
 
 const CLIP = 30;
 
@@ -12,6 +13,7 @@ export function PlaybackBar() {
   // Spacebar starts the clip
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
+      if (isTextEntry(e.target)) return;
       if (e.code === 'Space' && clip.status === 'idle') {
         e.preventDefault();
         playClip();

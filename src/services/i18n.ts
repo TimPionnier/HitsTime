@@ -76,6 +76,15 @@ const dict = {
     peekCaught:
       '\u{1F440} Caught you peeking! +5:00 \u2014 the songs are more fun when you guess them.',
     dailyPeek: 'peeking',
+    hardMode: 'Hard mode',
+    hardModeHint:
+      'Also guess the title and the artist: \u221220 s in the Daily Challenge, +2 points in Timeline, when both are right.',
+    hardModeTag: 'Hard',
+    perfectOne: '{n} Perfect',
+    perfectMany: '{n} Perfects',
+    guessTitle: 'Song title',
+    guessArtist: 'Artist',
+    guessBonus: 'bonus',
     disclaimer: 'Non-commercial personal project. Music previews provided by',
   },
   fr: {
@@ -153,6 +162,15 @@ const dict = {
     peekCaught:
       '\u{1F440} Pris la main dans le sac ! +5:00 \u2014 c\u2019est plus dr\u00f4le en devinant.',
     dailyPeek: 'fouinage',
+    hardMode: 'Mode difficile',
+    hardModeHint:
+      'Devine aussi le titre et l\u2019artiste : \u221220 s en D\u00e9fi du jour, +2 points en Frise, si les deux sont bons.',
+    hardModeTag: 'Difficile',
+    perfectOne: '{n} Perfect',
+    perfectMany: '{n} Perfects',
+    guessTitle: 'Titre du morceau',
+    guessArtist: 'Artiste',
+    guessBonus: 'bonus',
     disclaimer: 'Projet personnel non commercial. Extraits musicaux fournis par',
   },
 } as const;

@@ -1,16 +1,21 @@
 import { useMemo, useRef, useState } from 'react';
 import { useApp } from '../store';
-import { TimelineCard } from '../components/TimelineCard';
+import { TimelineCard, type CardTone } from '../components/TimelineCard';
 import {
   ERROR_PENALTY_MS,
+  GUESS_BONUS_MS,
   PEEK_PENALTY_MS,
   allAttempts,
   formatMs,
+  bonusRounds,
+  perfectTrackIds,
   roundNumbersFor,
   roundOf,
   statsFrom,
 } from '../services/dailyStore';
 import { ROUNDS } from '../engine/daily';
+import { isFullGuess } from '../engine/guess';
+import { cn } from '../lib/cn';
 import { GlobalStats } from '../components/GlobalStats';
 import { dailyScope } from '../services/analytics';
 import { usePlaylistUrl } from '../hooks/usePlaylistUrl';
@@ -34,6 +39,13 @@ export function DailyEnd() {
   const wrongIds = new Set(attempt.rounds.filter((r) => !r.correct).map((r) => r.trackId));
   const roundNumbers = roundNumbersFor(attempt.rounds);
   const peeks = attempt.peeks ?? 0;
+  const toneOf = (trackId: string): CardTone => {
+    if (wrongIds.has(trackId)) return 'wrong';
+    return perfectIds.has(trackId) ? 'perfect' : 'normal';
+  };
+  const bonuses = bonusRounds(attempt.rounds);
+  const perfectIds = perfectTrackIds(attempt.rounds);
+  const perfectsLabel = t(bonuses === 1 ? 'perfectOne' : 'perfectMany', { n: bonuses });
 
   /**
    * Correct/incorrect per round and nothing else. A grid that encoded years, or
@@ -42,8 +54,14 @@ export function DailyEnd() {
    */
   const share = [
     `HitsTime ${t('dailyPuzzle')} #${daily.dayIndex}`,
-    attempt.rounds.map((r) => (r.correct ? '🟩' : '🟥')).join(''),
+    attempt.rounds
+      .map((r) => {
+        if (!r.correct) return '🟥';
+        return isFullGuess(r) ? '🟨' : '🟩';
+      })
+      .join(''),
     `${ROUNDS - attempt.errors}/${ROUNDS} · ${formatMs(attempt.adjustedMs)}`,
+    ...(attempt.hard ? [`${perfectsLabel}`] : []),
     // Resolved against the live document, NOT hardcoded: `base` is './', the
     // site lives under a repository subpath on GitHub Pages, and a pasted
     // origin would rot silently the day it moves. A share from a dev machine
@@ -99,6 +117,12 @@ export function DailyEnd() {
             </span>
           )}
         </p>
+        {attempt.hard && (
+          <p className="mt-1 text-sm font-bold text-gold">
+            {perfectsLabel} · {'\u2212'}
+            {formatMs(bonuses * GUESS_BONUS_MS)} {t('guessBonus')}
+          </p>
+        )}
         <p className="mt-1 text-xs text-muted">
           {formatMs(attempt.rawActiveMs)} {t('dailyTime')}
         </p>
@@ -109,9 +133,11 @@ export function DailyEnd() {
         {attempt.rounds.map((r, i) => (
           <span
             key={i}
-            className={`grid size-7 place-items-center rounded text-xs font-bold ${
-              r.correct ? 'bg-accent/20 text-accent' : 'bg-danger/20 text-danger'
-            }`}
+            className={cn(
+              'grid size-7 place-items-center rounded text-xs font-bold',
+              r.correct ? 'bg-accent/20 text-accent' : 'bg-danger/20 text-danger',
+              r.correct && isFullGuess(r) && 'bg-gold/20 text-gold',
+            )}
           >
             {i + 1}
           </span>
@@ -136,7 +162,7 @@ export function DailyEnd() {
                   <TimelineCard
                     key={track.id}
                     track={track}
-                    tone={wrongIds.has(track.id) ? 'wrong' : 'normal'}
+                    tone={toneOf(track.id)}
                     small
                     round={roundOf(roundNumbers, track.id)}
                   />

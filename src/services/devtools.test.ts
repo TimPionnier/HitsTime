@@ -10,7 +10,10 @@ import {
 import {
   ERROR_PENALTY_MS,
   PEEK_PENALTY_MS,
+  GUESS_BONUS_MS,
   adjustedMsFor,
+  bonusRounds,
+  perfectTrackIds,
   newAttempt,
   withPeek,
 } from './dailyStore';
@@ -111,6 +114,51 @@ describe('adjustedMsFor', () => {
 
   it('caps repeat offences at PEEK_CAP', () => {
     expect(adjustedMsFor(0, 0, 7)).toBe(PEEK_PENALTY_MS);
+  });
+
+  it('takes 20 seconds off per round with both title and artist right', () => {
+    expect(GUESS_BONUS_MS).toBe(20_000);
+    expect(adjustedMsFor(60_000, 0, 0, 1)).toBe(40_000);
+    expect(adjustedMsFor(60_000, 0, 0, 2)).toBe(20_000);
+  });
+
+  it('combines the bonus with the penalties', () => {
+    expect(adjustedMsFor(60_000, 1, 0, 1)).toBe(60_000 + ERROR_PENALTY_MS - 20_000);
+  });
+
+  it('never goes below zero', () => {
+    expect(adjustedMsFor(15_000, 0, 0, 1)).toBe(0);
+    expect(adjustedMsFor(0, 0, 0, 20)).toBe(0);
+  });
+});
+
+describe('bonusRounds', () => {
+  const round = { trackId: 'a', chosenIndex: 0, correctIndex: 0, correct: true, thinkMs: 1000 };
+
+  it('counts only the rounds with both title and artist right', () => {
+    const rounds = [
+      { ...round, titleFound: true, artistFound: true },
+      { ...round, titleFound: false, artistFound: true },
+      { ...round, titleFound: false, artistFound: false },
+    ];
+    expect(bonusRounds(rounds)).toBe(1);
+  });
+
+  it('is zero for rounds recorded outside hard mode', () => {
+    expect(bonusRounds([round, round])).toBe(0);
+  });
+});
+
+describe('perfectTrackIds', () => {
+  const found = { chosenIndex: 0, correctIndex: 0, thinkMs: 1000, titleFound: true, artistFound: true };
+
+  it('keeps only well-placed cards with title and artist both found', () => {
+    const rounds = [
+      { ...found, trackId: 'gold', correct: true },
+      { ...found, trackId: 'misplaced', correct: false },
+      { ...found, trackId: 'title-only', correct: true, artistFound: false },
+    ];
+    expect([...perfectTrackIds(rounds)]).toEqual(['gold']);
   });
 });
 

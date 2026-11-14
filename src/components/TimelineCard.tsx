@@ -1,12 +1,28 @@
 import type { GameTrack } from '../engine/types';
 import { ANCHOR_ROUND } from '../services/dailyStore';
 
-export type CardTone = 'normal' | 'correct' | 'wrong';
+/** `perfect`: well placed with title and artist both found in hard mode. */
+export type CardTone = 'normal' | 'correct' | 'wrong' | 'perfect';
 
 const toneRing: Record<CardTone, string> = {
   normal: '',
   correct: 'ring-2 ring-accent shadow-lg shadow-accent/20',
-  wrong: 'ring-2 ring-danger shadow-lg shadow-danger/20',
+  wrong: '',
+  perfect: '',
+};
+
+const toneText: Record<CardTone, string> = {
+  normal: 'text-accent',
+  correct: 'text-accent',
+  wrong: 'text-danger',
+  perfect: 'text-gold',
+};
+
+const toneBadge: Record<CardTone, string> = {
+  normal: 'bg-accent text-ground',
+  correct: 'bg-accent text-ground',
+  wrong: 'bg-danger text-white',
+  perfect: 'bg-gold text-ground',
 };
 
 /**
@@ -32,8 +48,7 @@ export function TimelineCard({
   const yearText = large ? 'text-6xl' : small ? 'text-2xl sm:text-3xl' : 'text-3xl sm:text-4xl';
   const labelText = large ? 'text-sm' : small ? 'text-[9px] sm:text-[10px]' : 'text-[10px] sm:text-xs';
 
-  const yearColor =
-    round === ANCHOR_ROUND ? 'text-start' : tone === 'wrong' ? 'text-danger' : 'text-accent';
+  const yearColor = round === ANCHOR_ROUND ? 'text-start' : toneText[tone];
 
   return (
     <div
@@ -56,11 +71,7 @@ export function TimelineCard({
       {round !== undefined && (
         <span
           className={`absolute left-0 top-0 z-20 rounded-br-xl px-2 py-0.5 text-[11px] font-bold sm:text-xs ${
-            round === ANCHOR_ROUND
-              ? 'bg-start text-white'
-              : tone === 'wrong'
-                ? 'bg-danger text-white'
-                : 'bg-accent text-ground'
+            round === ANCHOR_ROUND ? 'bg-start text-white' : toneBadge[tone]
           }`}
         >
           #{round}
