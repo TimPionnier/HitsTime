@@ -82,9 +82,12 @@ export function GlobalStats({ mode, scope, score, comparable = true }: Props) {
   // this branch is the small-sample case: a percentile out of six players is
   // noise wearing a percent sign.
   const enough = stats.avg !== null && stats.buckets !== null && stats.n >= stats.min_sample;
+  // Below the floor the block would only say how many played, which is noise
+  // on an already dense end screen.
+  if (!enough) return null;
 
   const share =
-    enough && comparable && typeof score === 'number' && stats.buckets
+    comparable && typeof score === 'number' && stats.buckets
       ? beatShare(stats.buckets, score, stats.direction)
       : null;
 
@@ -94,17 +97,12 @@ export function GlobalStats({ mode, scope, score, comparable = true }: Props) {
       t(isTime ? 'statsFasterThan' : 'statsBetterThan', { p: Math.round(share * 100) }),
     );
   }
-  if (enough && stats.avg !== null) {
+  if (stats.avg !== null) {
     lines.push(
       isTime
         ? t('statsAvgTime', { v: formatMs(stats.avg) })
         : t('statsAvgPoints', { v: stats.avg }),
     );
-  }
-  if (lines.length === 0) {
-    // Nothing comparable yet — say how busy it is and stop there.
-    if (stats.finishes <= 0) return null;
-    lines.push(t('statsPlayedPuzzle', { n: stats.finishes }));
   }
 
   return (
