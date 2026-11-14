@@ -8,7 +8,6 @@ import { DailyScreen } from './screens/Daily';
 import { DailyArchive } from './screens/DailyArchive';
 import { DailyEnd } from './screens/DailyEnd';
 import { LangToggle } from './components/LangToggle';
-import { Snackbar } from './components/Snackbar';
 import { translate } from './services/i18n';
 
 export default function App() {
@@ -58,7 +57,6 @@ export default function App() {
           Deezer
         </a>
       </footer>
-      <Snackbar />
     </div>
   );
 }

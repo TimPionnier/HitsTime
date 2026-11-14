@@ -1,7 +1,7 @@
 import type { GameTrack } from '../engine/types';
 import { ANCHOR_ROUND } from '../services/dailyStore';
 
-/** `perfect`: well placed with title and artist both found in hard mode. */
+/** `perfect`: well placed with title and artist both found. */
 export type CardTone = 'normal' | 'correct' | 'wrong' | 'perfect';
 
 const toneRing: Record<CardTone, string> = {

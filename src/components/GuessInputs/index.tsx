@@ -9,17 +9,14 @@ const FIELDS: { field: keyof TrackGuess; label: TKey }[] = [
   { field: "artist", label: "guessArtist" },
 ];
 
-/** Hard mode: title and artist fields while the round is open, then their verdict. */
+/** Title and artist fields while the round is open, then their verdict. */
 export function GuessInputs() {
-  const hard = useApp((s) => (s.gameMode === "daily" ? s.dailyAttempt?.hard === true : s.hardMode));
   const phase = useApp((s) => s.game?.phase);
   const revealedTrack = useApp((s) => s.game?.reveal?.track);
   const guess = useApp((s) => s.guess);
   const guessResult = useApp((s) => s.guessResult);
   const setGuess = useApp((s) => s.setGuess);
   const t = useApp((s) => s.t);
-
-  if (!hard) return null;
 
   if (phase === "revealing" && guessResult && revealedTrack) {
     const full = isFullGuess(guessResult);
