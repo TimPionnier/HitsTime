@@ -1,21 +1,22 @@
-import { useMemo, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { PerfectRunCelebration } from "../components/PerfectRunCelebration";
 import { useApp } from "../store";
 import { TimelineCard, type CardTone } from "../components/TimelineCard";
-import {
-  allAttempts,
-  formatMs,
-  perfectTrackIds,
-  roundNumbersFor,
-  roundOf,
-  statsFrom,
-} from "../services/dailyStore";
+import { formatMs, perfectTrackIds, roundNumbersFor, roundOf } from "../services/dailyStore";
 import { pointsBreakdown } from "../engine/points";
 import { ROUNDS } from "../engine/daily";
 import { isFullGuess } from "../engine/guess";
 import { cn } from "../lib/cn";
 import { usePlaylistUrl } from "../hooks/usePlaylistUrl";
-import { ChevronDown, ListMusic, Star, Volume2, VolumeX } from "lucide-react";
+import {
+  CalendarDays,
+  ChevronDown,
+  LayoutGrid,
+  ListMusic,
+  Star,
+  Volume2,
+  VolumeX,
+} from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { GlobalStats } from "../components/GlobalStats";
 import { DAILY_ANALYTICS_MODE, dailyScope } from "../services/analytics";
@@ -28,6 +29,10 @@ const detailVariants = {
   closed: { height: 0, opacity: 0, transition: { duration: DETAIL_ANIMATION_S } },
   open: { height: "auto", opacity: 1, transition: { duration: DETAIL_ANIMATION_S } },
 };
+
+const iconActionCls =
+  "group flex w-20 flex-col items-center gap-1 text-muted transition-colors hover:text-accent";
+const iconActionLabelCls = "text-center text-[11px] leading-tight";
 
 export function DailyEnd() {
   const attempt = useApp((s) => s.dailyAttempt);
@@ -42,7 +47,6 @@ export function DailyEnd() {
   const [soundEnabled, toggleSound] = useSoundEnabled();
   const [copied, setCopied] = useState(false);
   const [detailOpen, setDetailOpen] = useState(false);
-  const stats = useMemo(() => statsFrom(allAttempts()), [attempt]);
   const playlistUrl = usePlaylistUrl(daily?.dayIndex ?? 0);
 
   if (!attempt || !daily) return null;
@@ -264,16 +268,6 @@ export function DailyEnd() {
         </div>
       )}
 
-      <div className="grid w-full max-w-md grid-cols-4 gap-2 text-center">
-        <Stat label={t("dailyPlayed")} value={String(stats.played)} />
-        <Stat label={t("dailyPerfectCount")} value={String(stats.perfect)} />
-        <Stat label={t("dailyStreakLabel")} value={String(stats.currentStreak)} />
-        <Stat
-          label={t("dailyBest")}
-          value={stats.bestPoints === null ? "—" : String(stats.bestPoints)}
-        />
-      </div>
-
       {/* Everyone who played THIS puzzle, scoped to the date: the only
           comparison in the game that is actually like-for-like. */}
       <GlobalStats
@@ -282,36 +276,35 @@ export function DailyEnd() {
         score={points.total}
       />
 
-      <div className="flex flex-wrap items-center justify-center gap-2 pb-4">
+      <div className="flex flex-col items-center gap-3 pb-4">
         <button
           onClick={copy}
-          className="rounded-full bg-accent px-5 py-2.5 text-sm font-bold text-ground transition-transform hover:scale-105"
+          className="rounded-full bg-accent px-6 py-2.5 text-sm font-bold text-ground transition-transform hover:scale-105"
         >
           {copied ? t("dailyCopied") : t("dailyShare")}
         </button>
-        {playlistUrl && (
-          <a
-            href={playlistUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 rounded-full border border-muted/40 px-5 py-2.5 text-sm text-muted hover:border-accent hover:text-accent"
-          >
-            <ListMusic size={16} strokeWidth={2} className="shrink-0" aria-hidden="true" />
-            {t("dailyPlaylist")}
-          </a>
-        )}
-        <button
-          onClick={openArchive}
-          className="rounded-full border border-muted/40 px-5 py-2.5 text-sm text-muted hover:border-accent hover:text-accent"
-        >
-          {t("dailyArchive")}
-        </button>
-        <button
-          onClick={changeMode}
-          className="rounded-full border border-muted/40 px-5 py-2.5 text-sm text-muted hover:border-accent hover:text-accent"
-        >
-          {t("changeMode")}
-        </button>
+        <div className="flex items-start justify-center gap-4">
+          {playlistUrl && (
+            <a
+              href={playlistUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={t("dailyPlaylist")}
+              className={iconActionCls}
+            >
+              <ListMusic size={20} strokeWidth={2} aria-hidden="true" />
+              <span className={iconActionLabelCls}>{t("dailyPlaylistShort")}</span>
+            </a>
+          )}
+          <button onClick={openArchive} className={iconActionCls}>
+            <CalendarDays size={20} strokeWidth={2} aria-hidden="true" />
+            <span className={iconActionLabelCls}>{t("dailyArchive")}</span>
+          </button>
+          <button onClick={changeMode} className={iconActionCls}>
+            <LayoutGrid size={20} strokeWidth={2} aria-hidden="true" />
+            <span className={iconActionLabelCls}>{t("changeMode")}</span>
+          </button>
+        </div>
       </div>
     </div>
   );
@@ -326,14 +319,5 @@ function PointsLine({ label, value }: { label: string; value: number }) {
         {value}
       </dd>
     </>
-  );
-}
-
-function Stat({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="rounded-xl bg-raised px-2 py-2">
-      <div className="text-lg font-extrabold text-accent">{value}</div>
-      <div className="text-[10px] leading-tight text-muted">{label}</div>
-    </div>
   );
 }

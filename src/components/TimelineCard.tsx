@@ -21,7 +21,7 @@ const toneText: Record<CardTone, string> = {
 const toneBadge: Record<CardTone, string> = {
   normal: 'bg-accent text-ground',
   correct: 'bg-accent text-ground',
-  wrong: 'bg-danger text-white',
+  wrong: 'bg-danger text-ground',
   perfect: 'bg-gold text-ground',
 };
 
@@ -73,7 +73,7 @@ export function TimelineCard({
       {round !== undefined && (
         <span
           className={`absolute left-0 top-0 z-20 rounded-br-xl px-2 py-0.5 text-[11px] font-bold sm:text-xs ${
-            round === ANCHOR_ROUND ? 'bg-start text-white' : toneBadge[tone]
+            round === ANCHOR_ROUND ? 'bg-start text-ground' : toneBadge[tone]
           }`}
         >
           #{round}
