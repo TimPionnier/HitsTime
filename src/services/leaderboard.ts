@@ -5,6 +5,8 @@ export interface ScoreEntry {
   gameMode?: string; // 'timeline' | 'olderYounger'
   score: number;
   cleared: boolean;
+  /** Played in hard mode: the score includes title/artist bonus points. */
+  hard?: boolean;
   date: string; // ISO
 }
 

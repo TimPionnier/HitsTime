@@ -4,12 +4,13 @@ import { bestScores } from '../services/leaderboard';
 import { Leaderboard } from '../components/Leaderboard';
 import { GlobalStats } from '../components/GlobalStats';
 import { playlistScope } from '../services/analytics';
-import { TimelineCard } from '../components/TimelineCard';
+import { TimelineCard, type CardTone } from '../components/TimelineCard';
 
 const ACTIONS = ['replay', 'changeMode'] as const;
 
 function EndTimeline() {
   const endTimeline = useApp((s) => s.endTimeline);
+  const perfectIds = useApp((s) => s.perfectIds);
   const t = useApp((s) => s.t);
   const scroller = useRef<HTMLDivElement>(null);
 
@@ -17,6 +18,10 @@ function EndTimeline() {
 
   const wrongId = endTimeline.wrongTrack?.track.id ?? null;
   const scrollBy = (dx: number) => scroller.current?.scrollBy({ left: dx, behavior: 'smooth' });
+  const toneOf = (trackId: string): CardTone => {
+    if (trackId === wrongId) return 'wrong';
+    return perfectIds.includes(trackId) ? 'perfect' : 'normal';
+  };
 
   const arrowCls =
     'grid size-9 sm:size-11 shrink-0 place-items-center rounded-full bg-raised text-xl text-muted transition-colors hover:bg-accent hover:text-ground';
@@ -39,7 +44,7 @@ function EndTimeline() {
               <TimelineCard
                 key={track.id}
                 track={track}
-                tone={track.id === wrongId ? 'wrong' : 'normal'}
+                tone={toneOf(track.id)}
                 small
               />
             ))}
@@ -62,6 +67,7 @@ export function EndScreen() {
   const replaySame = useApp((s) => s.replaySame);
   const changeMode = useApp((s) => s.changeMode);
   const endTimeline = useApp((s) => s.endTimeline);
+  const guessBonusPoints = useApp((s) => s.guessBonusPoints);
   const t = useApp((s) => s.t);
 
   const [selected, setSelected] = useState(0);
@@ -108,9 +114,10 @@ export function EndScreen() {
       </h1>
       <div>
         <p className="text-sm uppercase tracking-widest text-muted">{t('finalScore')}</p>
-        <p className="text-5xl sm:text-6xl font-extrabold text-accent text-center">{activeGame.score}</p>
+        <p className="text-5xl sm:text-6xl font-extrabold text-accent text-center">{activeGame.score + guessBonusPoints}</p>
         <p className="mt-1 text-xs text-muted text-center">
           {gameMode === 'timeline' ? t('timelineMode') : t('olderYounger')}
+          {guessBonusPoints > 0 && ` · ${t('hardMode')} +${guessBonusPoints} ${t('guessBonus')}`}
         </p>
       </div>
 

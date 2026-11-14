@@ -6,6 +6,7 @@
  * player's normal game history.
  */
 import { ALGO_VERSION, dateForDayIndex, dayIndexFor, localDateISO } from '../engine/daily';
+import { isFullGuess } from '../engine/guess';
 
 const KEY = 'hitstime.daily.v1';
 
@@ -24,6 +25,9 @@ export const PEEK_PENALTY_MS = 300_000;
 /** Peeks charged per run. Raise it if you want repeat offences to stack. */
 export const PEEK_CAP = 1;
 
+/** Hard mode: what a round takes off the clock when both title and artist are right. */
+export const GUESS_BONUS_MS = 20_000;
+
 export interface DailyRound {
   trackId: string;
   chosenIndex: number;
@@ -31,6 +35,9 @@ export interface DailyRound {
   correct: boolean;
   /** Thinking time for this round — reveal animation excluded. */
   thinkMs: number;
+  /** Hard mode only. */
+  titleFound?: boolean;
+  artistFound?: boolean;
 }
 
 export interface DailyAttempt {
@@ -40,6 +47,8 @@ export interface DailyAttempt {
   /** Integrity tag: a mismatch means this result belongs to a different puzzle. */
   seedHex: string;
   status: 'in_progress' | 'finished';
+  /** Frozen when the attempt starts, so the setting cannot be flipped mid-run. */
+  hard?: boolean;
   rounds: DailyRound[];
   errors: number;
   /** Times a docked DevTools panel was detected mid-run. 0..PEEK_CAP. */
@@ -47,7 +56,7 @@ export interface DailyAttempt {
   /** Correct placements before the first error. Freezes; never resets. */
   streak: number;
   rawActiveMs: number;
-  /** rawActiveMs + both penalties — the score. */
+  /** rawActiveMs + both penalties - hard-mode bonus, never below 0 — the score. */
   adjustedMs: number;
   startedAtEpochMs: number;
   finishedAtEpochMs?: number;
@@ -125,7 +134,10 @@ export function withPeek(attempt: DailyAttempt): DailyAttempt | null {
   const peeks = attempt.peeks ?? 0;
   if (peeks >= PEEK_CAP) return null;
   const next = { ...attempt, peeks: peeks + 1 };
-  return { ...next, adjustedMs: adjustedMsFor(next.rawActiveMs, next.errors, next.peeks) };
+  return {
+    ...next,
+    adjustedMs: adjustedMsFor(next.rawActiveMs, next.errors, next.peeks, bonusRounds(next.rounds)),
+  };
 }
 
 /** Round number shown on the anchor card, which is dealt face up and never answered. */
@@ -140,9 +152,28 @@ export function roundOf(numbers: Map<string, number>, trackId: string): number {
   return numbers.get(trackId) ?? ANCHOR_ROUND;
 }
 
-export function adjustedMsFor(rawActiveMs: number, errors: number, peeks = 0): number {
+/** Cards shown in gold: well placed, with title and artist both found. */
+export function perfectTrackIds(rounds: DailyRound[]): Set<string> {
+  return new Set(
+    rounds.filter((round) => round.correct && isFullGuess(round)).map((round) => round.trackId),
+  );
+}
+
+/** Rounds that earned the hard-mode bonus. */
+export function bonusRounds(rounds: DailyRound[]): number {
+  return rounds.filter(isFullGuess).length;
+}
+
+export function adjustedMsFor(
+  rawActiveMs: number,
+  errors: number,
+  peeks = 0,
+  bonuses = 0,
+): number {
   const charged = Math.min(Math.max(0, peeks), PEEK_CAP);
-  return rawActiveMs + errors * ERROR_PENALTY_MS + charged * PEEK_PENALTY_MS;
+  const total =
+    rawActiveMs + errors * ERROR_PENALTY_MS + charged * PEEK_PENALTY_MS - bonuses * GUESS_BONUS_MS;
+  return Math.max(0, total);
 }
 
 /**
@@ -201,6 +232,7 @@ export function newAttempt(
   date: string,
   poolVersion: number,
   seedHex: string,
+  hard = false,
 ): DailyAttempt {
   return {
     date,
@@ -208,6 +240,7 @@ export function newAttempt(
     algoVersion: ALGO_VERSION,
     seedHex,
     status: 'in_progress',
+    hard,
     rounds: [],
     errors: 0,
     streak: 0,

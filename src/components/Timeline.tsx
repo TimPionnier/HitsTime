@@ -1,9 +1,10 @@
 import { useRef, useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { useApp } from '../store';
-import { TimelineCard, MysteryCardFace } from './TimelineCard';
+import { TimelineCard, MysteryCardFace, type CardTone } from './TimelineCard';
 import type { GameTrack } from '../engine/types';
-import { roundNumbersFor, roundOf } from '../services/dailyStore';
+import { perfectTrackIds, roundNumbersFor, roundOf } from '../services/dailyStore';
+import { isTextEntry } from '../lib/isTextEntry';
 
 function FlipIn({ children }: { children: React.ReactNode }) {
   return (
@@ -62,6 +63,7 @@ export function Timeline() {
   const confirm = useApp((s) => s.confirm);
   const t = useApp((s) => s.t);
   const dailyAttempt = useApp((s) => s.dailyAttempt);
+  const freePlayPerfectIds = useApp((s) => s.perfectIds);
   const scroller = useRef<HTMLDivElement>(null);
   const [focusedGap, setFocusedGap] = useState<number | null>(null);
   const gapRefs = useRef<Map<number, HTMLElement>>(new Map());
@@ -84,6 +86,7 @@ export function Timeline() {
       return;
     }
     const onKey = (e: KeyboardEvent) => {
+      if (isTextEntry(e.target)) return;
       if (e.code === 'ArrowLeft') {
         e.preventDefault();
         setFocusedGap((g) => {
@@ -127,10 +130,16 @@ export function Timeline() {
   const roundNumbers =
     gameMode === 'daily' && dailyAttempt ? roundNumbersFor(dailyAttempt.rounds) : null;
 
-  const toneFor = (track: GameTrack): 'normal' | 'correct' | 'wrong' => {
+  const perfectIds =
+    gameMode === 'daily'
+      ? perfectTrackIds(dailyAttempt?.rounds ?? [])
+      : new Set(freePlayPerfectIds);
+
+  const toneFor = (track: GameTrack): CardTone => {
     // A card misplaced in daily mode stays red for the rest of the run — it is
     // both the feedback and the end-of-run review.
     if (wrongIds.has(track.id)) return 'wrong';
+    if (perfectIds.has(track.id)) return 'perfect';
     if (phase === 'revealing' && reveal?.correct && reveal.track.id === track.id) return 'correct';
     return 'normal';
   };
